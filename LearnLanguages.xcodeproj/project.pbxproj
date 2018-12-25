@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
+		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
+		AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
+		AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD221D03DC9002421B8 /* BaseViewController.swift */; };
+		AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD321D03DC9002421B8 /* RootViewController.swift */; };
+		AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */; };
+		AB522ADA21D03DC9002421B8 /* ChooseInputsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */; };
+		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
+		AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */; };
+		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
+		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB522AC221D03612002421B8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AB522AC321D03612002421B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AB522AC621D03612002421B8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AB522AD221D03DC9002421B8 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		AB522AD321D03DC9002421B8 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
+		AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseInputsViewController.swift; sourceTree = "<group>"; };
+		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
+		AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseInputsViewController.xib; sourceTree = "<group>"; };
+		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AB522AA921CF2951002421B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AB522AA321CF2951002421B8 = {
+			isa = PBXGroup;
+			children = (
+				AB522AAE21CF2951002421B8 /* LearnLanguages */,
+				AB522AAD21CF2951002421B8 /* Products */,
+				AE95413E6CF77588C2C92EEA /* Pods */,
+				F2122A1D99995FA08A88DCF0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AB522AAD21CF2951002421B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AAC21CF2951002421B8 /* LearnLanguages.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AB522AAE21CF2951002421B8 /* LearnLanguages */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AC121D03612002421B8 /* Resources */,
+				AB522AC421D03612002421B8 /* Sources */,
+				AB522ABB21CF2953002421B8 /* Info.plist */,
+			);
+			path = LearnLanguages;
+			sourceTree = "<group>";
+		};
+		AB522AC121D03612002421B8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
+				AB522AC321D03612002421B8 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AB522AC421D03612002421B8 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
+				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
+				AB522AC621D03612002421B8 /* AppDelegate.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		AB522AD121D03DC9002421B8 /* BaseViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AD221D03DC9002421B8 /* BaseViewController.swift */,
+				AB522AD321D03DC9002421B8 /* RootViewController.swift */,
+				AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */,
+				AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */,
+			);
+			path = BaseViewControllers;
+			sourceTree = "<group>";
+		};
+		AB522AD521D03DC9002421B8 /* ChooseInputsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */,
+				AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */,
+			);
+			path = ChooseInputsViewController;
+			sourceTree = "<group>";
+		};
+		AE95413E6CF77588C2C92EEA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */,
+				DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F2122A1D99995FA08A88DCF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB522AAB21CF2951002421B8 /* LearnLanguages */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB522ABE21CF2953002421B8 /* Build configuration list for PBXNativeTarget "LearnLanguages" */;
+			buildPhases = (
+				4BE4939F973922A6579222E2 /* [CP] Check Pods Manifest.lock */,
+				AB522AA821CF2951002421B8 /* Sources */,
+				AB522AA921CF2951002421B8 /* Frameworks */,
+				AB522AAA21CF2951002421B8 /* Resources */,
+				B9D168E7AFA4BADFAE6C6A82 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LearnLanguages;
+			productName = LearnLanguages;
+			productReference = AB522AAC21CF2951002421B8 /* LearnLanguages.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AB522AA421CF2951002421B8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Amir Khorsandi";
+				TargetAttributes = {
+					AB522AAB21CF2951002421B8 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = AB522AA721CF2951002421B8 /* Build configuration list for PBXProject "LearnLanguages" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AB522AA321CF2951002421B8;
+			productRefGroup = AB522AAD21CF2951002421B8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB522AAB21CF2951002421B8 /* LearnLanguages */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB522AAA21CF2951002421B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
+				AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */,
+				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4BE4939F973922A6579222E2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LearnLanguages-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9D168E7AFA4BADFAE6C6A82 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BMPlayer/BMPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BMPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AB522AA821CF2951002421B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
+				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
+				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
+				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
+				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
+				AB522ADA21D03DC9002421B8 /* ChooseInputsViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AB522ABC21CF2953002421B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AB522ABD21CF2953002421B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AB522ABF21CF2953002421B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				INFOPLIST_FILE = LearnLanguages/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = eu.amirs.learnlanguages;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AB522AC021CF2953002421B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				INFOPLIST_FILE = LearnLanguages/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = eu.amirs.learnlanguages;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AB522AA721CF2951002421B8 /* Build configuration list for PBXProject "LearnLanguages" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB522ABC21CF2953002421B8 /* Debug */,
+				AB522ABD21CF2953002421B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB522ABE21CF2953002421B8 /* Build configuration list for PBXNativeTarget "LearnLanguages" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB522ABF21CF2953002421B8 /* Debug */,
+				AB522AC021CF2953002421B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AB522AA421CF2951002421B8 /* Project object */;
+}

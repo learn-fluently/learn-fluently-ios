@@ -1,0 +1,30 @@
+PODS:
+  - BMPlayer (1.0.1):
+    - BMPlayer/Full (= 1.0.1)
+  - BMPlayer/Core (1.0.1)
+  - BMPlayer/Full (1.0.1):
+    - BMPlayer/Core
+    - NVActivityIndicatorView (~> 4.0.0)
+    - SnapKit (~> 4.0.0)
+  - NVActivityIndicatorView (4.0.1):
+    - NVActivityIndicatorView/Presenter (= 4.0.1)
+  - NVActivityIndicatorView/Presenter (4.0.1)
+  - SnapKit (4.0.0)
+
+DEPENDENCIES:
+  - BMPlayer (~> 1.0.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BMPlayer
+    - NVActivityIndicatorView
+    - SnapKit
+
+SPEC CHECKSUMS:
+  BMPlayer: 44eebf06eb01450dd14ea74b27d07c5222f0eed1
+  NVActivityIndicatorView: 77ed6d7b571643e24899e7858bf9ae2ee4c21f31
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+
+PODFILE CHECKSUM: dd0a01dd566e3c80fb214162dd44058b68fc94d2
+
+COCOAPODS: 1.5.2

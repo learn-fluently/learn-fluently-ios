@@ -1,0 +1,11 @@
+.DS_Store
+
+project.xcworkspace
+xcuserdata
+
+*.xcscmblueprint
+*.xccheckout
+
+/Pods
+
+!fastlane
