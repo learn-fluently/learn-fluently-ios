@@ -16,6 +16,11 @@
 		AB522ADA21D03DC9002421B8 /* ChooseInputsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */; };
 		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
 		AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */; };
+		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
+		AB522AE621D30C44002421B8 /* Friends0301.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AB522AE521D30C44002421B8 /* Friends0301.mp4 */; };
+		AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitles.swift */; };
+		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
+		AB522AED21D31304002421B8 /* Friends0301.srt in Resources */ = {isa = PBXBuildFile; fileRef = AB522AEC21D31304002421B8 /* Friends0301.srt */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +37,11 @@
 		AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseInputsViewController.swift; sourceTree = "<group>"; };
 		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
 		AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseInputsViewController.xib; sourceTree = "<group>"; };
+		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AB522AE521D30C44002421B8 /* Friends0301.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Friends0301.mp4; sourceTree = "<group>"; };
+		AB522AE821D311D4002421B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
+		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
+		AB522AEC21D31304002421B8 /* Friends0301.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Friends0301.srt; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */,
 				C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +92,8 @@
 			children = (
 				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 				AB522AC321D03612002421B8 /* Assets.xcassets */,
+				AB522AE521D30C44002421B8 /* Friends0301.mp4 */,
+				AB522AEC21D31304002421B8 /* Friends0301.srt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -88,6 +101,7 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				AB522AE721D311C8002421B8 /* Subtitles */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
@@ -115,6 +129,15 @@
 			path = ChooseInputsViewController;
 			sourceTree = "<group>";
 		};
+		AB522AE721D311C8002421B8 /* Subtitles */ = {
+			isa = PBXGroup;
+			children = (
+				AB522AE821D311D4002421B8 /* Subtitles.swift */,
+				AB522AEA21D3124D002421B8 /* SubtitleItem.swift */,
+			);
+			path = Subtitles;
+			sourceTree = "<group>";
+		};
 		AE95413E6CF77588C2C92EEA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +150,7 @@
 		F2122A1D99995FA08A88DCF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB522AE121D304DC002421B8 /* AVFoundation.framework */,
 				B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */,
 			);
 			name = Frameworks;
@@ -193,8 +217,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
+				AB522AED21D31304002421B8 /* Friends0301.srt in Resources */,
 				AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
+				AB522AE621D30C44002421B8 /* Friends0301.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,11 +274,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
+				AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */,
 				AB522ADA21D03DC9002421B8 /* ChooseInputsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

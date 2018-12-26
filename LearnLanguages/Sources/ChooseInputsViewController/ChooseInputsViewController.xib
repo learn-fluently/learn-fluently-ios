@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseInputsViewController" customModule="LearnLanguages" customModuleProvider="target">
             <connections>
-                <outlet property="playerView" destination="CE7-YG-S7D" id="k7C-gn-juM"/>
+                <outlet property="subtitle" destination="ctX-mh-Jvc" id="Ja4-6m-1ob"/>
                 <outlet property="view" destination="iN0-l3-epB" id="TGA-6l-0oK"/>
             </connections>
         </placeholder>
@@ -21,17 +21,17 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CE7-YG-S7D" customClass="BMPlayer">
-                    <rect key="frame" x="16" y="60" width="343" height="324.66666666666669"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctX-mh-Jvc">
+                    <rect key="frame" x="166.66666666666666" y="623.66666666666663" width="41.666666666666657" height="20.333333333333371"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="CE7-YG-S7D" secondAttribute="trailing" constant="16" id="78Q-5Y-GhH"/>
-                <constraint firstItem="CE7-YG-S7D" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.4" id="7Bt-ru-j46"/>
-                <constraint firstItem="CE7-YG-S7D" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="UPc-G4-Vb4"/>
-                <constraint firstItem="CE7-YG-S7D" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="hdc-Ts-BdS"/>
+                <constraint firstItem="ctX-mh-Jvc" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="DSA-qW-cPX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ctX-mh-Jvc" secondAttribute="bottom" constant="134" id="e3j-0M-QLC"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="138.40000000000001" y="153.37331334332833"/>
