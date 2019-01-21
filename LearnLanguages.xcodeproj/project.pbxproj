@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift */; };
+		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
 		AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
@@ -21,11 +23,14 @@
 		AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitles.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
 		AB522AED21D31304002421B8 /* Friends0301.srt in Resources */ = {isa = PBXBuildFile; fileRef = AB522AEC21D31304002421B8 /* Friends0301.srt */; };
+		ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
+		AB30C6B621D45B5200A2024D /* LLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift; sourceTree = "<group>"; };
+		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB522AC221D03612002421B8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -42,6 +47,7 @@
 		AB522AE821D311D4002421B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
 		AB522AEC21D31304002421B8 /* Friends0301.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Friends0301.srt; sourceTree = "<group>"; };
+		ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLPlayerViewController.swift; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */,
 				AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */,
 				C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */,
 			);
@@ -105,6 +112,8 @@
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
+				AB30C6B621D45B5200A2024D /* LLTextView.swift */,
+				ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -150,6 +159,7 @@
 		F2122A1D99995FA08A88DCF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB30C6B821D4619100A2024D /* SafariServices.framework */,
 				AB522AE121D304DC002421B8 /* AVFoundation.framework */,
 				B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */,
 			);
@@ -277,7 +287,9 @@
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
+				AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
+				ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */,
