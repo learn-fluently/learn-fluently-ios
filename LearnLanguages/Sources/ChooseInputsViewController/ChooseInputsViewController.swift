@@ -32,7 +32,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidLoad()
+        super.viewDidAppear(animated)
         
         playerController?.view.frame = CGRect(x:0, y:0, width: playerContainerView.frame.width, height: playerContainerView.frame.height)
     }

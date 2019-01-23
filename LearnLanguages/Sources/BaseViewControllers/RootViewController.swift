@@ -20,12 +20,12 @@ class RootViewController: UIViewController {
     // MARK: Lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.current = ChooseInputsViewController.instantiate()
+        self.current = OverviewViewController.instantiate()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.current = ChooseInputsViewController.instantiate()
+        self.current = OverviewViewController.instantiate()
         super.init(coder: aDecoder)
     }
     

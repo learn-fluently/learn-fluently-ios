@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09959F21F9092C00867890 /* OverviewViewController.swift */; };
+		AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
 		AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift */; };
 		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
+		AB09959F21F9092C00867890 /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
+		AB0995A121F9094000867890 /* OverviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverviewViewController.xib; sourceTree = "<group>"; };
 		AB30C6B621D45B5200A2024D /* LLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift; sourceTree = "<group>"; };
 		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +70,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB09959E21F9090F00867890 /* OverviewViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AB09959F21F9092C00867890 /* OverviewViewController.swift */,
+				AB0995A121F9094000867890 /* OverviewViewController.xib */,
+			);
+			path = OverviewViewController;
+			sourceTree = "<group>";
+		};
 		AB522AA321CF2951002421B8 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +123,7 @@
 			children = (
 				AB522AE721D311C8002421B8 /* Subtitles */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
+				AB09959E21F9090F00867890 /* OverviewViewController */,
 				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
 				AB30C6B621D45B5200A2024D /* LLTextView.swift */,
@@ -231,6 +245,7 @@
 				AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
 				AB522AE621D30C44002421B8 /* Friends0301.mp4 in Resources */,
+				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
+				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */,
