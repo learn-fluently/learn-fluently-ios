@@ -8,17 +8,36 @@
 import AVFoundation
 import AVKit
 import SafariServices
+import SwiftRichString
 
 class ChooseInputsViewController: BaseViewController, NibBasedViewController, LLTextViewMenuDelegate, UIGestureRecognizerDelegate {
     
     
+    // MARK: Properties
     
-    @IBOutlet weak var textView: LLTextView!
-    @IBOutlet weak var playerContainerView: UIView!
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    @IBOutlet private weak var textView: LLTextView!
+    @IBOutlet private weak var playerContainerView: UIView!
+    @IBOutlet private weak var playPauseButton: UIButton!
     
     var player: AVPlayer!
     var playerController: LLPlayerViewController!
     var subtitles: Subtitles!
+    
+    private var currentPlaybackTime : Double {
+        get {
+            return CMTimeGetSeconds(player.currentTime())
+        }
+        set {
+            let time = CMTimeMakeWithSeconds(newValue, preferredTimescale: Int32(NSEC_PER_SEC))
+            player.seek(to: time)
+        }
+    }
+    
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +50,61 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         addPanGesture()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        player.pause()
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         playerController?.view.frame = CGRect(x:0, y:0, width: playerContainerView.frame.width, height: playerContainerView.frame.height)
     }
     
+    // MARK: - Event handlers
+    
+    @IBAction private func closeButtonTouched() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction private func playPauseButtonTouched() {
+        if player.timeControlStatus == .playing {
+            player.pause()
+        } else if player.timeControlStatus == .paused {
+            player.play()
+        }
+    }
+    
+    @IBAction private func skipNextButtonTouched() {
+        let seekDuration = 5.0
+        guard let duration = player.currentItem?.duration else{
+            return
+        }
+        let playerCurrentTime = CMTimeGetSeconds(player.currentTime())
+        let newTime = playerCurrentTime + seekDuration
+        
+        if newTime < (CMTimeGetSeconds(duration) - seekDuration) {
+            
+            let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
+            player.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+            
+        }
+    }
+    
+    @IBAction private func skipPrevButtonTouched() {
+        let seekDuration = 5.0
+        let playerCurrentTime = CMTimeGetSeconds(player.currentTime())
+        var newTime = playerCurrentTime - seekDuration
+        
+        if newTime < 0 {
+            newTime = 0
+        }
+        let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
+        player.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        
+
+    }
     
     //MARK: - Private functions
     
@@ -98,7 +166,11 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
                 return
             }
             let text = titles.first(where: { currentValue < $0.end! && currentValue > $0.start!})
-            strongSelf.textView.text = text?.texts?.joined(separator: "\n")
+            let style = Style {
+                $0.font = SystemFonts.Helvetica.font(size: 18)
+                $0.lineSpacing = 16
+            }
+            strongSelf.textView.attributedText = text?.texts?.joined(separator: "\n").set(style: style)
         }
     }
     
@@ -113,8 +185,26 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         playerController?.view.frame = CGRect(x:0, y:0, width: 0, height: 0)
         
         guard let videoView = playerController?.view else { return }
-        playerContainerView.addSubview(videoView)
+        playerContainerView.insertSubview(videoView, at: 0)
         player?.play()
+        
+ 
+        player.addObserver(self, forKeyPath: "timeControlStatus", options: [], context: nil)
+        
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "timeControlStatus" {
+            onPlayerStateChanged()
+        }
+    }
+    
+    @objc private func onPlayerStateChanged() {
+        if player.timeControlStatus == .playing {
+            playPauseButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
+        } else {
+            playPauseButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
+        }
     }
     
     private func addSubtitle(){

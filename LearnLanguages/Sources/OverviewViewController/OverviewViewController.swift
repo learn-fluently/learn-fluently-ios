@@ -7,9 +7,16 @@
 //
 
 import Foundation
+import UIKit
 
 class OverviewViewController: BaseViewController, NibBasedViewController {
  
+    // MARK: Properties
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
     
     // MARK: Lifecycle
     
