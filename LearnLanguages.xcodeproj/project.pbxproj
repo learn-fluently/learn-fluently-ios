@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09959F21F9092C00867890 /* OverviewViewController.swift */; };
 		AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
-		AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift */; };
+		AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
 		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
@@ -27,6 +27,7 @@
 		AB522AED21D31304002421B8 /* Friends0301.srt in Resources */ = {isa = PBXBuildFile; fileRef = AB522AEC21D31304002421B8 /* Friends0301.srt */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
+		ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */; };
 		ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
@@ -35,7 +36,7 @@
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
 		AB09959F21F9092C00867890 /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		AB0995A121F9094000867890 /* OverviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverviewViewController.xib; sourceTree = "<group>"; };
-		AB30C6B621D45B5200A2024D /* LLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift; sourceTree = "<group>"; };
+		AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift.swift; sourceTree = "<group>"; };
 		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		AB522AEC21D31304002421B8 /* Friends0301.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Friends0301.srt; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
+		ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
 		ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLPlayerViewController.swift; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,9 +106,9 @@
 		AB522AAE21CF2951002421B8 /* LearnLanguages */ = {
 			isa = PBXGroup;
 			children = (
+				AB522ABB21CF2953002421B8 /* Info.plist */,
 				AB522AC121D03612002421B8 /* Resources */,
 				AB522AC421D03612002421B8 /* Sources */,
-				AB522ABB21CF2953002421B8 /* Info.plist */,
 			);
 			path = LearnLanguages;
 			sourceTree = "<group>";
@@ -114,10 +116,10 @@
 		AB522AC121D03612002421B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 				AB522AC321D03612002421B8 /* Assets.xcassets */,
 				AB522AE521D30C44002421B8 /* Friends0301.mp4 */,
 				AB522AEC21D31304002421B8 /* Friends0301.srt */,
+				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -125,15 +127,14 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				ABD73BAF21FBC3E7004B2FB9 /* Utilities */,
-				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
-				AB522AE721D311C8002421B8 /* Subtitles */,
-				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
-				AB09959E21F9090F00867890 /* OverviewViewController */,
-				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
-				AB30C6B621D45B5200A2024D /* LLTextView.swift */,
+				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
+				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
+				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
 				ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */,
+				AB09959E21F9090F00867890 /* OverviewViewController */,
+				AB522AE721D311C8002421B8 /* Subtitles */,
+				ABD73BAF21FBC3E7004B2FB9 /* Utilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -141,10 +142,10 @@
 		AB522AD121D03DC9002421B8 /* BaseViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AB522AD221D03DC9002421B8 /* BaseViewController.swift */,
-				AB522AD321D03DC9002421B8 /* RootViewController.swift */,
 				AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */,
+				AB522AD221D03DC9002421B8 /* BaseViewController.swift */,
 				AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */,
+				AB522AD321D03DC9002421B8 /* RootViewController.swift */,
 			);
 			path = BaseViewControllers;
 			sourceTree = "<group>";
@@ -154,6 +155,7 @@
 			children = (
 				AB522AD621D03DC9002421B8 /* ChooseInputsViewController.swift */,
 				AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */,
+				ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */,
 			);
 			path = ChooseInputsViewController;
 			sourceTree = "<group>";
@@ -161,8 +163,8 @@
 		AB522AE721D311C8002421B8 /* Subtitles */ = {
 			isa = PBXGroup;
 			children = (
-				AB522AE821D311D4002421B8 /* Subtitles.swift */,
 				AB522AEA21D3124D002421B8 /* SubtitleItem.swift */,
+				AB522AE821D311D4002421B8 /* Subtitles.swift */,
 			);
 			path = Subtitles;
 			sourceTree = "<group>";
@@ -170,6 +172,7 @@
 		ABD73BAA21FBA2B8004B2FB9 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */,
 				ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */,
 			);
 			path = CustomViews;
@@ -323,8 +326,9 @@
 				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
+				ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */,
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
-				AB30C6B721D45B5200A2024D /* LLTextView.swift in Sources */,
+				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,

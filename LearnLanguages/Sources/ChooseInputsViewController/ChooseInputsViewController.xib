@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_9" orientation="portrait">
+    <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -20,14 +20,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGI-jM-gpR">
-                    <rect key="frame" x="0.0" y="88" width="375" height="398"/>
+                    <rect key="frame" x="0.0" y="88" width="414" height="448.5"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="la1-IP-2Yv" customClass="DarkCrossButton" customModule="LearnLanguages" customModuleProvider="target">
-                            <rect key="frame" x="273" y="6" width="45" height="31"/>
+                            <rect key="frame" x="312" y="6" width="45" height="31"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="45" id="Jv5-qd-tbp"/>
                                 <constraint firstAttribute="height" constant="31" id="cFX-wG-0si"/>
@@ -45,27 +45,35 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x32-Ok-0nE">
-                    <rect key="frame" x="16" y="502" width="343" height="276"/>
+                    <rect key="frame" x="16" y="552.5" width="382" height="309.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwI-BU-Pqx">
-                            <rect key="frame" x="36" y="8" width="271" height="74"/>
+                            <rect key="frame" x="26" y="8" width="330" height="74"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNB-Ml-HdD">
-                                    <rect key="frame" x="0.0" y="17" width="40" height="40"/>
+                                    <rect key="frame" x="0.0" y="7" width="60" height="60"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="qgr-pW-OgS"/>
+                                        <constraint firstAttribute="width" constant="60" id="vXd-Vw-zQF"/>
+                                    </constraints>
                                     <state key="normal" image="PrevPeriod"/>
                                     <connections>
                                         <action selector="skipPrevButtonTouched" destination="-1" eventType="touchUpInside" id="hCj-YW-wR2"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ZR-Tx-rtd">
-                                    <rect key="frame" x="231" y="17" width="40" height="40"/>
+                                    <rect key="frame" x="270" y="7" width="60" height="60"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="N7A-lp-1vb"/>
+                                        <constraint firstAttribute="width" constant="60" id="gI1-GE-BZX"/>
+                                    </constraints>
                                     <state key="normal" image="NextPeriod"/>
                                     <connections>
                                         <action selector="skipNextButtonTouched" destination="-1" eventType="touchUpInside" id="mUG-mp-t19"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lKO-fS-w3b">
-                                    <rect key="frame" x="110.66666666666666" y="17" width="50" height="40"/>
+                                    <rect key="frame" x="140" y="17" width="50" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="50" id="cTN-gi-TUd"/>
                                         <constraint firstAttribute="height" constant="40" id="zUH-eA-udN"/>
@@ -88,7 +96,7 @@
                             </constraints>
                         </view>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n41-4B-wYE" customClass="LLTextView" customModule="LearnLanguages" customModuleProvider="target">
-                            <rect key="frame" x="16" y="90" width="311" height="178"/>
+                            <rect key="frame" x="16" y="90" width="350" height="211.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <attributedString key="attributedText"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -98,8 +106,8 @@
                     <constraints>
                         <constraint firstItem="n41-4B-wYE" firstAttribute="top" secondItem="QwI-BU-Pqx" secondAttribute="bottom" constant="8" id="2Xc-iA-Tbd"/>
                         <constraint firstItem="n41-4B-wYE" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="Na2-zW-Fif"/>
-                        <constraint firstAttribute="trailing" secondItem="QwI-BU-Pqx" secondAttribute="trailing" constant="36" id="VWN-qT-pw1"/>
-                        <constraint firstItem="QwI-BU-Pqx" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="36" id="bKn-zI-heS"/>
+                        <constraint firstAttribute="trailing" secondItem="QwI-BU-Pqx" secondAttribute="trailing" constant="26" id="VWN-qT-pw1"/>
+                        <constraint firstItem="QwI-BU-Pqx" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="26" id="bKn-zI-heS"/>
                         <constraint firstAttribute="trailing" secondItem="n41-4B-wYE" secondAttribute="trailing" constant="16" id="jUT-O4-HBg"/>
                         <constraint firstItem="QwI-BU-Pqx" firstAttribute="top" secondItem="x32-Ok-0nE" secondAttribute="top" constant="8" id="vj2-qT-AXz"/>
                         <constraint firstAttribute="bottom" secondItem="n41-4B-wYE" secondAttribute="bottom" constant="8" id="x0p-5Y-qSo"/>
@@ -114,7 +122,8 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="vGI-jM-gpR" secondAttribute="trailing" id="3g7-MJ-z5I"/>
-                <constraint firstItem="x32-Ok-0nE" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="GCK-uO-8rP"/>
+                <constraint firstItem="x32-Ok-0nE" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-16" id="6CV-os-EWd"/>
+                <constraint firstItem="x32-Ok-0nE" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" priority="999" id="GCK-uO-8rP"/>
                 <constraint firstItem="vGI-jM-gpR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="PQd-Id-VhH"/>
                 <constraint firstItem="x32-Ok-0nE" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" multiplier="0.4" id="Qmh-hY-Na6"/>
                 <constraint firstItem="vGI-jM-gpR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ZGZ-Xv-kUa"/>

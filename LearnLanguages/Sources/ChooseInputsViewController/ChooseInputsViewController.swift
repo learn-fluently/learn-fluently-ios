@@ -10,44 +10,54 @@ import AVKit
 import SafariServices
 import SwiftRichString
 
-class ChooseInputsViewController: BaseViewController, NibBasedViewController, LLTextViewMenuDelegate, UIGestureRecognizerDelegate {
-    
+class ChooseInputsViewController: BaseViewController, NibBasedViewController, LLTextViewMenuDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
     
     // MARK: Properties
     
+    var player: AVPlayer!
+    var playerController: LLPlayerViewController!
+    var subtitles: Subtitles!
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    let playingConfig = PlayingConfig()
+    
+    // MARK: Private properties
+    private let speechSynthesizer = AVSpeechSynthesizer()
+    private var textViewSelectedTextRange: NSRange? = nil {
+        didSet {
+            setTextViewSelectedTextRange()
+        }
+    }
+    private let textViewTextStyle = Style {
+        $0.font = SystemFonts.Helvetica.font(size: 19)
+        $0.lineHeightMultiple = 1.8
+        $0.color = UIColor.black
+    }
+    private let textViewTextSelectedTextStyle = Style {
+        $0.font = SystemFonts.Helvetica.font(size: 19)
+        $0.lineHeightMultiple = 1.8
+        $0.color = UIView().tintColor
+        $0.underline = (.thick, UIColor.orange)
+    }
+    private var paningStartPoint: CGPoint? = nil
+    
+    // MARK: Outlets
     
     @IBOutlet private weak var textView: LLTextView!
     @IBOutlet private weak var playerContainerView: UIView!
     @IBOutlet private weak var playPauseButton: UIButton!
     
-    var player: AVPlayer!
-    var playerController: LLPlayerViewController!
-    var subtitles: Subtitles!
-    
-    private var currentPlaybackTime : Double {
-        get {
-            return CMTimeGetSeconds(player.currentTime())
-        }
-        set {
-            let time = CMTimeMakeWithSeconds(newValue, preferredTimescale: Int32(NSEC_PER_SEC))
-            player.seek(to: time)
-        }
-    }
     
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addPlayerAndPlay()
-        addSubtitle()
-        textView.isEditable = false
-        textView.isSelectable = true
-        textView.menuItemsDelegate = self
+        configureSubtitle()
         addPlayerTimeListener()
-        addPanGesture()
+        configureTextView()
+        configureTextViewGestures()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,9 +68,9 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        playerController?.view.frame = CGRect(x:0, y:0, width: playerContainerView.frame.width, height: playerContainerView.frame.height)
+         adjustAndShowMenuForSelectedTextIfNeeded()
     }
+    
     
     // MARK: - Event handlers
     
@@ -77,38 +87,164 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     @IBAction private func skipNextButtonTouched() {
-        let seekDuration = 5.0
+        changeSeekTime(value: 5.0)
+    }
+    
+    @IBAction private func skipPrevButtonTouched() {
+        changeSeekTime(value: -5.0)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "timeControlStatus" {
+            onPlayerStateChanged()
+        }
+    }
+    
+    
+    // MARK: TextView gesture handeling
+    
+    @objc private func handleTap(_ gestureRecognizer : UIPanGestureRecognizer){
+        let point = gestureRecognizer.location(in: textView)
+        if textViewSelectedTextRange != nil {
+            textViewSelectedTextRange = nil
+            UIMenuController.shared.setMenuVisible(false, animated: true)
+        }
+        else {
+            if let range = getTextRangeByPointsOnTextView(startPoint: point) {
+                textViewSelectedTextRange = range
+                showMenuForSelectedTextAndPausePlayer()
+            }
+        }
+    }
+    
+    @objc private func handlePanGestue(_ gestureRecognizer : UIPanGestureRecognizer){
+        let location = gestureRecognizer.location(in: textView)
+        switch gestureRecognizer.state {
+        case .began:
+            paningStartPoint = location
+        case .cancelled, .failed, .ended:
+            paningStartPoint = nil
+            showMenuForSelectedTextAndPausePlayer()
+        case .possible, .changed:
+            if let paningStartPoint = paningStartPoint,
+                let range = getTextRangeByPointsOnTextView(startPoint: paningStartPoint, endPoint: location) {
+                textViewSelectedTextRange = range
+            }
+        }
+    }
+    
+    
+    // MARK: Private functions
+    private func showMenuForSelectedTextAndPausePlayer() {
+        adjustAndShowMenuForSelectedTextIfNeeded()
+        player.pause()
+    }
+    
+    private func getSelectedText() -> String {
+        guard let selectedRange = textViewSelectedTextRange else {
+            return ""
+        }
+        return textView.text.substring(from: selectedRange.location, length: selectedRange.length) ?? ""
+    }
+    
+    private func getTextRangeByPointsOnTextView(startPoint: CGPoint, endPoint: CGPoint? = nil) -> NSRange? {
+        let characterIndexAtStartPoint = getCharacterIndexByPointOnTextView(startPoint)
+        guard characterIndexAtStartPoint < textView.text.lengthOfBytes(using: .utf8),
+            characterIndexAtStartPoint > -1 else {
+            return nil
+        }
+        let selectedStartIndex = getWordStartOrEndIndex(indexInWord: characterIndexAtStartPoint, start: true)
+        
+        let selectedEndIndex: Int
+        if let endPoint = endPoint {
+            let characterIndexAtEndPoint = getCharacterIndexByPointOnTextView(endPoint)
+            if characterIndexAtEndPoint >= textView.text.lengthOfBytes(using: .utf8) ||
+                characterIndexAtEndPoint <= selectedStartIndex {
+                return nil
+            }
+            selectedEndIndex = getWordStartOrEndIndex(indexInWord: characterIndexAtEndPoint, start: false)
+        }
+        else {
+            selectedEndIndex = getWordStartOrEndIndex(indexInWord: characterIndexAtStartPoint, start: false)
+        }
+        
+        return NSRange(location: selectedStartIndex, length: selectedEndIndex - selectedStartIndex + 1)
+    }
+    
+    private func getWordStartOrEndIndex(indexInWord: Int, start: Bool) -> Int {
+        var index: Int = indexInWord
+        while true {
+            let nextIndex = index + (start ? -1 : 1)
+            if nextIndex < 0 || nextIndex >= textView.text.lengthOfBytes(using: .utf8) {
+                break
+            }
+            if textView.text[nextIndex] == " " ||
+                textView.text[nextIndex] == "\n" {
+                break
+            }
+            index = nextIndex
+        }
+        
+        return index
+    }
+    
+    private func getCharacterIndexByPointOnTextView(_ point: CGPoint) -> Int {
+        let textStorage = NSTextStorage(attributedString: textView.attributedText)
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        let bounds: CGRect = textView.bounds
+        let textContainer = NSTextContainer(size: bounds.size)
+        layoutManager.addTextContainer(textContainer)
+        let adjustedPoint = CGPoint(x: point.x, y: point.y - 15)
+        return layoutManager.characterIndex(for: adjustedPoint,
+                                            in: textContainer,
+                                            fractionOfDistanceBetweenInsertionPoints: nil)
+    }
+    
+    private func adjustAndShowMenuForSelectedTextIfNeeded() {
+        guard let selectedRange = textViewSelectedTextRange,
+        let rangeStart = textView.position(from: textView.beginningOfDocument, offset: selectedRange.location),
+        let rangeEnd = textView.position(from: rangeStart, offset: selectedRange.length),
+        let selectedTextRange = textView.textRange(from: rangeStart, to: rangeEnd) else {
+            return
+        }
+        textView.becomeFirstResponder()
+        let selectionRects = textView.selectionRects(for: selectedTextRange)
+        var finalRect = CGRect.null
+        for selectionRect in selectionRects {
+            if finalRect.isNull {
+                finalRect = selectionRect.rect
+            } else {
+                finalRect = finalRect.union(selectionRect.rect)
+            }
+        }
+        let adjustedRect = CGRect(x: finalRect.minX, y: finalRect.minY + 10, width: finalRect.width, height: finalRect.height)
+        UIMenuController.shared.setTargetRect(adjustedRect, in: textView)
+        UIMenuController.shared.setMenuVisible(true, animated: true)
+    }
+    
+    private func changeSeekTime(value: Double) {
         guard let duration = player.currentItem?.duration else{
             return
         }
         let playerCurrentTime = CMTimeGetSeconds(player.currentTime())
-        let newTime = playerCurrentTime + seekDuration
-        
-        if newTime < (CMTimeGetSeconds(duration) - seekDuration) {
-            
-            let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-            player.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-            
-        }
-    }
-    
-    @IBAction private func skipPrevButtonTouched() {
-        let seekDuration = 5.0
-        let playerCurrentTime = CMTimeGetSeconds(player.currentTime())
-        var newTime = playerCurrentTime - seekDuration
+        var newTime = playerCurrentTime + value
         
         if newTime < 0 {
             newTime = 0
         }
-        let time2: CMTime = CMTimeMake(value: Int64(newTime * 1000 as Float64), timescale: 1000)
-        player.seek(to: time2, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-        
-
+        if newTime < (CMTimeGetSeconds(duration) - value) {
+            let time: CMTime = CMTimeMakeWithSeconds(newTime, preferredTimescale: Int32(NSEC_PER_SEC))
+            player.seek(to: time, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        }
     }
     
-    //MARK: - Private functions
-    
-    private func addPanGesture() {
+    private func configureTextViewGestures() {
+        for recognizer in textView.gestureRecognizers ?? [] {
+            if recognizer is UILongPressGestureRecognizer {
+                recognizer.isEnabled = false
+            }
+        }
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestue))
         textView.addGestureRecognizer(pan)
         
@@ -116,62 +252,41 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         textView.addGestureRecognizer(tap)
     }
     
-    @objc private func handleTap(_ gestureRecognizer : UIPanGestureRecognizer){
-        textView.selectedTextRange = nil
-    }
     
-    @objc private func handlePanGestue(_ gestureRecognizer : UIPanGestureRecognizer){
-        guard gestureRecognizer.view != nil else {return}
-        let piece = gestureRecognizer.view!
-        let location = gestureRecognizer.location(in: piece)
-        if gestureRecognizer.state == .began {
-            print("BEGIN: \(location.x), \(location.y)")
-        }
-        else if gestureRecognizer.state != .cancelled {
-            print("MOVE: \(location.x), \(location.y)")
-            
-            let textStorage = NSTextStorage(attributedString: textView.attributedText)
-            let layoutManager = NSLayoutManager()
-            textStorage.addLayoutManager(layoutManager)
-            let bounds: CGRect = textView.bounds
-            let textContainer = NSTextContainer(size: bounds.size)
-            layoutManager.addTextContainer(textContainer)
-            
-            var characterIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-            
-            textView.becomeFirstResponder()
-            textView.selectedRange = NSRange(location: characterIndex, length: 3)
-            textView.select(self)
-            
-            print(characterIndex)
-            
-        }
-        else if gestureRecognizer.state != .ended {
-            
-        }
-        else {
-            print("CANCELED: \(location.x), \(location.y)")
-        }
-    }
     
     private func addPlayerTimeListener(){
-        
-        player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(0.5, preferredTimescale: Int32(NSEC_PER_SEC)), queue: nil) { [weak self] (time:CMTime) in
-            guard let strongSelf = self, let titles = strongSelf.subtitles.titles else {
-                return
-            }
-            
-            let currentValue = TimeInterval(time.value) / 1000000000
-            if currentValue < 1 {
-                return
-            }
-            let text = titles.first(where: { currentValue < $0.end! && currentValue > $0.start!})
-            let style = Style {
-                $0.font = SystemFonts.Helvetica.font(size: 18)
-                $0.lineSpacing = 16
-            }
-            strongSelf.textView.attributedText = text?.texts?.joined(separator: "\n").set(style: style)
+        let interval = CMTimeMakeWithSeconds(0.5, preferredTimescale: Int32(NSEC_PER_SEC))
+        player.addPeriodicTimeObserver(forInterval: interval, queue: nil) { [weak self] time in
+            let currentValue = Double(time.value / 1000000000)
+            self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
         }
+    }
+    
+    private func adjustSubtitleByPlayerTime(currentValue: Double) {
+        guard let subtitles = subtitles.titles, currentValue > 0 else {
+            return
+        }
+        let texts = subtitles.first(where: {
+            currentValue < $0.end ?? 0 && currentValue > $0.start ?? 0
+        })?.texts
+        let subtitleText = texts?.joined(separator: "\n")
+        if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
+            return
+        }
+        setSubtitleText(subtitleText ?? "")
+    }
+    
+    private func setSubtitleText(_ text: String) {
+        textView.attributedText = text.set(style: textViewTextStyle)
+    }
+    
+    private func setTextViewSelectedTextRange() {
+        var attributedText = textView.text.set(style: textViewTextStyle)
+        if let selectedRange = textViewSelectedTextRange {
+            textView.selectedRange = selectedRange
+            attributedText = attributedText.set(style: textViewTextSelectedTextStyle, range: selectedRange)
+        }
+        textView.attributedText = attributedText
     }
     
     private func addPlayerAndPlay(){
@@ -182,21 +297,15 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         player = AVPlayer(playerItem: playerItem)
         playerController = LLPlayerViewController() 
         playerController?.player = player
-        playerController?.view.frame = CGRect(x:0, y:0, width: 0, height: 0)
-        
         guard let videoView = playerController?.view else { return }
         playerContainerView.insertSubview(videoView, at: 0)
+        videoView.snp.makeConstraints {
+            $0.size.equalToSuperview()
+            $0.center.equalToSuperview()
+        }
         player?.play()
         
- 
         player.addObserver(self, forKeyPath: "timeControlStatus", options: [], context: nil)
-        
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "timeControlStatus" {
-            onPlayerStateChanged()
-        }
     }
     
     @objc private func onPlayerStateChanged() {
@@ -207,25 +316,16 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         }
     }
     
-    private func addSubtitle(){
-        
+    private func configureSubtitle(){
         let exampleSubtitlesUrl = Bundle.main.url(forResource: "Friends0301", withExtension: "srt")
         subtitles = Subtitles(fileUrl: exampleSubtitlesUrl!)
     }
     
-    
-    //MARK: - LLTextViewMenuDelegate
-    
-    func onTranslateMenuItemSelected(_ textView: UITextView, selectedText:String) {
-        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=fa&text=" + urlEncode(selectedText) )
-    }
-    
-    func onImageMenuItemSelected(_ textView: UITextView, selectedText:String) {
-        openWebView(url: "https://www.google.com/search?tbm=isch&q=" + urlEncode(selectedText) )
-    }
-    
-    func onGoogleMenuItemSelected(_ textView: UITextView, selectedText:String) {
-        openWebView(url: "https://www.google.com/search?q=" + urlEncode(selectedText) )
+    private func configureTextView() {
+        textView.isEditable = false
+        textView.isSelectable = false
+        textView.menuItemsDelegate = self
+        textView.delegate = self
     }
     
     private func urlEncode(_ originalString:String) -> String{
@@ -233,9 +333,30 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     private func openWebView(url: String){
-        
         let webView = SFSafariViewController(url: URL(string: url)!)
         present(webView, animated: true)
+    }
+    
+    //MARK: - LLTextViewMenuDelegate
+    
+    func onTranslateMenuItemSelected(_ textView: UITextView) {
+        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=fa&text=" + urlEncode(getSelectedText()) )
+    }
+    
+    func onImageMenuItemSelected(_ textView: UITextView) {
+        openWebView(url: "https://www.google.com/search?tbm=isch&q=" + urlEncode(getSelectedText()) )
+    }
+    
+    func onGoogleMenuItemSelected(_ textView: UITextView) {
+        openWebView(url: "https://www.google.com/search?q=" + urlEncode(getSelectedText()) )
+    }
+    
+    func onSpeechMenuItemSelected(_ textView: UITextView) {
+        let utterance = AVSpeechUtterance(string: getSelectedText())
+        // TODO: set language
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechSynthesizer.speak(utterance)
+        textViewSelectedTextRange = nil
     }
     
 }
