@@ -128,6 +128,9 @@ learn new words</string>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qww-R6-2EM">
                                     <rect key="frame" x="7.5" y="-13" width="258" height="221"/>
                                     <state key="normal" title="Button" image="OverViewIconSpeaking"/>
+                                    <connections>
+                                        <action selector="speakingButtonTouched" destination="-1" eventType="touchUpInside" id="mCG-Or-k38"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Speaking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usl-3s-OSN">
                                     <rect key="frame" x="73" y="162" width="61" height="17"/>

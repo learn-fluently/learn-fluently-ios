@@ -17,12 +17,15 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     var player: AVPlayer!
     var playerController: AVPlayerViewController!
     var subtitles: Subtitles!
+    let playingConfig = PlayingConfig()
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    let playingConfig = PlayingConfig()
+    
     
     // MARK: Private properties
+    
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var textViewSelectedTextRange: NSRange? = nil {
         didSet {
@@ -41,6 +44,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         $0.underline = (.thick, UIColor.orange)
     }
     private var paningStartPoint: CGPoint? = nil
+    private var lastStopTime:Double? = nil
     
     // MARK: Outlets
     
@@ -253,10 +257,24 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     
     private func addPlayerTimeListener(){
-        let interval = CMTimeMakeWithSeconds(0.5, preferredTimescale: Int32(NSEC_PER_SEC))
+        let interval = CMTimeMakeWithSeconds(0.1, preferredTimescale: Int32(NSEC_PER_SEC))
         player.addPeriodicTimeObserver(forInterval: interval, queue: nil) { [weak self] time in
-            let currentValue = Double(time.value / 1000000000)
+            let currentValue = Double(Double(time.value) / 1000000000.0)
             self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
+            self?.pausePlayerIfNeeded(currentValue: currentValue)
+        }
+    }
+    
+    private func pausePlayerIfNeeded(currentValue: Double) {
+        guard let subtitles = subtitles.titles, currentValue > 0 else {
+            return
+        }
+        let text = subtitles.first(where: {
+            abs(currentValue - ($0.end ?? 0)) < 0.05 && lastStopTime != $0.end
+        })
+        if text != nil {
+            lastStopTime = text?.end
+            player.pause()
         }
     }
     

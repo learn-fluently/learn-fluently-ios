@@ -26,6 +26,8 @@
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */; };
+		ABE4285522073D7600958EFB /* SpeakingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE4285422073D7600958EFB /* SpeakingViewController.swift */; };
+		ABE4285722076A0500958EFB /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABE4285622073DC200958EFB /* SpeakingViewController.xib */; };
 		ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF621FE72C300EA4C4D /* movie.mp4 */; };
 		ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF721FE72C300EA4C4D /* subtitle.srt */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
@@ -54,6 +56,8 @@
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
+		ABE4285422073D7600958EFB /* SpeakingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingViewController.swift; sourceTree = "<group>"; };
+		ABE4285622073DC200958EFB /* SpeakingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpeakingViewController.xib; sourceTree = "<group>"; };
 		ABF0DBF621FE72C300EA4C4D /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
 		ABF0DBF721FE72C300EA4C4D /* subtitle.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subtitle.srt; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +129,7 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				ABE4285322073D5000958EFB /* Speaking */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
@@ -181,6 +186,15 @@
 				ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		ABE4285322073D5000958EFB /* Speaking */ = {
+			isa = PBXGroup;
+			children = (
+				ABE4285622073DC200958EFB /* SpeakingViewController.xib */,
+				ABE4285422073D7600958EFB /* SpeakingViewController.swift */,
+			);
+			path = Speaking;
 			sourceTree = "<group>";
 		};
 		AE95413E6CF77588C2C92EEA /* Pods */ = {
@@ -262,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABE4285722076A0500958EFB /* SpeakingViewController.xib in Resources */,
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
 				AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
@@ -299,12 +314,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/QuickLayout/QuickLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftEntryKit/SwiftEntryKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QuickLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEntryKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +350,7 @@
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */,
 				ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */,
+				ABE4285522073D7600958EFB /* SpeakingViewController.swift in Sources */,
 				AB522ADA21D03DC9002421B8 /* ChooseInputsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

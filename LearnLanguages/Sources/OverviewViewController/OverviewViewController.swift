@@ -31,4 +31,8 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
         show(ChooseInputsViewController(), sender: nil)
     }
     
+    @IBAction private func speakingButtonTouched() {
+        show(SpeakingViewController(), sender: nil)
+    }
+    
 }

@@ -4,4 +4,5 @@ target 'LearnLanguages' do
   use_frameworks!
   pod 'SnapKit', '~> 4.2.0'
   pod 'SwiftRichString'
+  pod 'SwiftEntryKit'
 end
