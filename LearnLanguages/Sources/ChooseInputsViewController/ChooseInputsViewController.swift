@@ -15,7 +15,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     // MARK: Properties
     
     var player: AVPlayer!
-    var playerController: LLPlayerViewController!
+    var playerController: AVPlayerViewController!
     var subtitles: Subtitles!
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -112,7 +112,8 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         else {
             if let range = getTextRangeByPointsOnTextView(startPoint: point) {
                 textViewSelectedTextRange = range
-                showMenuForSelectedTextAndPausePlayer()
+                adjustAndShowMenuForSelectedTextIfNeeded()
+                player.pause()
             }
         }
     }
@@ -121,10 +122,11 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         let location = gestureRecognizer.location(in: textView)
         switch gestureRecognizer.state {
         case .began:
+            player.pause()
             paningStartPoint = location
         case .cancelled, .failed, .ended:
             paningStartPoint = nil
-            showMenuForSelectedTextAndPausePlayer()
+            adjustAndShowMenuForSelectedTextIfNeeded()
         case .possible, .changed:
             if let paningStartPoint = paningStartPoint,
                 let range = getTextRangeByPointsOnTextView(startPoint: paningStartPoint, endPoint: location) {
@@ -135,10 +137,6 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     
     // MARK: Private functions
-    private func showMenuForSelectedTextAndPausePlayer() {
-        adjustAndShowMenuForSelectedTextIfNeeded()
-        player.pause()
-    }
     
     private func getSelectedText() -> String {
         guard let selectedRange = textViewSelectedTextRange else {
@@ -290,12 +288,12 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     private func addPlayerAndPlay(){
-        let url: URL = Bundle.main.url(forResource: "Friends0301", withExtension: "mp4")!
+        let url: URL = Bundle.main.url(forResource: "movie", withExtension: "mp4")!
         
         let avAsset = AVURLAsset(url: url)
         let playerItem = AVPlayerItem(asset: avAsset)
         player = AVPlayer(playerItem: playerItem)
-        playerController = LLPlayerViewController() 
+        playerController = AVPlayerViewController()
         playerController?.player = player
         guard let videoView = playerController?.view else { return }
         playerContainerView.insertSubview(videoView, at: 0)
@@ -306,6 +304,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         player?.play()
         
         player.addObserver(self, forKeyPath: "timeControlStatus", options: [], context: nil)
+        playerController?.setValue(false, forKey: "canHidePlaybackControls")
     }
     
     @objc private func onPlayerStateChanged() {
@@ -317,7 +316,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     private func configureSubtitle(){
-        let exampleSubtitlesUrl = Bundle.main.url(forResource: "Friends0301", withExtension: "srt")
+        let exampleSubtitlesUrl = Bundle.main.url(forResource: "subtitle", withExtension: "srt")
         subtitles = Subtitles(fileUrl: exampleSubtitlesUrl!)
     }
     

@@ -21,14 +21,13 @@
 		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
 		AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */; };
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
-		AB522AE621D30C44002421B8 /* Friends0301.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AB522AE521D30C44002421B8 /* Friends0301.mp4 */; };
 		AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitles.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
-		AB522AED21D31304002421B8 /* Friends0301.srt in Resources */ = {isa = PBXBuildFile; fileRef = AB522AEC21D31304002421B8 /* Friends0301.srt */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */; };
-		ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */; };
+		ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF621FE72C300EA4C4D /* movie.mp4 */; };
+		ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF721FE72C300EA4C4D /* subtitle.srt */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,14 +49,13 @@
 		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
 		AB522ADF21D03EF3002421B8 /* ChooseInputsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseInputsViewController.xib; sourceTree = "<group>"; };
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		AB522AE521D30C44002421B8 /* Friends0301.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Friends0301.mp4; sourceTree = "<group>"; };
 		AB522AE821D311D4002421B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
-		AB522AEC21D31304002421B8 /* Friends0301.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Friends0301.srt; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
-		ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLPlayerViewController.swift; sourceTree = "<group>"; };
+		ABF0DBF621FE72C300EA4C4D /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
+		ABF0DBF721FE72C300EA4C4D /* subtitle.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subtitle.srt; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,8 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				AB522AC321D03612002421B8 /* Assets.xcassets */,
-				AB522AE521D30C44002421B8 /* Friends0301.mp4 */,
-				AB522AEC21D31304002421B8 /* Friends0301.srt */,
+				ABF0DBF621FE72C300EA4C4D /* movie.mp4 */,
+				ABF0DBF721FE72C300EA4C4D /* subtitle.srt */,
 				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
@@ -131,7 +129,6 @@
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				AB522AD521D03DC9002421B8 /* ChooseInputsViewController */,
 				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
-				ABE1B45E21D9A4D9001BE252 /* LLPlayerViewController.swift */,
 				AB09959E21F9090F00867890 /* OverviewViewController */,
 				AB522AE721D311C8002421B8 /* Subtitles */,
 				ABD73BAF21FBC3E7004B2FB9 /* Utilities */,
@@ -266,11 +263,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
-				AB522AED21D31304002421B8 /* Friends0301.srt in Resources */,
 				AB522AE021D03EF3002421B8 /* ChooseInputsViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
-				AB522AE621D30C44002421B8 /* Friends0301.mp4 in Resources */,
 				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
+				ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */,
+				ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +327,6 @@
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
-				ABE1B45F21D9A4D9001BE252 /* LLPlayerViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */,
