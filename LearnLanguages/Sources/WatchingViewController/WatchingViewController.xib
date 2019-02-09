@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseInputsViewController" customModule="LearnLanguages" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WatchingViewController" customModule="LearnLanguages" customModuleProvider="target">
             <connections>
                 <outlet property="playPauseButton" destination="lKO-fS-w3b" id="KBT-Dn-CZf"/>
                 <outlet property="playerContainerView" destination="vGI-jM-gpR" id="KUB-fl-Nls"/>
@@ -25,24 +25,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGI-jM-gpR">
                     <rect key="frame" x="0.0" y="88" width="414" height="448.5"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="la1-IP-2Yv" customClass="DarkCrossButton" customModule="LearnLanguages" customModuleProvider="target">
-                            <rect key="frame" x="312" y="6" width="45" height="31"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="45" id="Jv5-qd-tbp"/>
-                                <constraint firstAttribute="height" constant="31" id="cFX-wG-0si"/>
-                            </constraints>
-                            <state key="normal" image="CrossIcon"/>
-                            <connections>
-                                <action selector="closeButtonTouched" destination="-1" eventType="touchUpInside" id="jAG-xs-0e3"/>
-                            </connections>
-                        </button>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="la1-IP-2Yv" secondAttribute="trailing" constant="57" id="Yi5-CS-tJz"/>
-                        <constraint firstItem="la1-IP-2Yv" firstAttribute="top" secondItem="vGI-jM-gpR" secondAttribute="top" constant="6" id="kV2-Rr-ghb"/>
-                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x32-Ok-0nE">
                     <rect key="frame" x="16" y="552.5" width="382" height="309.5"/>
@@ -137,7 +120,6 @@
         </view>
     </objects>
     <resources>
-        <image name="CrossIcon" width="11" height="11"/>
         <image name="NextPeriod" width="40" height="40"/>
         <image name="Pause" width="17" height="20"/>
         <image name="PrevPeriod" width="40" height="40"/>

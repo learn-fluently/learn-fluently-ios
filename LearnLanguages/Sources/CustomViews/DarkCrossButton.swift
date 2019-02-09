@@ -25,7 +25,7 @@ class DarkCrossButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = frame.height/3.7
+        layer.cornerRadius = frame.height/3.75
     }
     
     // MARK: Private functions
@@ -33,6 +33,7 @@ class DarkCrossButton: UIButton {
     private func commonInit() {
         layer.masksToBounds = true
         backgroundColor = .clear
+        setImage(#imageLiteral(resourceName: "CrossIcon"), for: .normal)
         
         //add blur view
         let containerEffect = UIBlurEffect(style: .dark)

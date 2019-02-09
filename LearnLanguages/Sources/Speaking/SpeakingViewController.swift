@@ -11,7 +11,6 @@ import UIKit
 import AVFoundation
 import AVKit
 import Speech
-import SwiftEntryKit
 
 class SpeakingViewController: BaseViewController, NibBasedViewController, SFSpeechRecognizerDelegate {
 
@@ -111,7 +110,6 @@ class SpeakingViewController: BaseViewController, NibBasedViewController, SFSpee
             audioEngine.stop()
             recognitionRequest?.endAudio()
             recordButton.isEnabled = false
-            showAlert("Stopping")
         } else {
             do {
                 try startRecording()
@@ -181,17 +179,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController, SFSpee
         textLabelView.text = "[Start speaking ...]"
     }
     
-    private func showAlert(_ message:String) {
-        var attributes = EKAttributes.topFloat
-        attributes.entryBackground = .gradient(gradient: .init(colors: [.red, .green], startPoint: .zero, endPoint: CGPoint(x: 1, y: 1)))
-        attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.3), scale: .init(from: 1, to: 0.7, duration: 0.7)))
-        
-        let title = EKProperty.LabelContent(text: message, style: .init(font: UIFont.systemFont(ofSize: 14), color: .black))
-        let simpleMessage = EKSimpleMessage(image: nil, title: title, description: EKProperty.LabelContent.init(text: "", style: .init(font: UIFont.init(), color: .red)))
-        let notificationMessage = EKNotificationMessage(simpleMessage: simpleMessage)
-        
-        let contentView = EKNotificationMessageView(with: notificationMessage)
-        SwiftEntryKit.display(entry: contentView, using: attributes)
+    private func showAlert(_ message:String, error: Bool = true) {
+        presentOKMessage(title: error ? "Error" : "", message: message)
     }
     
     

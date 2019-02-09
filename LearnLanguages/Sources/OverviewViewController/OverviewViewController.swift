@@ -28,7 +28,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     // MARK: Event handeling
     
     @IBAction private func whatchingButtonTouched() {
-        show(ChooseInputsViewController(), sender: nil)
+        show(WatchingViewController(), sender: nil)
     }
     
     @IBAction private func speakingButtonTouched() {

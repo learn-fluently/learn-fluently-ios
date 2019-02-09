@@ -6,24 +6,31 @@
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
 //
 
-import UIKit
 import Foundation
 
-public enum ParseSubtitleError: Error {
-    case Failed
-    case InvalidFormat
-}
-
-public class Subtitles: NSObject {
-    public var titles: [SubtitleItem]?
+struct Subtitle {
+    
+    // MARK: Constants
+    
+    enum ParseError: Error {
+        case failed
+        case invalidFormat
+    }
+    
+    
+    // MARK: Properties
+    
+    private(set) var items: [SubtitleItem] = []
+    
+    
+    // MARK: Lifecycle
     
     public init(fileUrl: URL) {
-        super.init()
         
         do {
             let fileContent = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
             do {
-                titles = try self.parseSRTSub(fileContent)
+                items = try self.parseSRTSub(fileContent)
             }
             catch {
                 debugPrint(error)
@@ -34,7 +41,10 @@ public class Subtitles: NSObject {
         }
     }
     
-    func parseSRTSub(_ rawSub: String) throws -> [SubtitleItem] {
+    
+    // MARK: Private functions
+    
+    private func parseSRTSub(_ rawSub: String) throws -> [SubtitleItem] {
         var allTitles = [SubtitleItem]()
         var components = rawSub.components(separatedBy: "\r\n\r\n")
         
@@ -69,28 +79,27 @@ public class Subtitles: NSObject {
                 let textLineScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &textResult)
                 
                 guard textLineScanResult else {
-                    throw ParseSubtitleError.InvalidFormat
+                    throw ParseError.invalidFormat
                 }
                 
                 textLines.append(textResult! as String)
             }
             
             guard indexScanSuccess && startTimeScanResult && dividerScanSuccess && endTimeScanResult else {
-                throw ParseSubtitleError.InvalidFormat
+                throw ParseError.invalidFormat
             }
             
             let startTimeInterval: TimeInterval = timeIntervalFromString(startResult! as String)
             let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String)
             
-            let title = SubtitleItem(withTexts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
+            let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
             allTitles.append(title)
         }
         
         return allTitles
     }
     
-    // TODO: Throw
-    func timeIntervalFromString(_ timeString: String) -> TimeInterval {
+    private func timeIntervalFromString(_ timeString: String) -> TimeInterval {
         let scanner = Scanner(string: timeString)
         
         var hoursResult: Int = 0
@@ -117,4 +126,5 @@ public class Subtitles: NSObject {
         
         return timeInterval as TimeInterval
     }
+    
 }

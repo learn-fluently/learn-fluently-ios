@@ -1,5 +1,5 @@
 //
-//  ChooseInputsViewController.swift
+//  WatchingViewController.swift
 //  LearnLanguages
 //
 //  Created by Amir Khorsandi on 12/23/18.
@@ -9,14 +9,12 @@ import AVFoundation
 import AVKit
 import SafariServices
 import SwiftRichString
+import RxSwift
 
-class ChooseInputsViewController: BaseViewController, NibBasedViewController, LLTextViewMenuDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
+class WatchingViewController: BaseViewController, NibBasedViewController {
     
     // MARK: Properties
     
-    var player: AVPlayer!
-    var playerController: AVPlayerViewController!
-    var subtitles: Subtitles!
     let playingConfig = PlayingConfig()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -27,24 +25,16 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     // MARK: Private properties
     
     private let speechSynthesizer = AVSpeechSynthesizer()
+    private var paningStartPoint: CGPoint? = nil
+    private var playerController: PlayerViewController!
+    private var subtitleRepository: SubtitleRepository!
+    private var disposeBag = DisposeBag()
     private var textViewSelectedTextRange: NSRange? = nil {
         didSet {
             setTextViewSelectedTextRange()
         }
     }
-    private let textViewTextStyle = Style {
-        $0.font = SystemFonts.Helvetica.font(size: 19)
-        $0.lineHeightMultiple = 1.8
-        $0.color = UIColor.black
-    }
-    private let textViewTextSelectedTextStyle = Style {
-        $0.font = SystemFonts.Helvetica.font(size: 19)
-        $0.lineHeightMultiple = 1.8
-        $0.color = UIView().tintColor
-        $0.underline = (.thick, UIColor.orange)
-    }
-    private var paningStartPoint: CGPoint? = nil
-    private var lastStopTime:Double? = nil
+    
     
     // MARK: Outlets
     
@@ -57,16 +47,16 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addPlayerAndPlay()
-        configureSubtitle()
-        addPlayerTimeListener()
+        addPlayerViewControllerAndPlay()
+        configureSubtitleRepository()
+        subscribeToPlayerTime()
         configureTextView()
         configureTextViewGestures()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        player.pause()
+        playerController.pause()
     }
     
     
@@ -78,30 +68,16 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     // MARK: - Event handlers
     
-    @IBAction private func closeButtonTouched() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction private func playPauseButtonTouched() {
-        if player.timeControlStatus == .playing {
-            player.pause()
-        } else if player.timeControlStatus == .paused {
-            player.play()
-        }
+        playerController.togglePlaying()
     }
     
     @IBAction private func skipNextButtonTouched() {
-        changeSeekTime(value: 5.0)
+        playerController.seek(byDelta: 5.0)
     }
     
     @IBAction private func skipPrevButtonTouched() {
-        changeSeekTime(value: -5.0)
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "timeControlStatus" {
-            onPlayerStateChanged()
-        }
+        playerController.seek(byDelta: -5.0)
     }
     
     
@@ -117,7 +93,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
             if let range = getTextRangeByPointsOnTextView(startPoint: point) {
                 textViewSelectedTextRange = range
                 adjustAndShowMenuForSelectedTextIfNeeded()
-                player.pause()
+                playerController.pause()
             }
         }
     }
@@ -126,7 +102,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         let location = gestureRecognizer.location(in: textView)
         switch gestureRecognizer.state {
         case .began:
-            player.pause()
+            playerController.pause()
             paningStartPoint = location
         case .cancelled, .failed, .ended:
             paningStartPoint = nil
@@ -141,6 +117,13 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     
     
     // MARK: Private functions
+    
+    private func subscribeToPlayerTime() {
+        playerController.playerTimeObservable.subscribe(onNext: { [weak self] currentValue in
+            self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
+            self?.pausePlayerIfNeeded(currentValue: currentValue)
+        }).disposed(by: disposeBag)
+    }
     
     private func getSelectedText() -> String {
         guard let selectedRange = textViewSelectedTextRange else {
@@ -225,28 +208,7 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         UIMenuController.shared.setMenuVisible(true, animated: true)
     }
     
-    private func changeSeekTime(value: Double) {
-        guard let duration = player.currentItem?.duration else{
-            return
-        }
-        let playerCurrentTime = CMTimeGetSeconds(player.currentTime())
-        var newTime = playerCurrentTime + value
-        
-        if newTime < 0 {
-            newTime = 0
-        }
-        if newTime < (CMTimeGetSeconds(duration) - value) {
-            let time: CMTime = CMTimeMakeWithSeconds(newTime, preferredTimescale: Int32(NSEC_PER_SEC))
-            player.seek(to: time, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-        }
-    }
-    
     private func configureTextViewGestures() {
-        for recognizer in textView.gestureRecognizers ?? [] {
-            if recognizer is UILongPressGestureRecognizer {
-                recognizer.isEnabled = false
-            }
-        }
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestue))
         textView.addGestureRecognizer(pan)
         
@@ -254,38 +216,14 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         textView.addGestureRecognizer(tap)
     }
     
-    
-    
-    private func addPlayerTimeListener(){
-        let interval = CMTimeMakeWithSeconds(0.1, preferredTimescale: Int32(NSEC_PER_SEC))
-        player.addPeriodicTimeObserver(forInterval: interval, queue: nil) { [weak self] time in
-            let currentValue = Double(Double(time.value) / 1000000000.0)
-            self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
-            self?.pausePlayerIfNeeded(currentValue: currentValue)
-        }
-    }
-    
     private func pausePlayerIfNeeded(currentValue: Double) {
-        guard let subtitles = subtitles.titles, currentValue > 0 else {
-            return
-        }
-        let text = subtitles.first(where: {
-            abs(currentValue - ($0.end ?? 0)) < 0.05 && lastStopTime != $0.end
-        })
-        if text != nil {
-            lastStopTime = text?.end
-            player.pause()
+        if subtitleRepository.isTimeCloseToEndOfSubtitle(currentValue) {
+            playerController.pause()
         }
     }
     
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
-        guard let subtitles = subtitles.titles, currentValue > 0 else {
-            return
-        }
-        let texts = subtitles.first(where: {
-            currentValue < $0.end ?? 0 && currentValue > $0.start ?? 0
-        })?.texts
-        let subtitleText = texts?.joined(separator: "\n")
+        let subtitleText = subtitleRepository.getSubtitleForTime(currentValue)
         if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
             return
         }
@@ -293,68 +231,65 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
     }
     
     private func setSubtitleText(_ text: String) {
-        textView.attributedText = text.set(style: textViewTextStyle)
+        textView.attributedText = text.set(style: Style.selectableSubtitleTextStyle)
     }
     
     private func setTextViewSelectedTextRange() {
-        var attributedText = textView.text.set(style: textViewTextStyle)
+        var attributedText = textView.text.set(style: Style.selectableSubtitleTextStyle)
         if let selectedRange = textViewSelectedTextRange {
             textView.selectedRange = selectedRange
-            attributedText = attributedText.set(style: textViewTextSelectedTextStyle, range: selectedRange)
+            attributedText = attributedText.set(style: Style.selectableSubtitleSelectedTextStyle,
+                                                range: selectedRange)
         }
         textView.attributedText = attributedText
     }
     
-    private func addPlayerAndPlay(){
+    private func addPlayerViewControllerAndPlay(){
         let url: URL = Bundle.main.url(forResource: "movie", withExtension: "mp4")!
         
-        let avAsset = AVURLAsset(url: url)
-        let playerItem = AVPlayerItem(asset: avAsset)
-        player = AVPlayer(playerItem: playerItem)
-        playerController = AVPlayerViewController()
-        playerController?.player = player
+        playerController = PlayerViewController()
+        playerController.playingDelegate = self
+        addChild(playerController)
         guard let videoView = playerController?.view else { return }
         playerContainerView.insertSubview(videoView, at: 0)
-        videoView.snp.makeConstraints {
-            $0.size.equalToSuperview()
-            $0.center.equalToSuperview()
-        }
-        player?.play()
+        playerController.didMove(toParent: self)
         
-        player.addObserver(self, forKeyPath: "timeControlStatus", options: [], context: nil)
-        playerController?.setValue(false, forKey: "canHidePlaybackControls")
+        playerController.url = url
+        playerController.play()
     }
     
-    @objc private func onPlayerStateChanged() {
-        if player.timeControlStatus == .playing {
-            playPauseButton.setImage(#imageLiteral(resourceName: "Pause"), for: .normal)
-        } else {
-            playPauseButton.setImage(#imageLiteral(resourceName: "Play"), for: .normal)
-        }
-    }
-    
-    private func configureSubtitle(){
-        let exampleSubtitlesUrl = Bundle.main.url(forResource: "subtitle", withExtension: "srt")
-        subtitles = Subtitles(fileUrl: exampleSubtitlesUrl!)
+    private func configureSubtitleRepository(){
+        let url = Bundle.main.url(forResource: "subtitle", withExtension: "srt")
+        subtitleRepository = SubtitleRepository(url: url!)
     }
     
     private func configureTextView() {
         textView.isEditable = false
         textView.isSelectable = false
         textView.menuItemsDelegate = self
-        textView.delegate = self
     }
     
-    private func urlEncode(_ originalString:String) -> String{
-        return originalString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+}
+
+
+extension WatchingViewController: PlayerViewControllerPlayingDelegate {
+    
+    // MARK: Functions
+    
+    func onPlayingStateChanged(playerViewController: PlayerViewController) {
+        let image = playerViewController.isPlaying ? #imageLiteral(resourceName: "Pause") : #imageLiteral(resourceName: "Play")
+        playPauseButton.setImage(image, for: .normal)
     }
     
-    private func openWebView(url: String){
-        let webView = SFSafariViewController(url: URL(string: url)!)
-        present(webView, animated: true)
+    func onCloseButtonTouched(playerViewController: PlayerViewController) {
+        dismiss(animated: true, completion: nil)
     }
+}
+
+
+extension WatchingViewController : LLTextViewMenuDelegate {
     
-    //MARK: - LLTextViewMenuDelegate
+    // MARK: Functions
     
     func onTranslateMenuItemSelected(_ textView: UITextView) {
         openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=fa&text=" + urlEncode(getSelectedText()) )
@@ -376,4 +311,16 @@ class ChooseInputsViewController: BaseViewController, NibBasedViewController, LL
         textViewSelectedTextRange = nil
     }
     
+    
+    // MARK: Private functions
+    
+    private func urlEncode(_ originalString:String) -> String{
+        return originalString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+    }
+    
+    private func openWebView(url: String){
+        let webView = SFSafariViewController(url: URL(string: url)!)
+        present(webView, animated: true)
+    }
 }
+
