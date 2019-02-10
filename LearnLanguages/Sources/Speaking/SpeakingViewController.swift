@@ -21,7 +21,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     private struct Constants {
         
         static let speakingHint = "[Start speaking ...]"
-        static let stopRecordingAfterInactivityForSeconds = 1.0
+        static let stopRecordingAfterInactivityForSeconds = 2.5
     }
     
     
@@ -48,6 +48,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     private var autoStartRecordingForNext = true
     private var autoStopRecording = true
     private var audioDetectionTimer: Timer? = nil
+    private var lastBestTranscription: String? = nil
     private var isRecording: Bool {
         return audioEngine.isRunning
     }
@@ -72,7 +73,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         addPlayerViewControllerAndPlay()
         configureSubtitleRepository()
         subscribeToPlayerTime()
-        compareAndShowOrHideResultIfNeeded()
+        adjustResultViewIfNeeded()
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -127,7 +128,6 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     @IBAction private func recordButtonTouched() {
         if audioEngine.isRunning {
             stopRecording()
-            compareAndShowOrHideResultIfNeeded()
         } else {
             startRecordingIfPossible()
         }
@@ -156,12 +156,12 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         playerController.pause()
         stopRecordingIfNeeded()
         textLabelTempValue = textLabelView.text
-        textLabelView.attributedText = currentSubtitle?.set(style: Style.subtitleTextStyle)
+        updateTextLabelView(currentSubtitle)
     }
     
     private func hideHint() {
         if let tempValue = textLabelTempValue {
-            textLabelView.attributedText = tempValue.set(style: Style.subtitleTextStyle)
+            updateTextLabelView(tempValue)
             textLabelTempValue = nil
         }
     }
@@ -178,10 +178,10 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         playerController.play()
     }
     
-    private func compareAndShowOrHideResultIfNeeded() {
+    private func adjustResultViewIfNeeded() {
         let currentSubtitleLength = currentSubtitle?.lengthOfBytes(using: .utf8) ?? 0
         
-        if textLabelView.text?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
+        if lastBestTranscription?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
             currentSubtitleLength < 1 ||
             playerController.isPlaying ||
             isRecording {
@@ -190,7 +190,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         }
         
         let originalText = normalizeTextForComparesion(currentSubtitle!)
-        let speachText = normalizeTextForComparesion(textLabelView.text!)
+        let speachText = normalizeTextForComparesion(lastBestTranscription!)
         
         let editDifference = originalText.levenshtein(speachText)
         let beingCorrectRate = Double(currentSubtitleLength - editDifference) / Double(currentSubtitleLength)
@@ -264,12 +264,11 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         if isRecording {
             stopRecording()
         }
-        compareAndShowOrHideResultIfNeeded()
     }
     
     private func stopRecording() {
-        if textLabelView.text == Constants.speakingHint {
-            textLabelView.text = ""
+        if lastBestTranscription == nil {
+            updateTextLabelView(nil)
         }
         audioEngine.stop()
         recognitionRequest?.endAudio()
@@ -302,9 +301,11 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         subtitleRepository = SubtitleRepository(url: url!)
     }
     
+    private func updateTextLabelView(_ text: String?) {
+        textLabelView.attributedText = (text ?? "").set(style: Style.subtitleTextStyle)
+    }
+    
     private func startRecording() throws {
-        
-        compareAndShowOrHideResultIfNeeded()
         
         // Cancel the previous task if it's running.
         if let recognitionTask = recognitionTask {
@@ -334,7 +335,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
             
             if let result = result {
                 // Update the text view with the results.
-                s.textLabelView.attributedText = result.bestTranscription.formattedString.set(style: Style.subtitleTextStyle)
+                s.lastBestTranscription = result.bestTranscription.formattedString
+                s.updateTextLabelView(s.lastBestTranscription)
                 isFinal = result.isFinal
             }
             
@@ -348,12 +350,13 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
                 
                 s.recordButton.isEnabled = true
                 s.recordButton.setImage(#imageLiteral(resourceName: "Record"), for: [])
+                s.adjustResultViewIfNeeded()
             } else {
                 if let timer = s.audioDetectionTimer, timer.isValid {
                     timer.invalidate()
                 }
                 s.audioDetectionTimer = Timer.scheduledTimer(withTimeInterval: Constants.stopRecordingAfterInactivityForSeconds, repeats: false, block: { (timer) in
-                    if !isFinal && s.textLabelView.text != Constants.speakingHint {
+                    if !isFinal && s.lastBestTranscription != nil {
                         s.stopRecordingIfNeeded()
                     }
                     timer.invalidate()
@@ -371,7 +374,9 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         try audioEngine.start()
         
         // Let the user know to start talking.
-        textLabelView.text = Constants.speakingHint
+        updateTextLabelView(Constants.speakingHint)
+        lastBestTranscription = nil
+        adjustResultViewIfNeeded()
     }
     
     private func showAlert(_ message:String, error: Bool = true) {
@@ -388,11 +393,11 @@ extension SpeakingViewController: PlayerViewControllerPlayingDelegate {
     func onPlayingStateChanged(playerViewController: PlayerViewController) {
         let image = playerViewController.isPlaying ? #imageLiteral(resourceName: "Pause") : #imageLiteral(resourceName: "Play")
         playPauseButton.setImage(image, for: .normal)
-        compareAndShowOrHideResultIfNeeded()
         recordButton.isEnabled = !playerViewController.isPlaying
         if playerViewController.isPlaying {
-            textLabelView.text = ""
+            updateTextLabelView(nil)
         }
+        adjustResultViewIfNeeded()
     }
     
     func onCloseButtonTouched(playerViewController: PlayerViewController) {
