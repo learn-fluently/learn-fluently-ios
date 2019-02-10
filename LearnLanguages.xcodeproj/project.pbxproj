@@ -34,6 +34,7 @@
 		ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */; };
 		ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
 		ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */; };
+		ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleRepository.swift; sourceTree = "<group>"; };
 		ABFE6009220F1D12001267C8 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Appearance.swift"; sourceTree = "<group>"; };
+		ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Levenshtein.swift"; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,15 +139,15 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				ABFE6006220F1A9F001267C8 /* Models */,
-				ABFE6005220F1A88001267C8 /* Repositories */,
-				ABE4285322073D5000958EFB /* Speaking */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
-				AB522AD521D03DC9002421B8 /* WatchingViewController */,
 				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
+				ABFE6006220F1A9F001267C8 /* Models */,
 				AB09959E21F9090F00867890 /* OverviewViewController */,
+				ABFE6005220F1A88001267C8 /* Repositories */,
+				ABE4285322073D5000958EFB /* Speaking */,
 				ABD73BAF21FBC3E7004B2FB9 /* Utilities */,
+				AB522AD521D03DC9002421B8 /* WatchingViewController */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -187,6 +189,7 @@
 				ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */,
 				ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */,
 				ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */,
+				ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				ABE4285522073D7600958EFB /* SpeakingViewController.swift in Sources */,
 				AB522ADA21D03DC9002421B8 /* WatchingViewController.swift in Sources */,
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
+				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

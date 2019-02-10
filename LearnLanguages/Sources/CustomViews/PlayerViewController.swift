@@ -33,6 +33,10 @@ class PlayerViewController: AVPlayerViewController {
         return player?.timeControlStatus == .playing
     }
     
+    var playerTime : Double {
+        return playerTimeBehaviorRelay.value
+    }
+    
     var playerTimeObservable: Observable<Double> {
         return playerTimeBehaviorRelay.asObservable()
     }
@@ -181,7 +185,7 @@ class PlayerViewController: AVPlayerViewController {
     private func addPlayerTimeListener( ){
         let interval = CMTimeMakeWithSeconds(0.1, preferredTimescale: Int32(NSEC_PER_SEC))
         player?.addPeriodicTimeObserver(forInterval: interval, queue: nil) { [weak self] time in
-            let currentValue = Double(Double(time.value) / 1000000000.0)
+            let currentValue = Double(time.value) / Double(time.timescale)
             self?.playerTimeBehaviorRelay.accept(currentValue)
         }
     }

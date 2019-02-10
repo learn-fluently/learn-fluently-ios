@@ -120,8 +120,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     
     private func subscribeToPlayerTime() {
         playerController.playerTimeObservable.subscribe(onNext: { [weak self] currentValue in
-            self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
-            self?.pausePlayerIfNeeded(currentValue: currentValue)
+            self?.adjustSubtitleByPlayerTime(currentValue: currentValue) 
         }).disposed(by: disposeBag)
     }
     
@@ -214,12 +213,6 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         textView.addGestureRecognizer(tap)
-    }
-    
-    private func pausePlayerIfNeeded(currentValue: Double) {
-        if subtitleRepository.isTimeCloseToEndOfSubtitle(currentValue) {
-            playerController.pause()
-        }
     }
     
     private func adjustSubtitleByPlayerTime(currentValue: Double) {

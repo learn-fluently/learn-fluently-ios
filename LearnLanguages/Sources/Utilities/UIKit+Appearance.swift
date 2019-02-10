@@ -12,20 +12,26 @@ import SwiftRichString
 
 extension Style {
     
-    static var selectableSubtitleTextStyle: Style {
+    // MARK: Static properties
+    
+    static var subtitleTextStyle: Style {
         return Style {
             $0.font = SystemFonts.Helvetica.font(size: 19)
-            $0.lineHeightMultiple = 1.8
             $0.color = UIColor.black
         }
     }
     
-    static var selectableSubtitleSelectedTextStyle: Style {
-        return Style {
-            $0.font = SystemFonts.Helvetica.font(size: 19)
-            $0.lineHeightMultiple = 1.8
-            $0.color = UIView().tintColor
-            $0.underline = (.thick, UIColor.orange)
-        }
+    static var selectableSubtitleTextStyle: Style {
+        let style = subtitleTextStyle
+        style.lineHeightMultiple = 1.8
+        return style
     }
+    
+    static var selectableSubtitleSelectedTextStyle: Style {
+        let style = selectableSubtitleTextStyle
+        style.color = UIView().tintColor
+        style.underline = (.thick, UIColor.orange)
+        return style
+    }
+    
 }

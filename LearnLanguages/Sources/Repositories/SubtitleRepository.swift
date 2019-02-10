@@ -14,9 +14,9 @@ class SubtitleRepository {
     
     private struct Constants {
         
-        static let subtitleCloseThreshold: Double = 0.05
+        static let subtitleCloseThreshold: Double = 0.1
     }
-
+    
     
     // MARK: Properties
     
@@ -44,7 +44,7 @@ class SubtitleRepository {
         let texts = subtitle.items.first(where: {
             time < $0.end && time > $0.start
         })?.texts
-        return texts?.joined(separator: "\n")
+        return getSubtitleByTexts(texts)
     }
     
     func isTimeCloseToEndOfSubtitle(_ time: Double) -> Bool {
@@ -56,6 +56,48 @@ class SubtitleRepository {
             return true
         }
         return false
+    }
+    
+    func getStartOfNextSubtitle(currentTime: Double) -> Double {
+        return getStartOfSubtitle(currentTime: currentTime, next: true)
+    }
+    
+    func getStartOfPrevSubtitle(currentTime: Double) -> Double {
+        return getStartOfSubtitle(currentTime: currentTime, next: false)
+    }
+    
+    
+    // MARK: Private functions
+    
+    func getStartOfSubtitle(currentTime: Double, next: Bool) -> Double {
+        var time = currentTime
+        var currentItem: SubtitleItem?
+        repeat {
+            currentItem = subtitle.items.first(where: {
+                currentTime < $0.end && currentTime > $0.start
+            })
+            time -= Constants.subtitleCloseThreshold
+        } while currentItem == nil && time > 0.0
+        
+        guard let itemIndex = subtitle.items.firstIndex(where: { $0.index == currentItem?.index }) else {
+            return currentTime
+        }
+        
+        if next, itemIndex + 1 < subtitle.items.count {
+            return subtitle.items[itemIndex + 1].start
+        }
+        
+        if !next, itemIndex > 0, subtitle.items.count > 1 {
+            return subtitle.items[itemIndex - 1].start
+        } else if !next{
+            return 0
+        }
+        
+        return currentTime
+    }
+    
+    private func getSubtitleByTexts(_ texts: [String]?) -> String? {
+        return texts?.joined(separator: "\n")
     }
     
 }
