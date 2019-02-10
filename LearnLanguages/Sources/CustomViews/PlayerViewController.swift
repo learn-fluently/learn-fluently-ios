@@ -133,7 +133,6 @@ class PlayerViewController: AVPlayerViewController {
         let avAsset = AVURLAsset(url: url!)
         let playerItem = AVPlayerItem(asset: avAsset)
         player = AVPlayer(playerItem: playerItem)
-        
         player?.addObserver(self, forKeyPath: "timeControlStatus", options: [], context: nil)
         addPlayerTimeListener()
     }
@@ -176,7 +175,7 @@ class PlayerViewController: AVPlayerViewController {
         if newTime < 0 {
             newTime = 0
         }
-        if newTime < (CMTimeGetSeconds(duration) - newTime) {
+        if newTime < CMTimeGetSeconds(duration) {
             let time: CMTime = CMTimeMakeWithSeconds(newTime, preferredTimescale: Int32(NSEC_PER_SEC))
             player.seek(to: time, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
         }

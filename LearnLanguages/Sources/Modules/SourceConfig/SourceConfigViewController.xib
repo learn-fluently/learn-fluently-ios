@@ -91,6 +91,9 @@
                                                     <integer key="value" value="13"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="chooseVideoSourceButtonTouched" destination="-1" eventType="touchUpInside" id="o6T-X6-Xg1"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -137,6 +140,9 @@
                                                     <integer key="value" value="13"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="chooseSubtitleSourceButtonTouched" destination="-1" eventType="touchUpInside" id="Cd8-S6-NXp"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

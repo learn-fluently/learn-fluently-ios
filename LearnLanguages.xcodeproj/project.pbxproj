@@ -23,8 +23,6 @@
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
-		ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF621FE72C300EA4C4D /* movie.mp4 */; };
-		ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF721FE72C300EA4C4D /* subtitle.srt */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */; };
 		ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */; };
 		ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
@@ -37,6 +35,7 @@
 		ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */; };
 		ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */; };
 		ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */; };
+		ABFE60252210D751001267C8 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60242210D751001267C8 /* FileRepository.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,8 +59,6 @@
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
-		ABF0DBF621FE72C300EA4C4D /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
-		ABF0DBF721FE72C300EA4C4D /* subtitle.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subtitle.srt; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertView.swift"; sourceTree = "<group>"; };
 		ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleRepository.swift; sourceTree = "<group>"; };
 		ABFE6009220F1D12001267C8 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +71,8 @@
 		ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeakingViewController.xib; sourceTree = "<group>"; };
 		ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceConfigViewController.swift; sourceTree = "<group>"; };
 		ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SourceConfigViewController.xib; sourceTree = "<group>"; };
+		ABFE60232210CC68001267C8 /* LearnLanguages.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LearnLanguages.entitlements; sourceTree = "<group>"; };
+		ABFE60242210D751001267C8 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +121,7 @@
 		AB522AAE21CF2951002421B8 /* LearnLanguages */ = {
 			isa = PBXGroup;
 			children = (
+				ABFE60232210CC68001267C8 /* LearnLanguages.entitlements */,
 				AB522ABB21CF2953002421B8 /* Info.plist */,
 				AB522AC121D03612002421B8 /* Resources */,
 				AB522AC421D03612002421B8 /* Sources */,
@@ -133,8 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				AB522AC321D03612002421B8 /* Assets.xcassets */,
-				ABF0DBF621FE72C300EA4C4D /* movie.mp4 */,
-				ABF0DBF721FE72C300EA4C4D /* subtitle.srt */,
 				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
@@ -190,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */,
+				ABFE60242210D751001267C8 /* FileRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -295,6 +294,11 @@
 				TargetAttributes = {
 					AB522AAB21CF2951002421B8 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -327,8 +331,6 @@
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
 				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
 				ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */,
-				ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */,
-				ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +390,7 @@
 			files = (
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
+				ABFE60252210D751001267C8 /* FileRepository.swift in Sources */,
 				ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */,
 				ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */,
 				ABFE6004220F033F001267C8 /* UIViewController+AlertView.swift in Sources */,
@@ -533,6 +536,7 @@
 			baseConfigurationReference = 0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnLanguages/LearnLanguages.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
 				INFOPLIST_FILE = LearnLanguages/Info.plist;
@@ -553,6 +557,7 @@
 			baseConfigurationReference = DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnLanguages/LearnLanguages.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
 				INFOPLIST_FILE = LearnLanguages/Info.plist;

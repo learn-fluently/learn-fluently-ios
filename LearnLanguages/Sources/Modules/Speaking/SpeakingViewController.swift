@@ -44,6 +44,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     private let audioEngine = AVAudioEngine()
     private var playerController: PlayerViewController!
     private var subtitleRepository: SubtitleRepository!
+    private var fileRepository: FileRepository!
     private var disposeBag = DisposeBag()
     private var currentSubtitle: String? = nil
     private var textLabelTempValue: String? = nil
@@ -70,6 +71,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        fileRepository =  FileRepository()
         
         configureRecordButton()
         addPlayerViewControllerAndPlay()
@@ -292,8 +294,6 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
     
     private func addPlayerViewControllerAndPlay(){
-        let url: URL = Bundle.main.url(forResource: "movie", withExtension: "mp4")!
-        
         playerController = PlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
@@ -301,7 +301,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
         
-        playerController.url = url
+        playerController.url = fileRepository.getURLForVideoFile()
         playerController.play()
     }
     
@@ -311,8 +311,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
     
     private func configureSubtitleRepository(){
-        let url = Bundle.main.url(forResource: "subtitle", withExtension: "srt")
-        subtitleRepository = SubtitleRepository(url: url!)
+        let url = fileRepository.getURLForSubtitleFile()
+        subtitleRepository = SubtitleRepository(url: url)
     }
     
     private func updateTextLabelView(_ text: String?) {
@@ -329,8 +329,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         
         // Configure the audio session for the app.
         let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
-        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
+        try audioSession.setActive(true)
         let inputNode = audioEngine.inputNode
         
         // Create and configure the speech recognition request.

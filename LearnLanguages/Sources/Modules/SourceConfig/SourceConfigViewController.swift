@@ -9,14 +9,20 @@
 import Foundation
 import UIKit
 import SwiftRichString
+import MobileCoreServices
 
-class SourceConfigViewController: BaseViewController, NibBasedViewController {
+class SourceConfigViewController: BaseViewController, NibBasedViewController, UIDocumentPickerDelegate {
     
     // MARK: Constants
     
     enum SourceType {
         case watching
         case speaking
+    }
+    
+    enum FilePikcerMode {
+        case video
+        case subtitle
     }
     
     
@@ -29,6 +35,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private let sourceType: SourceType
     private let pageTitle: String
     private let pageSubtitle: String
+    private var filePickerMode: FilePikcerMode? = nil
     
     
     // MARK: Outlets
@@ -71,8 +78,48 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         }
     }
     
+    @IBAction private func chooseVideoSourceButtonTouched() {
+        filePickerMode = .video
+        openFilePicker()
+    }
+    
+    @IBAction private func chooseSubtitleSourceButtonTouched() {
+        filePickerMode = .subtitle
+        openFilePicker()
+    }
+    
+    // MARK: UIDocumentPickerDelegate
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else {
+            return
+        }
+        let fileRepo = FileRepository()
+        let toUrl = filePickerMode == .video ? fileRepo.getURLForVideoFile() : fileRepo.getURLForSubtitleFile()
+        try? FileManager.default.removeItem(at: toUrl)
+        do {
+            try FileManager.default.copyItem(at: url, to: toUrl)
+        }
+        catch {
+            print(error)
+        }
+    }
+    
     
     // MARK: Private functions
+    
+    private func openFilePicker() {
+        let types: [String] = [kUTTypeVideo as String, kUTTypeText as String,
+                               kUTTypeData as String, kUTTypeUTF8PlainText as String,
+                               kUTTypeText as String, kUTTypeUTF16PlainText as String,
+                               kUTTypeTXNTextAndMultimediaData as String,
+                               "public.text", "public.content", "public.data"]
+        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .formSheet
+        self.present(documentPicker, animated: true, completion: nil)
+    }
+    
     
     private func configureTitleViews() {
         titleLabel.attributedText = pageTitle.set(style: Style.pageTitleTextStyle)
