@@ -17,17 +17,12 @@
 		AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD221D03DC9002421B8 /* BaseViewController.swift */; };
 		AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD321D03DC9002421B8 /* RootViewController.swift */; };
 		AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */; };
-		AB522ADA21D03DC9002421B8 /* WatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD621D03DC9002421B8 /* WatchingViewController.swift */; };
 		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
-		AB522AE021D03EF3002421B8 /* WatchingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB522ADF21D03EF3002421B8 /* WatchingViewController.xib */; };
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
 		AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitle.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
-		ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */; };
-		ABE4285522073D7600958EFB /* SpeakingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE4285422073D7600958EFB /* SpeakingViewController.swift */; };
-		ABE4285722076A0500958EFB /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABE4285622073DC200958EFB /* SpeakingViewController.xib */; };
 		ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF621FE72C300EA4C4D /* movie.mp4 */; };
 		ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */ = {isa = PBXBuildFile; fileRef = ABF0DBF721FE72C300EA4C4D /* subtitle.srt */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */; };
@@ -35,6 +30,13 @@
 		ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
 		ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */; };
 		ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */; };
+		ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60132210AE1A001267C8 /* WatchingViewController.swift */; };
+		ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60142210AE1A001267C8 /* PlayingConfig.swift */; };
+		ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60152210AE1A001267C8 /* WatchingViewController.xib */; };
+		ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */; };
+		ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */; };
+		ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */; };
+		ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,17 +54,12 @@
 		AB522AD221D03DC9002421B8 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		AB522AD321D03DC9002421B8 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
-		AB522AD621D03DC9002421B8 /* WatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchingViewController.swift; sourceTree = "<group>"; };
 		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
-		AB522ADF21D03EF3002421B8 /* WatchingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WatchingViewController.xib; sourceTree = "<group>"; };
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB522AE821D311D4002421B8 /* Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
-		ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
-		ABE4285422073D7600958EFB /* SpeakingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingViewController.swift; sourceTree = "<group>"; };
-		ABE4285622073DC200958EFB /* SpeakingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpeakingViewController.xib; sourceTree = "<group>"; };
 		ABF0DBF621FE72C300EA4C4D /* movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = movie.mp4; sourceTree = "<group>"; };
 		ABF0DBF721FE72C300EA4C4D /* subtitle.srt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subtitle.srt; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertView.swift"; sourceTree = "<group>"; };
@@ -70,6 +67,13 @@
 		ABFE6009220F1D12001267C8 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Appearance.swift"; sourceTree = "<group>"; };
 		ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Levenshtein.swift"; sourceTree = "<group>"; };
+		ABFE60132210AE1A001267C8 /* WatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchingViewController.swift; sourceTree = "<group>"; };
+		ABFE60142210AE1A001267C8 /* PlayingConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
+		ABFE60152210AE1A001267C8 /* WatchingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WatchingViewController.xib; sourceTree = "<group>"; };
+		ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakingViewController.swift; sourceTree = "<group>"; };
+		ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeakingViewController.xib; sourceTree = "<group>"; };
+		ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceConfigViewController.swift; sourceTree = "<group>"; };
+		ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SourceConfigViewController.xib; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,13 +92,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AB09959E21F9090F00867890 /* OverviewViewController */ = {
+		AB09959E21F9090F00867890 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
 				AB09959F21F9092C00867890 /* OverviewViewController.swift */,
 				AB0995A121F9094000867890 /* OverviewViewController.xib */,
 			);
-			path = OverviewViewController;
+			path = Overview;
 			sourceTree = "<group>";
 		};
 		AB522AA321CF2951002421B8 = {
@@ -140,14 +144,12 @@
 			isa = PBXGroup;
 			children = (
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
+				ABFE60112210AE1A001267C8 /* Modules */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
 				ABFE6006220F1A9F001267C8 /* Models */,
-				AB09959E21F9090F00867890 /* OverviewViewController */,
 				ABFE6005220F1A88001267C8 /* Repositories */,
-				ABE4285322073D5000958EFB /* Speaking */,
 				ABD73BAF21FBC3E7004B2FB9 /* Utilities */,
-				AB522AD521D03DC9002421B8 /* WatchingViewController */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -161,16 +163,6 @@
 				AB522AD321D03DC9002421B8 /* RootViewController.swift */,
 			);
 			path = BaseViewControllers;
-			sourceTree = "<group>";
-		};
-		AB522AD521D03DC9002421B8 /* WatchingViewController */ = {
-			isa = PBXGroup;
-			children = (
-				AB522AD621D03DC9002421B8 /* WatchingViewController.swift */,
-				AB522ADF21D03EF3002421B8 /* WatchingViewController.xib */,
-				ABD73BB221FC9DF7004B2FB9 /* PlayingConfig.swift */,
-			);
-			path = WatchingViewController;
 			sourceTree = "<group>";
 		};
 		ABD73BAA21FBA2B8004B2FB9 /* CustomViews */ = {
@@ -194,15 +186,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		ABE4285322073D5000958EFB /* Speaking */ = {
-			isa = PBXGroup;
-			children = (
-				ABE4285622073DC200958EFB /* SpeakingViewController.xib */,
-				ABE4285422073D7600958EFB /* SpeakingViewController.swift */,
-			);
-			path = Speaking;
-			sourceTree = "<group>";
-		};
 		ABFE6005220F1A88001267C8 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +201,45 @@
 				AB522AE821D311D4002421B8 /* Subtitle.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		ABFE60112210AE1A001267C8 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				ABFE601E2210AE41001267C8 /* SourceConfig */,
+				AB09959E21F9090F00867890 /* Overview */,
+				ABFE60122210AE1A001267C8 /* Watching */,
+				ABFE60162210AE1A001267C8 /* Speaking */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		ABFE60122210AE1A001267C8 /* Watching */ = {
+			isa = PBXGroup;
+			children = (
+				ABFE60132210AE1A001267C8 /* WatchingViewController.swift */,
+				ABFE60142210AE1A001267C8 /* PlayingConfig.swift */,
+				ABFE60152210AE1A001267C8 /* WatchingViewController.xib */,
+			);
+			path = Watching;
+			sourceTree = "<group>";
+		};
+		ABFE60162210AE1A001267C8 /* Speaking */ = {
+			isa = PBXGroup;
+			children = (
+				ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */,
+				ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */,
+			);
+			path = Speaking;
+			sourceTree = "<group>";
+		};
+		ABFE601E2210AE41001267C8 /* SourceConfig */ = {
+			isa = PBXGroup;
+			children = (
+				ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */,
+				ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */,
+			);
+			path = SourceConfig;
 			sourceTree = "<group>";
 		};
 		AE95413E6CF77588C2C92EEA /* Pods */ = {
@@ -299,11 +321,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE4285722076A0500958EFB /* SpeakingViewController.xib in Resources */,
+				ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */,
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
-				AB522AE021D03EF3002421B8 /* WatchingViewController.xib in Resources */,
+				ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
 				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
+				ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */,
 				ABF0DBF821FE72C300EA4C4D /* movie.mp4 in Resources */,
 				ABF0DBF921FE72C300EA4C4D /* subtitle.srt in Resources */,
 			);
@@ -365,20 +388,21 @@
 			files = (
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
+				ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */,
+				ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */,
 				ABFE6004220F033F001267C8 /* UIViewController+AlertView.swift in Sources */,
+				ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
-				ABD73BB321FC9DF7004B2FB9 /* PlayingConfig.swift in Sources */,
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
+				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
 				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */,
 				ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */,
-				ABE4285522073D7600958EFB /* SpeakingViewController.swift in Sources */,
-				AB522ADA21D03DC9002421B8 /* WatchingViewController.swift in Sources */,
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,

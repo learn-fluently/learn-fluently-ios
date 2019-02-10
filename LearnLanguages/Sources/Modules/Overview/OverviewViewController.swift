@@ -28,11 +28,17 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     // MARK: Event handeling
     
     @IBAction private func whatchingButtonTouched() {
-        show(WatchingViewController(), sender: nil)
+        show(SourceConfigViewController(title: "Watching/Listening",
+                                        subtitle: "Check translates\nlearn new words",
+                                        type: .watching),
+             sender: nil)
     }
     
     @IBAction private func speakingButtonTouched() {
-        show(SpeakingViewController(), sender: nil)
+        show(SourceConfigViewController(title: "Speaking",
+                                        subtitle: "Pronunciation training\nSentence structure",
+                                        type: .speaking),
+             sender: nil)
     }
     
 }

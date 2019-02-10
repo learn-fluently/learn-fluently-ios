@@ -41,4 +41,18 @@ extension Style {
         }
     }
     
+    static var pageTitleTextStyle: Style {
+        return Style {
+            $0.font = SystemFonts.HelveticaNeue_Medium.font(size: 18)
+            $0.color = UIColor.black
+        }
+    }
+    
+    static var pageSubtitleTextStyle: Style {
+        return Style {
+            $0.font = SystemFonts.HelveticaNeue_Medium.font(size: 12)
+            $0.color = UIColor.black
+        }
+    }
+    
 }
