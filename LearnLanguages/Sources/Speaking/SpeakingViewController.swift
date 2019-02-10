@@ -22,6 +22,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         
         static let speakingHint = "[Start speaking ...]"
         static let stopRecordingAfterInactivityForSeconds = 2.5
+        static let autoGoToTheNextWithPercentage = 90
+        static let autoGoToTheNextDelay: Double = 2
     }
     
     
@@ -112,6 +114,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     // MARK: - Event handlers
     
     @IBAction private func playPauseButtonTouched() {
+        stopRecordingIfNeeded(keepResult: false)
         playerController.togglePlaying()
     }
     
@@ -172,7 +175,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
                 return
         }
         autoStartRecordingForNext = false
-        stopRecordingIfNeeded()
+        stopRecordingIfNeeded(keepResult: false)
         subtitleRepository.cleanLastStop()
         playerController.seek(to: time)
         playerController.play()
@@ -204,7 +207,17 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
             color = .green
         }
         let style = Style.beCorrectPercentage(color: color)
-        correctPercentageLabel.attributedText =  (String(format: "%d", Int(beingCorrectRate * 100)) + "%").set(style: style)
+        let beingCorrectPercentage = Int(beingCorrectRate * 100)
+        correctPercentageLabel.attributedText =  (String(format: "%d", beingCorrectPercentage) + "%").set(style: style)
+        
+        // auto play
+        if beingCorrectPercentage >= Constants.autoGoToTheNextWithPercentage {
+            view.isUserInteractionEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.autoGoToTheNextDelay) { [weak self] in
+                self?.view.isUserInteractionEnabled = true
+                self?.playerController.play()
+            }
+        }
     }
     
     private func normalizeTextForComparesion(_ text:String) -> String {
@@ -217,7 +230,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     
     private func seek(to time:Double) {
         playerController.seek(to: time)
-        stopRecordingIfNeeded()
+        stopRecordingIfNeeded(keepResult: false)
         playerController.play()
     }
     
@@ -253,28 +266,29 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         do {
             try startRecording()
             recordButton.setImage(#imageLiteral(resourceName: "Recording"), for: [])
-            playPauseButton.isEnabled = false
             playerController.showsPlaybackControls = false
         } catch {
             showAlert("Recording Not Available")
         }
     }
     
-    private func stopRecordingIfNeeded() {
+    private func stopRecordingIfNeeded(keepResult: Bool = true) {
         if isRecording {
-            stopRecording()
+            stopRecording(keepResult: keepResult)
         }
     }
     
-    private func stopRecording() {
-        if lastBestTranscription == nil {
-            updateTextLabelView(nil)
-        }
+    private func stopRecording(keepResult: Bool = true) {
         audioEngine.stop()
         recognitionRequest?.endAudio()
         recordButton.isEnabled = false
-        playPauseButton.isEnabled = true
         playerController.showsPlaybackControls = true
+        if !keepResult {
+            lastBestTranscription = nil
+        }
+        if lastBestTranscription == nil {
+            updateTextLabelView(nil)
+        }
     }
     
     private func addPlayerViewControllerAndPlay(){
