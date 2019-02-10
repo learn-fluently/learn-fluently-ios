@@ -66,6 +66,20 @@ class SubtitleRepository {
         return getStartOfSubtitle(currentTime: currentTime, next: false)
     }
     
+    func getStartOfCurrentSubtitle() -> Double? {
+        guard let lastEnd = lastSubtitleCloseEndTime else {
+            return nil
+        }
+        let text = subtitle.items.first(where: {
+            lastEnd == $0.end
+        })
+        return text?.start
+    }
+    
+    func cleanLastStop() {
+        lastSubtitleCloseEndTime = nil
+    }
+    
     
     // MARK: Private functions
     

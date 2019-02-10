@@ -34,4 +34,11 @@ extension Style {
         return style
     }
     
+    static func beCorrectPercentage(color: UIColor) -> Style {
+        return Style {
+            $0.font = SystemFonts.Helvetica_Bold.font(size: 17)
+            $0.color = color
+        }
+    }
+    
 }

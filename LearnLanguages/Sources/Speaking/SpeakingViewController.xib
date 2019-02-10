@@ -17,6 +17,7 @@
                 <outlet property="playPauseButton" destination="lKO-fS-w3b" id="KBT-Dn-CZf"/>
                 <outlet property="playerContainerView" destination="vGI-jM-gpR" id="KUB-fl-Nls"/>
                 <outlet property="recordButton" destination="Chn-eN-1Gd" id="Mp5-Bg-wJJ"/>
+                <outlet property="replayButton" destination="YAF-Hj-0F1" id="pXB-vj-1nT"/>
                 <outlet property="textLabelView" destination="rPX-Jd-zW7" id="bvC-Wj-MOd"/>
                 <outlet property="view" destination="iN0-l3-epB" id="PuO-jX-tLZ"/>
             </connections>
@@ -34,10 +35,10 @@
                     <rect key="frame" x="16" y="552.5" width="382" height="309.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwI-BU-Pqx">
-                            <rect key="frame" x="26" y="8" width="330" height="74"/>
+                            <rect key="frame" x="26" y="20" width="330" height="45"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNB-Ml-HdD">
-                                    <rect key="frame" x="0.0" y="7" width="60" height="60"/>
+                                    <rect key="frame" x="0.0" y="-7.5" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="qgr-pW-OgS"/>
                                         <constraint firstAttribute="width" constant="60" id="vXd-Vw-zQF"/>
@@ -48,7 +49,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ZR-Tx-rtd">
-                                    <rect key="frame" x="270" y="7" width="60" height="60"/>
+                                    <rect key="frame" x="270" y="-7.5" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="N7A-lp-1vb"/>
                                         <constraint firstAttribute="width" constant="60" id="gI1-GE-BZX"/>
@@ -59,7 +60,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lKO-fS-w3b">
-                                    <rect key="frame" x="140" y="17" width="50" height="40"/>
+                                    <rect key="frame" x="140" y="2.5" width="50" height="40"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="50" id="cTN-gi-TUd"/>
                                         <constraint firstAttribute="height" constant="40" id="zUH-eA-udN"/>
@@ -77,12 +78,18 @@
                                 <constraint firstItem="lKO-fS-w3b" firstAttribute="centerY" secondItem="QwI-BU-Pqx" secondAttribute="centerY" id="YQE-qD-txo"/>
                                 <constraint firstItem="5ZR-Tx-rtd" firstAttribute="centerY" secondItem="QwI-BU-Pqx" secondAttribute="centerY" id="a7b-20-M3h"/>
                                 <constraint firstItem="lKO-fS-w3b" firstAttribute="centerX" secondItem="QwI-BU-Pqx" secondAttribute="centerX" id="fnh-bk-la3"/>
-                                <constraint firstAttribute="height" constant="74" id="m8y-U0-Zkz"/>
+                                <constraint firstAttribute="height" constant="45" id="m8y-U0-Zkz"/>
                                 <constraint firstAttribute="trailing" secondItem="5ZR-Tx-rtd" secondAttribute="trailing" id="tSW-4k-vct"/>
                             </constraints>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="84%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVQ-aT-nfq">
+                            <rect key="frame" x="173.5" y="65" width="35" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rPX-Jd-zW7">
-                            <rect key="frame" x="16" y="90" width="350" height="148.5"/>
+                            <rect key="frame" x="16" y="94" width="350" height="144.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -97,12 +104,6 @@
                                         <action selector="recordButtonTouched" destination="-1" eventType="touchUpInside" id="V8K-aQ-wes"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="84%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVQ-aT-nfq">
-                                    <rect key="frame" x="30" y="17" width="35" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pG-UK-LE2">
                                     <rect key="frame" x="290" y="7.5" width="40" height="40"/>
                                     <state key="normal" image="Hint"/>
@@ -112,15 +113,22 @@
                                         <action selector="hintButtonTouchedUpOutside" destination="-1" eventType="touchUpOutside" id="bjc-B6-waW"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAF-Hj-0F1" userLabel="Replay Button">
+                                    <rect key="frame" x="20.5" y="7.5" width="40" height="40"/>
+                                    <state key="normal" image="Replay"/>
+                                    <connections>
+                                        <action selector="onReplayButtonTouched" destination="-1" eventType="touchUpInside" id="Klz-D3-Q8D"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="EVQ-aT-nfq" firstAttribute="centerY" secondItem="JA7-Qz-ZmE" secondAttribute="centerY" id="Ojg-mp-jRp"/>
                                 <constraint firstAttribute="height" constant="55" id="Q3U-JM-RAk"/>
-                                <constraint firstItem="EVQ-aT-nfq" firstAttribute="centerX" secondItem="JA7-Qz-ZmE" secondAttribute="centerX" multiplier="0.27" id="Rjf-wS-RBs"/>
+                                <constraint firstItem="YAF-Hj-0F1" firstAttribute="centerY" secondItem="JA7-Qz-ZmE" secondAttribute="centerY" id="SSO-oQ-ILv"/>
                                 <constraint firstItem="4pG-UK-LE2" firstAttribute="centerY" secondItem="JA7-Qz-ZmE" secondAttribute="centerY" id="ZNI-XH-Adu"/>
                                 <constraint firstItem="4pG-UK-LE2" firstAttribute="centerX" secondItem="JA7-Qz-ZmE" secondAttribute="centerX" multiplier="1.77" id="ipb-eo-2RJ"/>
                                 <constraint firstItem="Chn-eN-1Gd" firstAttribute="centerY" secondItem="JA7-Qz-ZmE" secondAttribute="centerY" id="mCV-iG-KAf"/>
+                                <constraint firstItem="YAF-Hj-0F1" firstAttribute="centerX" secondItem="JA7-Qz-ZmE" secondAttribute="centerX" multiplier="0.23" id="rhx-Cd-5of"/>
                                 <constraint firstItem="Chn-eN-1Gd" firstAttribute="centerX" secondItem="JA7-Qz-ZmE" secondAttribute="centerX" id="ydY-gx-DNz"/>
                             </constraints>
                         </view>
@@ -128,15 +136,17 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="rPX-Jd-zW7" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="3Dy-nB-Lau"/>
+                        <constraint firstItem="EVQ-aT-nfq" firstAttribute="top" secondItem="QwI-BU-Pqx" secondAttribute="bottom" id="6af-za-WY6"/>
                         <constraint firstItem="JA7-Qz-ZmE" firstAttribute="top" secondItem="rPX-Jd-zW7" secondAttribute="bottom" constant="8" id="DWF-qN-qxF"/>
                         <constraint firstAttribute="trailing" secondItem="JA7-Qz-ZmE" secondAttribute="trailing" constant="16" id="Iep-Dd-Zf5"/>
                         <constraint firstAttribute="bottom" secondItem="JA7-Qz-ZmE" secondAttribute="bottom" constant="8" id="LKu-Lt-7fR"/>
+                        <constraint firstItem="EVQ-aT-nfq" firstAttribute="centerX" secondItem="x32-Ok-0nE" secondAttribute="centerX" id="THK-Rm-jg4"/>
                         <constraint firstAttribute="trailing" secondItem="QwI-BU-Pqx" secondAttribute="trailing" constant="26" id="VWN-qT-pw1"/>
                         <constraint firstItem="QwI-BU-Pqx" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="26" id="bKn-zI-heS"/>
                         <constraint firstItem="JA7-Qz-ZmE" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="jw6-ZT-3M6"/>
                         <constraint firstAttribute="trailing" secondItem="rPX-Jd-zW7" secondAttribute="trailing" constant="16" id="oJN-kU-9vq"/>
-                        <constraint firstItem="rPX-Jd-zW7" firstAttribute="top" secondItem="QwI-BU-Pqx" secondAttribute="bottom" constant="8" id="orU-F5-Bfc"/>
-                        <constraint firstItem="QwI-BU-Pqx" firstAttribute="top" secondItem="x32-Ok-0nE" secondAttribute="top" constant="8" id="vj2-qT-AXz"/>
+                        <constraint firstItem="QwI-BU-Pqx" firstAttribute="top" secondItem="x32-Ok-0nE" secondAttribute="top" constant="20" id="vj2-qT-AXz"/>
+                        <constraint firstItem="rPX-Jd-zW7" firstAttribute="top" secondItem="EVQ-aT-nfq" secondAttribute="bottom" constant="8" id="zG9-sx-YXq"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -168,5 +178,6 @@
         <image name="Pause" width="17" height="20"/>
         <image name="PrevPeriod" width="40" height="40"/>
         <image name="Record" width="53" height="53"/>
+        <image name="Replay" width="40" height="40"/>
     </resources>
 </document>
