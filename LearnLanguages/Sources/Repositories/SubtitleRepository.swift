@@ -83,7 +83,7 @@ class SubtitleRepository {
     
     // MARK: Private functions
     
-    func getStartOfSubtitle(currentTime: Double, next: Bool) -> Double {
+    private func getStartOfSubtitle(currentTime: Double, next: Bool) -> Double {
         var time = currentTime
         var currentItem: SubtitleItem?
         repeat {
