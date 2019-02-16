@@ -138,9 +138,9 @@ class PlayerViewController: AVPlayerViewController {
         let avAsset = AVURLAsset(url: url!)
         let playerItem = AVPlayerItem(asset: avAsset)
         player = AVPlayer(playerItem: playerItem)
-        let observer = player?.observe(\.timeControlStatus, changeHandler: { [weak playingDelegate] _, _ in
+        let observer = player?.observe(\.timeControlStatus) { [weak playingDelegate] _, _ in
              playingDelegate?.onPlayingStateChanged(playerViewController: self)
-        })
+        }
         if let observer = observer {
             keyValueObservations.append(observer)
         }

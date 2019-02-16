@@ -32,10 +32,9 @@ extension UIViewController {
 
         let okAction = UIAlertAction(
             title: .OK,
-            style: .default,
-            handler: { _ in
+            style: .default) { _ in
                 completion?(true)
-        })
+        }
         controller.addAction(okAction)
 
         return controller

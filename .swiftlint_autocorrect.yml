@@ -11,6 +11,15 @@ whitelist_rules:
   - comma
   - vertical_whitespace
   - trailing_whitespace
+  - closure_end_indentation
+  - closure_spacing
+  - empty_parameters
+  - joined_default_parameter
+  - vertical_whitespace_between_cases
+ # - vertical_whitespace_closing_braces
+ # - vertical_whitespace_opening_braces
+  - operator_usage_whitespace
+  - unneeded_parentheses_in_closure_argument
   
 excluded:
   - Pods
@@ -20,3 +29,18 @@ excluded:
 
 vertical_whitespace:
   max_empty_lines: 2
+
+
+vertical_whitespace_opening_braces:
+    max_empty_lines_class: 1
+    max_empty_lines_struct: 1
+    max_empty_lines_protocol: 1
+    max_empty_lines_extension: 1
+    max_empty_lines_func: 0
+
+vertical_whitespace_closing_braces:
+    max_empty_lines_class: 1
+    max_empty_lines_struct: 1
+    max_empty_lines_protocol: 1
+    max_empty_lines_extension: 1
+    max_empty_lines_func: 0

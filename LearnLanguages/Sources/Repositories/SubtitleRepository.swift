@@ -41,16 +41,16 @@ class SubtitleRepository {
         guard time > 0 else {
             return nil
         }
-        let texts = subtitle.items.first(where: {
+        let texts = subtitle.items.first {
             time < $0.end && time > $0.start
-        })?.texts
+        }?.texts
         return getSubtitleByTexts(texts)
     }
 
     func isTimeCloseToEndOfSubtitle(_ time: Double) -> Bool {
-        let text = subtitle.items.first(where: {
+        let text = subtitle.items.first {
             abs(time - $0.end) < Constants.subtitleCloseThreshold && lastSubtitleCloseEndTime != $0.end
-        })
+        }
         if text != nil {
             lastSubtitleCloseEndTime = text?.end
             return true
@@ -70,9 +70,9 @@ class SubtitleRepository {
         guard let lastEnd = lastSubtitleCloseEndTime else {
             return nil
         }
-        let text = subtitle.items.first(where: {
+        let text = subtitle.items.first {
             lastEnd == $0.end
-        })
+        }
         return text?.start
     }
 
@@ -87,10 +87,10 @@ class SubtitleRepository {
         var time = currentTime
         var currentItem: SubtitleItem?
         repeat {
-            currentItem = subtitle.items.first(where: {
+            currentItem = subtitle.items.first {
                 (time <= $0.end && time > $0.start) ||
                 (time < $0.end && time >= $0.start)
-            })
+            }
             time -= Constants.subtitleCloseThreshold
         } while currentItem == nil && time > 0.0
 

@@ -108,11 +108,13 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     // MARK: Private functions
 
     private func openFilePicker() {
-        let types: [String] = [kUTTypeVideo as String, kUTTypeText as String,
-                               kUTTypeData as String, kUTTypeUTF8PlainText as String,
-                               kUTTypeText as String, kUTTypeUTF16PlainText as String,
-                               kUTTypeTXNTextAndMultimediaData as String,
-                               "public.text", "public.content", "public.data"]
+        let types: [String] = [
+            kUTTypeVideo as String, kUTTypeText as String,
+            kUTTypeData as String, kUTTypeUTF8PlainText as String,
+            kUTTypeText as String, kUTTypeUTF16PlainText as String,
+            kUTTypeTXNTextAndMultimediaData as String,
+            "public.text", "public.content", "public.data"
+        ]
         let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = .formSheet

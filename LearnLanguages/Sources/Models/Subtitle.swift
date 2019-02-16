@@ -82,9 +82,12 @@ struct Subtitle {
 
                 let plainText = htmlToText(encodedString: textResult! as String)
 
-                if plainText.lowercased().filter({ char -> Bool in
-                    return String(char).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil
-                }).lengthOfBytes(using: .utf8) > 2 {
+                if plainText
+                    .lowercased()
+                    .filter({ char -> Bool in
+                        String(char).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil
+                    })
+                    .lengthOfBytes(using: .utf8) > 2 {
                     textLines.append(plainText)
                 }
             }
@@ -96,7 +99,7 @@ struct Subtitle {
             let startTimeInterval: TimeInterval = timeIntervalFromString(startResult! as String)
             let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String)
 
-            if textLines.count > 0 {
+            if !textLines.isEmpty {
                 let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
                 allTitles.append(title)
             }
@@ -128,7 +131,7 @@ struct Subtitle {
         let millisecondsString = millisecondsResult! as String
         let milliseconds = Int(millisecondsString)
 
-        let timeInterval: Double = Double(hoursResult) * 3600 + Double(minutesResult) * 60 + Double(seconds!) + Double(Double(milliseconds!)/1000)
+        let timeInterval: Double = Double(hoursResult) * 3_600 + Double(minutesResult) * 60 + Double(seconds!) + Double(Double(milliseconds!) / 1_000)
 
         return timeInterval as TimeInterval
     }

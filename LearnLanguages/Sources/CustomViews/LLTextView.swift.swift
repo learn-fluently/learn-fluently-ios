@@ -69,7 +69,7 @@ class LLTextView: UITextView {
     // MARK: Event handeling
 
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if customMenuItems.first(where: {$0.action == action}) != nil {
+        if customMenuItems.first(where: { $0.action == action }) != nil {
             return true
         }
 

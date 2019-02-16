@@ -2,18 +2,39 @@ disabled_rules:
 
 opt_in_rules:
   - statement_position
-  - opening_brace
   - control_statement
-  - comma
   - private_action
   - private_outlet
   - prefixed_toplevel_constant
   - overridden_super_call
   - nesting
   - file_header
-  - mark
   - weak_delegate
   - trailing_semicolon
+  - collection_alignment
+  - empty_count
+  - empty_string
+  - fatal_error_message
+  - function_default_parameter_at_end
+  - implicit_return
+  - last_where
+  - legacy_random
+  - literal_expression_end_indentation
+  # - multiline_arguments_brackets
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - nimble_operator
+  - number_separator
+  - object_literal
+  - override_in_extension
+  - sorted_first_last
+  - toggle_bool
+  # - trailing_closure
+  - unused_import
+  - unused_optional_binding
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
 
 excluded:
   - Pods

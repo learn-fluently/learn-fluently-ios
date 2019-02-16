@@ -37,7 +37,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Properties 
 
-    private let speechRecognizer = SpeechRecognizer(locale: Locale(identifier: "en-UK"))!
+    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: "en-UK"))!
     private var playerController: PlayerViewController!
     private var subtitleRepository: SubtitleRepository!
     private var fileRepository: FileRepository!
@@ -63,7 +63,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        fileRepository =  FileRepository()
+        fileRepository = FileRepository()
 
         speechRecognizer.delegate = self
         try? speechRecognizer.configureAudioSession()
@@ -77,7 +77,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        speechRecognizer.requestAuthorization { [weak self] (isAuthorized, errorDescription) in
+        speechRecognizer.requestAuthorization { [weak self] isAuthorized, errorDescription in
             self?.recordButton.isEnabled = isAuthorized
             if let error = errorDescription {
                 self?.showAlert(error)
@@ -188,7 +188,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         }
         let style = Style.beCorrectPercentage(color: color)
         let beingCorrectPercentage = Int(beingCorrectRate * 100)
-        correctPercentageLabel.attributedText =  (String(format: "%d", beingCorrectPercentage) + "%").set(style: style)
+        correctPercentageLabel.attributedText = (String(format: "%d", beingCorrectPercentage) + "%").set(style: style)
 
         // auto play
         if beingCorrectPercentage >= Constants.autoGoToTheNextWithPercentage {
@@ -202,7 +202,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     private func normalizeTextForComparesion(_ text: String) -> String {
         let filteredCharacters = text.lowercased().filter {
-            return String($0).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil ||
+            String($0).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil ||
                 String($0).rangeOfCharacter(from: NSCharacterSet.decimalDigits) != nil
         }
         return String(filteredCharacters)
@@ -220,7 +220,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
             .subscribe(onNext: { [weak self] currentValue in
                 self?.adjustCurrentSubtitle(currentValue: currentValue)
                 self?.pausePlayerAndStartRecordingIfNeeded(currentValue: currentValue)
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func adjustCurrentSubtitle(currentValue: Double) {

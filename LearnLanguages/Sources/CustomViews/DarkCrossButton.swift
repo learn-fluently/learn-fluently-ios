@@ -25,7 +25,7 @@ class DarkCrossButton: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = frame.height/3.75
+        layer.cornerRadius = frame.height / 3.75
     }
 
     // MARK: Private functions

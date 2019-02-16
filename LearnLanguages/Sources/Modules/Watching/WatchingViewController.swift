@@ -105,9 +105,11 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         case .began:
             playerController.pause()
             paningStartPoint = location
+
         case .cancelled, .failed, .ended:
             paningStartPoint = nil
             adjustAndShowMenuForSelectedTextIfNeeded()
+
         case .possible, .changed:
             if let paningStartPoint = paningStartPoint,
                 let range = getTextRangeByPointsOnTextView(startPoint: paningStartPoint, endPoint: location) {
@@ -120,9 +122,11 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     // MARK: Private functions
 
     private func subscribeToPlayerTime() {
-        playerController.playerTimeObservable.subscribe(onNext: { [weak self] currentValue in
-            self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
-        }).disposed(by: disposeBag)
+        playerController.playerTimeObservable
+            .subscribe(onNext: { [weak self] currentValue in
+                self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func getSelectedText() -> String {

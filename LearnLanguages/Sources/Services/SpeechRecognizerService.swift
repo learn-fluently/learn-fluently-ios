@@ -1,5 +1,5 @@
 //
-//  SpeechRecognizer.swift
+//  SpeechRecognizerService.swift
 //  LearnLanguages
 //
 //  Created by Amir Khorsandi on 2/16/19.
@@ -9,12 +9,12 @@
 import AVFoundation
 import Speech
 
-class SpeechRecognizer: SFSpeechRecognizer {
+class SpeechRecognizerService: SFSpeechRecognizer {
 
     // MARK: Constants
 
     private struct Constants {
-        static let bufferSize: UInt32 = 1024
+        static let bufferSize: UInt32 = 1_024
         static let stopRecordingAfterInactivityForSeconds: Double = 2.5
     }
 
@@ -125,15 +125,17 @@ class SpeechRecognizer: SFSpeechRecognizer {
                     timer.invalidate()
                 }
                 if self.autoStopAtEndOfDetection {
-                    self.audioDetectionTimer = Timer.scheduledTimer(withTimeInterval: Constants.stopRecordingAfterInactivityForSeconds, repeats: false, block: { (timer) in
-                        if !isFinal && self.lastBestTranscription != nil {
-                            if self.isRecording {
-                                self.stopRecognitionTask(cancel: false)
-                                onAutoStoped?()
+                    self.audioDetectionTimer = Timer.scheduledTimer(
+                        withTimeInterval: Constants.stopRecordingAfterInactivityForSeconds,
+                        repeats: false) { timer in
+                            if !isFinal && self.lastBestTranscription != nil {
+                                if self.isRecording {
+                                    self.stopRecognitionTask(cancel: false)
+                                    onAutoStoped?()
+                                }
                             }
-                        }
-                        timer.invalidate()
-                    })
+                            timer.invalidate()
+                    }
                 }
             }
         }
