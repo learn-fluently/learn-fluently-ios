@@ -1,0 +1,22 @@
+whitelist_rules:
+  - let_var_whitespace 
+  - return_arrow_whitespace
+  - opening_brace
+  - colon
+  - mark
+  - trailing_newline
+  - statement_position
+  - trailing_semicolon
+  - control_statement
+  - comma
+  - vertical_whitespace
+  - trailing_whitespace
+  
+excluded:
+  - Pods
+
+
+# adjusting rules
+
+vertical_whitespace:
+  max_empty_lines: 2

@@ -10,12 +10,12 @@ import Foundation
 
 
 struct SubtitleItem {
-    
+
     // MARK: Properties
-    
+
     var texts: [String]
     var start: TimeInterval
     var end: TimeInterval
     var index: Int
-    
+
 }

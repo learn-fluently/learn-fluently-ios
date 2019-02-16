@@ -9,111 +9,110 @@
 import Foundation
 
 struct Subtitle {
-    
+
     // MARK: Constants
-    
+
     enum ParseError: Error {
         case failed
         case invalidFormat
     }
-    
-    
+
+
     // MARK: Properties
-    
+
     private(set) var items: [SubtitleItem] = []
-    
-    
-    // MARK: Lifecycle
-    
+
+
+    // MARK: Life cycle
+
     public init(fileUrl: URL) {
-        
+
         do {
             let fileContent = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
             do {
                 items = try self.parseSRTSub(fileContent)
-            }
-            catch {
+            } catch {
                 debugPrint(error)
             }
-        }
-        catch {
+        } catch {
             debugPrint(error)
         }
     }
-    
-    
+
+
     // MARK: Private functions
-    
+
     private func parseSRTSub(_ rawSub: String) throws -> [SubtitleItem] {
         var allTitles = [SubtitleItem]()
         var components = rawSub.components(separatedBy: "\r\n\r\n")
-        
+
         // Fall back to \n\n separation
         if components.count == 1 {
             components = rawSub.components(separatedBy: "\n\n")
         }
-        
+
         for component in components {
             if component.isEmpty {
                 continue
             }
-            
+
             let scanner = Scanner(string: component)
-            
+
             var indexResult: Int = -99
             var startResult: NSString?
             var endResult: NSString?
             var textResult: NSString?
-            
+
             let indexScanSuccess = scanner.scanInt(&indexResult)
             let startTimeScanResult = scanner.scanUpToCharacters(from: CharacterSet.whitespaces, into: &startResult)
             let dividerScanSuccess = scanner.scanUpTo("> ", into: nil)
             scanner.scanLocation += 2
             let endTimeScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &endResult)
             scanner.scanLocation += 1
-            
+
             var textLines = [String]()
-            
+
             // Iterate over text lines
             while scanner.isAtEnd == false {
                 let textLineScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &textResult)
-                
+
                 guard textLineScanResult else {
                     throw ParseError.invalidFormat
                 }
-                
+
                 let plainText = htmlToText(encodedString: textResult! as String)
-                if plainText.lowercased().filter({ c -> Bool in
-                    return String(c).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil
+
+                if plainText.lowercased().filter({ char -> Bool in
+                    return String(char).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil
                 }).lengthOfBytes(using: .utf8) > 2 {
                     textLines.append(plainText)
                 }
             }
-            
+
             guard indexScanSuccess && startTimeScanResult && dividerScanSuccess && endTimeScanResult else {
                 throw ParseError.invalidFormat
             }
-            
+
             let startTimeInterval: TimeInterval = timeIntervalFromString(startResult! as String)
             let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String)
-            
+
             if textLines.count > 0 {
                 let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
                 allTitles.append(title)
             }
         }
-        
+
         return allTitles
     }
-    
+
     private func timeIntervalFromString(_ timeString: String) -> TimeInterval {
         let scanner = Scanner(string: timeString)
-        
+
         var hoursResult: Int = 0
         var minutesResult: Int = 0
         var secondsResult: NSString?
         var millisecondsResult: NSString?
-        
+
         // Extract time components from string
         scanner.scanInt(&hoursResult)
         scanner.scanLocation += 1
@@ -122,47 +121,47 @@ struct Subtitle {
         scanner.scanUpTo(",", into: &secondsResult)
         scanner.scanLocation += 1
         scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &millisecondsResult)
-        
+
         let secondsString = secondsResult! as String
         let seconds = Int(secondsString)
-        
+
         let millisecondsString = millisecondsResult! as String
         let milliseconds = Int(millisecondsString)
-        
+
         let timeInterval: Double = Double(hoursResult) * 3600 + Double(minutesResult) * 60 + Double(seconds!) + Double(Double(milliseconds!)/1000)
-        
+
         return timeInterval as TimeInterval
     }
-    
-    
-    
-    private func htmlToText(encodedString:String) -> String {
+
+
+    private func htmlToText(encodedString: String) -> String {
         return (encodedString as NSString).byConvertingHTMLToPlainText()
     }
-    
+
 }
 
 
-public extension NSString {
-    
-    public func byConvertingHTMLToPlainText() -> String {
-        
+private extension NSString {
+
+    func byConvertingHTMLToPlainText() -> String {
+
         let stopCharacters = CharacterSet(charactersIn: "< \t\n\r\(0x0085)\(0x000C)\(0x2028)\(0x2029)")
         let newLineAndWhitespaceCharacters = CharacterSet(charactersIn: " \t\n\r\(0x0085)\(0x000C)\(0x2028)\(0x2029)")
         let tagNameCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        
+        let tagNamesNotWhiteSpace = ["a", "b", "i", "q", "span", "em", "strong", "cite", "abbr", "acronym", "label"]
+
         let result = NSMutableString(capacity: length)
         let scanner = Scanner(string: self as String)
         scanner.charactersToBeSkipped = nil
         scanner.caseSensitive = true
-        var str: NSString? = nil
-        var tagName: NSString? = nil
+        var str: NSString?
+        var tagName: NSString?
         var dontReplaceTagWithSpace = false
-        
+
         repeat {
             // Scan up to the start of a tag or whitespace
-            if scanner.scanUpToCharacters(from: stopCharacters, into: &str), let s = str {
-                result.append(s as String)
+            if scanner.scanUpToCharacters(from: stopCharacters, into: &str), let string = str {
+                result.append(string as String)
                 str = nil
             }
             // Check if we've stopped at a tag/comment or whitespace
@@ -183,20 +182,10 @@ public extension NSString {
                         // Closing tag - replace with space unless it's inline
                         tagName = nil
                         dontReplaceTagWithSpace = false
-                        if scanner.scanCharacters(from: tagNameCharacters, into: &tagName), let t = tagName {
-                            tagName = t.lowercased as NSString
-                            dontReplaceTagWithSpace =
-                                tagName == "a" ||
-                                tagName == "b" ||
-                                tagName == "i" ||
-                                tagName == "q" ||
-                                tagName == "span" ||
-                                tagName == "em" ||
-                                tagName == "strong" ||
-                                tagName == "cite" ||
-                                tagName == "abbr" ||
-                                tagName == "acronym" ||
-                                tagName == "label"
+                        if scanner.scanCharacters(from: tagNameCharacters, into: &tagName),
+                            let strongTagName = tagName?.lowercased {
+                            tagName = strongTagName as NSString
+                            dontReplaceTagWithSpace = tagNamesNotWhiteSpace.contains(strongTagName)
                         }
                         // Replace tag with string unless it was an inline
                         if !dontReplaceTagWithSpace && result.length > 0 && !scanner.isAtEnd {
@@ -216,14 +205,14 @@ public extension NSString {
                 }
             }
         } while !scanner.isAtEnd
-        
+
         // Cleanup
-        
+
         // Decode HTML entities and return (this isn't included in this gist, but is often important)
         // let retString = (result as String).stringByDecodingHTMLEntities
-        
+
         // Return
-        return result as String // retString;
+        return result as String
     }
-    
+
 }

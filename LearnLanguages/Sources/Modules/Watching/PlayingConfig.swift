@@ -7,8 +7,8 @@
 //
 
 struct PlayingConfig {
-    
+
     // MARK: Properties
-    
+
     let keepSubtitleAllways: Bool = true
 }

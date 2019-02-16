@@ -9,34 +9,34 @@
 import Foundation
 
 class SubtitleRepository {
-    
+
     // MARK: Constants
-    
+
     private struct Constants {
-        
+
         static let subtitleCloseThreshold: Double = 0.01
     }
-    
-    
+
+
     // MARK: Properties
-    
+
     private var url: URL
-    
+
     private var subtitle: Subtitle
-    
-    private var lastSubtitleCloseEndTime: Double? = nil
-    
-    
-    // MARK: Lifecycle
-    
+
+    private var lastSubtitleCloseEndTime: Double?
+
+
+    // MARK: Life cycle
+
     init(url: URL) {
         self.url = url
         self.subtitle = Subtitle(fileUrl: url)
     }
-    
-    
+
+
     // MARK: Public functions
-    
+
     func getSubtitleForTime(_ time: Double) -> String? {
         guard time > 0 else {
             return nil
@@ -46,7 +46,7 @@ class SubtitleRepository {
         })?.texts
         return getSubtitleByTexts(texts)
     }
-    
+
     func isTimeCloseToEndOfSubtitle(_ time: Double) -> Bool {
         let text = subtitle.items.first(where: {
             abs(time - $0.end) < Constants.subtitleCloseThreshold && lastSubtitleCloseEndTime != $0.end
@@ -57,15 +57,15 @@ class SubtitleRepository {
         }
         return false
     }
-    
+
     func getStartOfNextSubtitle(currentTime: Double) -> Double {
         return getStartOfSubtitle(currentTime: currentTime, next: true)
     }
-    
+
     func getStartOfPrevSubtitle(currentTime: Double) -> Double {
         return getStartOfSubtitle(currentTime: currentTime, next: false)
     }
-    
+
     func getStartOfCurrentSubtitle() -> Double? {
         guard let lastEnd = lastSubtitleCloseEndTime else {
             return nil
@@ -75,14 +75,14 @@ class SubtitleRepository {
         })
         return text?.start
     }
-    
+
     func cleanLastStop() {
         lastSubtitleCloseEndTime = nil
     }
-    
-    
+
+
     // MARK: Private functions
-    
+
     private func getStartOfSubtitle(currentTime: Double, next: Bool) -> Double {
         var time = currentTime
         var currentItem: SubtitleItem?
@@ -93,30 +93,30 @@ class SubtitleRepository {
             })
             time -= Constants.subtitleCloseThreshold
         } while currentItem == nil && time > 0.0
-        
+
         if currentItem == nil {
             return currentTime
         }
-        
+
         guard let itemIndex = subtitle.items.firstIndex(where: { $0.index == currentItem?.index }) else {
             return currentTime
         }
-        
+
         if next, itemIndex + 1 < subtitle.items.count {
             return subtitle.items[itemIndex + 1].start
         }
-        
+
         if !next, itemIndex > 0, subtitle.items.count > 1 {
             return subtitle.items[itemIndex - 1].start
-        } else if !next{
+        } else if !next {
             return 0
         }
-        
+
         return currentTime
     }
-    
+
     private func getSubtitleByTexts(_ texts: [String]?) -> String? {
         return texts?.joined(separator: "\n")
     }
-    
+
 }

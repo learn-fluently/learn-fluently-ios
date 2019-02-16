@@ -10,42 +10,42 @@ import UIKit
 import SnapKit
 
 class DarkCrossButton: UIButton {
-    
+
     // MARK: Life Cyle
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height/3.75
     }
-    
+
     // MARK: Private functions
-    
+
     private func commonInit() {
         layer.masksToBounds = true
         backgroundColor = .clear
         setImage(#imageLiteral(resourceName: "CrossIcon"), for: .normal)
-        
+
         //add blur view
         let containerEffect = UIBlurEffect(style: .dark)
         let containerView = UIVisualEffectView(effect: containerEffect)
         containerView.isUserInteractionEnabled = false
-        
+
         let vibrancy = UIVibrancyEffect(blurEffect: containerEffect)
         let vibrancyView = UIVisualEffectView(effect: vibrancy)
         containerView.contentView.addSubview(vibrancyView)
-        
+
         insertSubview(containerView, belowSubview: imageView!)
-        
+
         containerView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalToSuperview()
@@ -55,5 +55,5 @@ class DarkCrossButton: UIButton {
             $0.size.equalToSuperview()
         }
     }
-    
+
 }

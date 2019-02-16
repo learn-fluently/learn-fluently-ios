@@ -21,6 +21,8 @@
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
 		AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitle.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
+		ABAF5C03221836F50079C5C7 /* String+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C02221836F50079C5C7 /* String+Localized.swift */; };
+		ABAF5C082218555E0079C5C7 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizer.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */; };
@@ -38,6 +40,18 @@
 		ABFE60252210D751001267C8 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60242210D751001267C8 /* FileRepository.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		ABAF5C0422183AA00079C5C7 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
@@ -57,6 +71,8 @@
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB522AE821D311D4002421B8 /* Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
+		ABAF5C02221836F50079C5C7 /* String+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localized.swift"; sourceTree = "<group>"; };
+		ABAF5C072218555E0079C5C7 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertView.swift"; sourceTree = "<group>"; };
@@ -142,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
+				ABAF5C062218554B0079C5C7 /* Services */,
 				ABFE60112210AE1A001267C8 /* Modules */,
 				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
 				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
@@ -163,6 +180,14 @@
 			path = BaseViewControllers;
 			sourceTree = "<group>";
 		};
+		ABAF5C062218554B0079C5C7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				ABAF5C072218555E0079C5C7 /* SpeechRecognizer.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		ABD73BAA21FBA2B8004B2FB9 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +205,7 @@
 				ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */,
 				ABFE6003220F033F001267C8 /* UIViewController+AlertView.swift */,
 				ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */,
+				ABAF5C02221836F50079C5C7 /* String+Localized.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -272,8 +298,10 @@
 				AB522AA921CF2951002421B8 /* Frameworks */,
 				AB522AAA21CF2951002421B8 /* Resources */,
 				B9D168E7AFA4BADFAE6C6A82 /* [CP] Embed Pods Frameworks */,
+				ABAF5C0522184B430079C5C7 /* SwiftLint */,
 			);
 			buildRules = (
+				ABAF5C0422183AA00079C5C7 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -355,6 +383,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		ABAF5C0522184B430079C5C7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}\"/SwiftLint/swiftlint autocorrect --config \"${SRCROOT}/.swiftlint_autocorrect.yml\";\n\"${PODS_ROOT}\"/SwiftLint/swiftlint --config \"${SRCROOT}/.swiftlint.yml\";\n";
+		};
 		B9D168E7AFA4BADFAE6C6A82 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,10 +450,12 @@
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
+				ABAF5C082218555E0079C5C7 /* SpeechRecognizer.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */,
 				ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */,
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
+				ABAF5C03221836F50079C5C7 /* String+Localized.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

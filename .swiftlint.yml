@@ -1,0 +1,45 @@
+disabled_rules:
+
+opt_in_rules:
+  - statement_position
+  - opening_brace
+  - control_statement
+  - comma
+  - private_action
+  - private_outlet
+  - prefixed_toplevel_constant
+  - overridden_super_call
+  - nesting
+  - file_header
+  - mark
+  - weak_delegate
+  - trailing_semicolon
+
+excluded:
+  - Pods
+
+# custom rules
+
+# adjusting rules
+
+vertical_whitespace:
+  max_empty_lines: 2
+
+line_length: 
+  ignores_comments: true
+  warning: 190
+  error: 200
+
+file_header:
+  required_pattern: |
+                    \/\/
+                    \/\/  .*?\.swift
+                    \/\/  (LearnLanguages.*?|Unit Tests)
+                    \/\/
+                    \/\/  (Created by .*? on .*?)
+                    \/\/  Copyright © \d{4} Amir Khorsandi\. All rights reserved\.
+                    \/\/
+                   
+type_name:
+  excluded: id # excluded via string
+reporter: "xcode"

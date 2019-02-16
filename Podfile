@@ -6,4 +6,5 @@ target 'LearnLanguages' do
   pod 'SwiftRichString'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'SwiftLint'
 end
