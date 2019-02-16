@@ -182,9 +182,9 @@ class PlayerViewController: AVPlayerViewController {
     }
     
     private func addPlayerTimeListener( ){
-        let interval = CMTimeMakeWithSeconds(0.1, preferredTimescale: Int32(NSEC_PER_SEC))
-        player?.addPeriodicTimeObserver(forInterval: interval, queue: nil) { [weak self] time in
-            let currentValue = Double(time.value) / Double(time.timescale)
+        let interval = CMTimeMake(value: 1, timescale: 100)
+        player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            let currentValue = Double(time.value) / Double(time.timescale) 
             self?.playerTimeBehaviorRelay.accept(currentValue)
         }
     }

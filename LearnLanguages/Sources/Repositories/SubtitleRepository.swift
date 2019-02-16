@@ -14,7 +14,7 @@ class SubtitleRepository {
     
     private struct Constants {
         
-        static let subtitleCloseThreshold: Double = 0.1
+        static let subtitleCloseThreshold: Double = 0.01
     }
     
     
@@ -88,10 +88,15 @@ class SubtitleRepository {
         var currentItem: SubtitleItem?
         repeat {
             currentItem = subtitle.items.first(where: {
-                currentTime < $0.end && currentTime > $0.start
+                (time <= $0.end && time > $0.start) ||
+                (time < $0.end && time >= $0.start)
             })
             time -= Constants.subtitleCloseThreshold
         } while currentItem == nil && time > 0.0
+        
+        if currentItem == nil {
+            return currentTime
+        }
         
         guard let itemIndex = subtitle.items.firstIndex(where: { $0.index == currentItem?.index }) else {
             return currentTime

@@ -73,6 +73,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         super.viewDidLoad()
         fileRepository =  FileRepository()
         
+        try! configureAudioSession()
         configureRecordButton()
         addPlayerViewControllerAndPlay()
         configureSubtitleRepository()
@@ -237,7 +238,9 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
     
     private func subscribeToPlayerTime() {
-        playerController.playerTimeObservable.subscribe(onNext: { [weak self] currentValue in
+        playerController.playerTimeObservable
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] currentValue in
             self?.adjustCurrentSubtitle(currentValue: currentValue)
             self?.pausePlayerAndStartRecordingIfNeeded(currentValue: currentValue)
         }).disposed(by: disposeBag)
@@ -281,8 +284,9 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
     
     private func stopRecording(keepResult: Bool = true) {
-        audioEngine.stop()
+       
         recognitionRequest?.endAudio()
+        stopRecognitionTask(cancel: !keepResult)
         recordButton.isEnabled = false
         playerController.showsPlaybackControls = true
         if !keepResult {
@@ -319,19 +323,27 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         textLabelView.attributedText = (text ?? "").set(style: Style.subtitleTextStyle)
     }
     
-    private func startRecording() throws {
-        
-        // Cancel the previous task if it's running.
-        if let recognitionTask = recognitionTask {
-            recognitionTask.cancel()
-            self.recognitionTask = nil
-        }
+    private func configureAudioSession() throws {
         
         // Configure the audio session for the app.
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
         try audioSession.setActive(true)
+    }
+    
+    private func startRecording() throws {
+        
         let inputNode = audioEngine.inputNode
+        
+        // Cancel the previous task if it's running.
+        if let recognitionTask = recognitionTask {
+            audioEngine.stop()
+            inputNode.removeTap(onBus: 0)
+            recognitionTask.cancel()
+            recognitionRequest = nil
+            self.recognitionTask = nil
+        }
+        
         
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -340,6 +352,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         
         // Create a recognition task for the speech recognition session.
         // Keep a reference to the task so that it can be canceled.
+        
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
             guard let s = self else {
                 return
@@ -355,16 +368,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
             }
             
             if error != nil || isFinal {
-                // Stop recognizing speech if there is a problem.
-                s.audioEngine.stop()
-                inputNode.removeTap(onBus: 0)
-                
-                s.recognitionRequest = nil
-                s.recognitionTask = nil
-                
-                s.recordButton.isEnabled = true
-                s.recordButton.setImage(#imageLiteral(resourceName: "Record"), for: [])
-                s.adjustResultViewIfNeeded()
+                s.stopRecognitionTask()
             } else {
                 if let timer = s.audioDetectionTimer, timer.isValid {
                     timer.invalidate()
@@ -390,6 +394,24 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         // Let the user know to start talking.
         updateTextLabelView(Constants.speakingHint)
         lastBestTranscription = nil
+        adjustResultViewIfNeeded()
+    }
+    
+    private func stopRecognitionTask(cancel: Bool = false) {
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        
+        recognitionRequest = nil
+        if !cancel, recognitionTask?.isFinishing != true {
+            recognitionTask?.finish()
+            recognitionTask = nil
+        } else if cancel {
+            recognitionTask?.cancel()
+            recognitionTask = nil
+        }
+        
+        recordButton.isEnabled = true
+        recordButton.setImage(#imageLiteral(resourceName: "Record"), for: [])
         adjustResultViewIfNeeded()
     }
     

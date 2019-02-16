@@ -82,7 +82,12 @@ struct Subtitle {
                     throw ParseError.invalidFormat
                 }
                 
-                textLines.append(htmlToText(encodedString: textResult! as String))
+                let plainText = htmlToText(encodedString: textResult! as String)
+                if plainText.lowercased().filter({ c -> Bool in
+                    return String(c).rangeOfCharacter(from: NSCharacterSet.lowercaseLetters) != nil
+                }).lengthOfBytes(using: .utf8) > 2 {
+                    textLines.append(plainText)
+                }
             }
             
             guard indexScanSuccess && startTimeScanResult && dividerScanSuccess && endTimeScanResult else {
@@ -92,8 +97,10 @@ struct Subtitle {
             let startTimeInterval: TimeInterval = timeIntervalFromString(startResult! as String)
             let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String)
             
-            let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
-            allTitles.append(title)
+            if textLines.count > 0 {
+                let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)
+                allTitles.append(title)
+            }
         }
         
         return allTitles
