@@ -4,6 +4,7 @@ import Foundation
 
 extension String {
 
+    //start-of-generated-keys//
     static let CANCEL = "CANCEL".localize()
     static let CHOOSE_SOURCE_TITLE = "CHOOSE_SOURCE_TITLE".localize()
     static let ERROR = "ERROR".localize()
@@ -16,7 +17,7 @@ extension String {
     static let SOURCE_OPTION_DIRECT_LINK = "SOURCE_OPTION_DIRECT_LINK".localize()
     static let SOURCE_OPTION_DOCUMENT = "SOURCE_OPTION_DOCUMENT".localize()
     static let SOURCE_OPTION_YOUTUBE = "SOURCE_OPTION_YOUTUBE".localize()
-
+    //end-of-generated-keys//
 }
 
 extension String {

@@ -24,6 +24,7 @@
 		ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */; };
 		ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
 		ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */; };
+		ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABAF5C0F22189BE40079C5C7 /* Localizable.strings */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */; };
@@ -41,20 +42,6 @@
 		ABFE60252210D751001267C8 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60242210D751001267C8 /* FileRepository.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		ABAF5C0422183AA00079C5C7 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "Localizable.*";
-			fileType = text.plist.strings;
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/${INPUT_FILE_BASE}.swift",
-			);
-			script = "\"${SRCROOT}/LocalizableTools\" \"${INPUT_FILE_PATH}\" \"${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.swift\"\n";
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnLanguages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.debug.xcconfig"; sourceTree = "<group>"; };
@@ -309,7 +296,6 @@
 				B9D168E7AFA4BADFAE6C6A82 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
-				ABAF5C0422183AA00079C5C7 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -361,6 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */,
 				ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */,
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
 				ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */,
