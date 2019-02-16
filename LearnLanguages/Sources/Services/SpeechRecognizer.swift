@@ -111,8 +111,10 @@ class SpeechRecognizer: SFSpeechRecognizer {
             var isFinal = false
 
             if let result = result {
-                self.lastBestTranscription = result.bestTranscription.formattedString
-                onTranscriptionChanged?(self.lastBestTranscription)
+                if self.isRecording {
+                    self.lastBestTranscription = result.bestTranscription.formattedString
+                    onTranscriptionChanged?(self.lastBestTranscription)
+                }
                 isFinal = result.isFinal
             }
 
@@ -161,6 +163,7 @@ class SpeechRecognizer: SFSpeechRecognizer {
             timer.invalidate()
         }
 
+        recognitionRequest?.endAudio()
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
 

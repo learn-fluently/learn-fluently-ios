@@ -94,7 +94,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     // MARK: - Event handlers
 
     @IBAction private func playPauseButtonTouched() {
-        stopRecordingIfNeeded(keepResult: false)
+        stopRecordingIfNeeded(shouldKeepResult: false)
         playerController.togglePlaying()
     }
 
@@ -155,7 +155,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
                 return
         }
         autoStartRecordingForNext = false
-        stopRecordingIfNeeded(keepResult: false)
+        stopRecordingIfNeeded(shouldKeepResult: false)
         subtitleRepository.cleanLastStop()
         playerController.seek(to: time)
         playerController.play()
@@ -210,7 +210,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     private func seek(to time: Double) {
         playerController.seek(to: time)
-        stopRecordingIfNeeded(keepResult: false)
+        stopRecordingIfNeeded(shouldKeepResult: false)
         playerController.play()
     }
 
@@ -284,14 +284,14 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         }
     }
 
-    private func stopRecordingIfNeeded(keepResult: Bool = true) {
+    private func stopRecordingIfNeeded(shouldKeepResult: Bool = true) {
         if speechRecognizer.isRecording {
-            stopRecording(keepResult: keepResult)
+            stopRecording(shouldKeepResult: shouldKeepResult)
         }
     }
 
-    private func stopRecording(keepResult: Bool = true) {
-        speechRecognizer.stopRecognitionTaskIfNeeded(cancel: !keepResult)
+    private func stopRecording(shouldKeepResult: Bool = true) {
+        speechRecognizer.stopRecognitionTaskIfNeeded(cancel: !shouldKeepResult)
         if speechRecognizer.lastBestTranscription == nil {
             updateTextLabelView(nil)
         }
