@@ -35,8 +35,9 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
 
 
-    // MARK: Properties 
+    // MARK: Properties
 
+    // TODO: set language
     private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: "en-UK"))!
     private var playerController: PlayerViewController!
     private var subtitleRepository: SubtitleRepository!

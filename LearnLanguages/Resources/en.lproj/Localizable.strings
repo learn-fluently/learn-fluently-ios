@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  LearnLanguages
+
+  Created by Amir Khorsandi on 2/16/19.
+  Copyright © 2019 Amir Khorsandi. All rights reserved.
+*/
+
+"OK" = "OK";
+"CANCEL" = "Cancel";
+"ERROR" = "Error";
+
+"MENU_ITEM_TRANSLATE" = "Translate";
+"MENU_ITEM_GOOGLE_IMAGES" = "Images";
+"MENU_ITEM_GOOGLE_SEARCH" = "Google";
+"MENU_ITEM_SPEECH" = "Speech";
+
+"SOURCE_OPTION_YOUTUBE" = "Youtube";
+"SOURCE_OPTION_DIRECT_LINK" = "Direct link";
+"SOURCE_OPTION_BROWSER" = "Browser";
+"SOURCE_OPTION_DOCUMENT" = "Document picker";
+
+"CHOOSE_SOURCE_TITLE" = "Choose one option";

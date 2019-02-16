@@ -16,13 +16,29 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     // MARK: Constants
 
     enum SourceType {
+
+        // MARK: Cases
+
         case watching
         case speaking
     }
 
-    enum FilePikcerMode {
+    enum SourcePikcerMode {
+
+        // MARK: Cases
+
         case video
         case subtitle
+    }
+
+    enum SourcePickerOption: Int {
+
+        // MARK: Cases
+
+        case youtube
+        case browser
+        case directLink
+        case documentPicker
     }
 
 
@@ -35,7 +51,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     private let sourceType: SourceType
     private let pageTitle: String
     private let pageSubtitle: String
-    private var filePickerMode: FilePikcerMode?
+    private var currentPickerMode: SourcePikcerMode?
 
 
     // MARK: Outlets
@@ -79,14 +95,13 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     }
 
     @IBAction private func chooseVideoSourceButtonTouched() {
-        filePickerMode = .video
-        openFilePicker()
+        openSourcePicker(mode: .video)
     }
 
     @IBAction private func chooseSubtitleSourceButtonTouched() {
-        filePickerMode = .subtitle
-        openFilePicker()
+        openSourcePicker(mode: .subtitle)
     }
+
 
     // MARK: UIDocumentPickerDelegate
 
@@ -95,7 +110,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
             return
         }
         let fileRepo = FileRepository()
-        let toUrl = filePickerMode == .video ? fileRepo.getURLForVideoFile() : fileRepo.getURLForSubtitleFile()
+        let toUrl = currentPickerMode == .video ? fileRepo.getURLForVideoFile() : fileRepo.getURLForSubtitleFile()
         try? FileManager.default.removeItem(at: toUrl)
         do {
             try FileManager.default.copyItem(at: url, to: toUrl)
@@ -106,6 +121,29 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
 
 
     // MARK: Private functions
+
+    private func openSourcePicker(mode: SourcePikcerMode) {
+        currentPickerMode = mode
+
+        let actions: [ActionData<SourcePickerOption>] = [
+            ActionData(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
+            ActionData(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
+            ActionData(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
+            ActionData(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
+        ]
+
+        presentActionSheet(title: "", message: .CHOOSE_SOURCE_TITLE, actions: actions) { [weak self] selected in
+
+            switch selected?.identifier {
+            case .documentPicker?:
+                self?.openFilePicker()
+
+            case .browser?:
+                self?.openFilePicker()
+            default: break
+            }
+        }
+    }
 
     private func openFilePicker() {
         let types: [String] = [
