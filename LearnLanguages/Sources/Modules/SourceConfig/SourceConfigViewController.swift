@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import SwiftRichString
 import MobileCoreServices
+import RxSwift
+import RxCocoa
 
 class SourceConfigViewController: BaseViewController, NibBasedViewController, UIDocumentPickerDelegate {
 
@@ -52,7 +54,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     private let pageTitle: String
     private let pageSubtitle: String
     private var currentPickerMode: SourcePikcerMode?
-
+    private let fileRepository = FileRepository()
+    private let fileDownloaderService = FileDownloaderService()
+    private let disposeBag = DisposeBag()
 
     // MARK: Outlets
 
@@ -109,14 +113,8 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
         guard let url = urls.first else {
             return
         }
-        let fileRepo = FileRepository()
-        let toUrl = currentPickerMode == .video ? fileRepo.getURLForVideoFile() : fileRepo.getURLForSubtitleFile()
-        try? FileManager.default.removeItem(at: toUrl)
-        do {
-            try FileManager.default.copyItem(at: url, to: toUrl)
-        } catch {
-            print(error)
-        }
+        fileRepository.replaceItem(at: getDestinationURL(), with: url)
+
     }
 
 
@@ -138,8 +136,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
             case .documentPicker?:
                 self?.openFilePicker()
 
-            case .browser?:
-                self?.openFilePicker()
+            case .directLink?:
+                self?.openDirectLinkInputDialog()
+
             default: break
             }
         }
@@ -159,9 +158,50 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
         self.present(documentPicker, animated: true, completion: nil)
     }
 
+    private func openDirectLinkInputDialog() {
+
+        presentInput(title: "", message: "") { [weak self] directLink in
+            guard let `self` = self,
+                let link = directLink,
+                let url = URL(string: link) else {
+                    return
+            }
+            self.downloadFile(url: url)
+        }
+    }
+
+    private func downloadFile(url: URL) {
+        let progressViewController = presentMessage(title: .DOWNLOADING)
+        var progressText: String = ""
+        fileDownloaderService
+            .downloadFile(fromURL: url, toPath: getDestinationURL())
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .do(onNext: { event in
+                if event.type == .progress, let data = event.progress {
+                    progressText = "\(data.progress) %"
+                    progressViewController.message = "\(progressText)\nspeed: \(data.speed)KB/s"
+                } else if let message = event.messsage {
+                    progressViewController.message = "\(progressText)\n\(message)"
+                }
+            },
+                onError: { [weak self] error in
+                    progressViewController.dismiss(animated: false, completion: nil)
+                    self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
+            },
+                onCompleted: {
+                    progressViewController.dismiss(animated: true, completion: nil)
+            })
+            .subscribe()
+            .disposed(by: disposeBag)
+    }
 
     private func configureTitleViews() {
         titleLabel.attributedText = pageTitle.set(style: Style.pageTitleTextStyle)
         subtitleLabel.attributedText = pageSubtitle.set(style: Style.pageSubtitleTextStyle)
+    }
+
+    private func getDestinationURL() -> URL {
+        return currentPickerMode == .video ? fileRepository.getURLForVideoFile() : fileRepository.getURLForSubtitleFile()
     }
 }

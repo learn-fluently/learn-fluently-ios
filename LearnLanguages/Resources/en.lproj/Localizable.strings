@@ -21,3 +21,10 @@
 "SOURCE_OPTION_DOCUMENT" = "Document picker";
 
 "CHOOSE_SOURCE_TITLE" = "Choose one option";
+
+"DOWNLOADER_RESUMING" = "resuming file download...";
+"DOWNLOADER_RETRYING" = "retrying file download...";
+"DOWNLOADER_ERROR_NO_DEST" = "No destination path to copy the downloaded file";
+"DOWNLOADER_MOVING_FILE" = "Moving downloaded file";
+"DOWNLOADER_CONNECTION_WAITING" = "Waiting for connection to be restored";
+"DOWNLOADING" = "Downloading";

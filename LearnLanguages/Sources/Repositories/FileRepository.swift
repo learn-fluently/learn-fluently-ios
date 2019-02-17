@@ -26,4 +26,13 @@ class FileRepository {
         return url
     }
 
+    func replaceItem(at dest: URL, with source: URL) {
+        try? FileManager.default.removeItem(at: dest)
+        do {
+            try FileManager.default.copyItem(at: source, to: dest)
+        } catch {
+            print(error)
+        }
+    }
+
 }

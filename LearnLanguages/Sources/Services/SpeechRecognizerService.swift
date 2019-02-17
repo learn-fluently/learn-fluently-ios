@@ -97,7 +97,9 @@ class SpeechRecognizerService: SFSpeechRecognizer {
 
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        guard let recognitionRequest = recognitionRequest else { fatalError("Unable to created a SFSpeechAudioBufferRecognitionRequest object") }
+        guard let recognitionRequest = recognitionRequest else {
+            fatalError("Unable to created a SFSpeechAudioBufferRecognitionRequest object")
+        }
         recognitionRequest.shouldReportPartialResults = true
 
         // Create a recognition task for the speech recognition session.
@@ -128,11 +130,9 @@ class SpeechRecognizerService: SFSpeechRecognizer {
                     self.audioDetectionTimer = Timer.scheduledTimer(
                         withTimeInterval: Constants.stopRecordingAfterInactivityForSeconds,
                         repeats: false) { timer in
-                            if !isFinal && self.lastBestTranscription != nil {
-                                if self.isRecording {
-                                    self.stopRecognitionTask(cancel: false)
-                                    onAutoStoped?()
-                                }
+                            if self.isRecording, !isFinal, self.lastBestTranscription != nil {
+                                self.stopRecognitionTask(cancel: false)
+                                onAutoStoped?()
                             }
                             timer.invalidate()
                     }

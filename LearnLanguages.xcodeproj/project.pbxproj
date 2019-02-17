@@ -25,6 +25,7 @@
 		ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
 		ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */; };
 		ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABAF5C0F22189BE40079C5C7 /* Localizable.strings */; };
+		ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C32221954AD0079C5C7 /* Reachability.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */; };
@@ -65,6 +66,7 @@
 		ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloaderService.swift; sourceTree = "<group>"; };
 		ABAF5C0E22189BE40079C5C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
+		ABAF5C32221954AD0079C5C7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertController.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */,
 				ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */,
 				ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */,
+				ABAF5C32221954AD0079C5C7 /* Reachability.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
+				ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */,
 				ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
