@@ -74,6 +74,16 @@ class FileDownloaderService: NSObject {
         )
     }
 
+    private func waitForNetworkConnection() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            if Reachability.isConnectedToNetwork() {
+                self?.resumeDownload()
+            } else {
+                self?.waitForNetworkConnection()
+            }
+        }
+    }
+
 }
 
 
@@ -113,23 +123,14 @@ extension FileDownloaderService: URLSessionDownloadDelegate {
             // Already handled in URLSession(session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingToURL location: URL)
             return
         }
+        let resumeData = (error as NSError).userInfo[NSURLSessionDownloadTaskResumeData] as? Data
 
-//        if !Reachability.isConnectedToNetwork() {
-//            eventsPublishSubject.onNext(DownloadUpdateEvent.with(info: .DOWNLOADER_CONNECTION_WAITING))
-//            repeat {
-//                sleep(1)
-//            } while !Reachability.isConnectedToNetwork()
-//        }
-//
-//        self.resumeDownload()
-
-        eventsPublishSubject.onError(error)
-
-        guard let resumeData = (error as NSError).userInfo[NSURLSessionDownloadTaskResumeData] as? Data else {
-            return
+        if Reachability.isConnectedToNetwork() || resumeData == nil {
+            eventsPublishSubject.onError(error)
+        } else {
+            self.resumeData = resumeData
+            waitForNetworkConnection()
         }
-
-        self.resumeData = resumeData
     }
 
 }
