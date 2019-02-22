@@ -28,3 +28,8 @@
 "DOWNLOADER_MOVING_FILE" = "Moving downloaded file";
 "DOWNLOADER_CONNECTION_WAITING" = "Waiting for connection to be restored";
 "DOWNLOADING" = "Downloading";
+
+"SOURCE_FILE_TITLE" = "Source file";
+"SOURCE_FILE_DESC" = "It can be a video or audio file";
+"SUBTITLE_FILE_TITLE" = "Subtitle";
+"SUBTITLE_FILE_DESC" = "The subtitle file for the source";

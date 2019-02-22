@@ -12,8 +12,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SourceConfigViewController" customModule="LearnLanguages" customModuleProvider="target">
             <connections>
+                <outlet property="startButton" destination="NtU-FT-IKI" id="X58-1J-UX8"/>
+                <outlet property="subtitleFileDescriptionLabel" destination="ksL-u3-sMc" id="fX4-pn-W5A"/>
+                <outlet property="subtitleFileTitleLabel" destination="kIw-Nv-mQR" id="HUR-U7-PSB"/>
                 <outlet property="subtitleLabel" destination="Sme-3E-Y1d" id="z2P-6z-gTf"/>
                 <outlet property="titleLabel" destination="IiX-1H-naM" id="odp-bI-QWx"/>
+                <outlet property="videoFileDescriptionLabel" destination="gRT-aN-euX" id="8tL-8s-HFT"/>
+                <outlet property="videoFileTitleLabel" destination="wLZ-Vk-P7G" id="dMB-wg-GGc"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QGw-Ur-YIn"/>
             </connections>
         </placeholder>

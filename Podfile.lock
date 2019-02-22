@@ -1,4 +1,5 @@
 PODS:
+  - RLBAlertsPickers (1.1.1)
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
@@ -9,6 +10,7 @@ PODS:
   - SwiftRichString (2.0.5)
 
 DEPENDENCIES:
+  - RLBAlertsPickers (from `https://github.com/loicgriffie/Alerts-Pickers.git`, branch `master`)
   - RxCocoa
   - RxSwift
   - SnapKit (~> 4.2.0)
@@ -24,7 +26,18 @@ SPEC REPOS:
     - SwiftLint
     - SwiftRichString
 
+EXTERNAL SOURCES:
+  RLBAlertsPickers:
+    :branch: master
+    :git: https://github.com/loicgriffie/Alerts-Pickers.git
+
+CHECKOUT OPTIONS:
+  RLBAlertsPickers:
+    :commit: 5ce7637f4c8d5118442f1a9ae781020fa80fccb9
+    :git: https://github.com/loicgriffie/Alerts-Pickers.git
+
 SPEC CHECKSUMS:
+  RLBAlertsPickers: d8dd984ed0a686bd167554eeb4a3af5ae8d82d24
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
@@ -32,6 +45,6 @@ SPEC CHECKSUMS:
   SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
   SwiftRichString: a3ebe72b13db2e1b917cdbb6b44d817254a7ff73
 
-PODFILE CHECKSUM: 579327811b860e8dc032ca4f1e05f813cee6aaa3
+PODFILE CHECKSUM: 137a2e98f9f71ac4049fcb968685af94108539e4
 
 COCOAPODS: 1.5.3

@@ -60,8 +60,13 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
 
     // MARK: Outlets
 
+    @IBOutlet private weak var startButton: UIButton!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
+    @IBOutlet private weak var videoFileTitleLabel: UILabel!
+    @IBOutlet private weak var videoFileDescriptionLabel: UILabel!
+    @IBOutlet private weak var subtitleFileTitleLabel: UILabel!
+    @IBOutlet private weak var subtitleFileDescriptionLabel: UILabel!
 
 
     // MARK: Life cycle
@@ -136,6 +141,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
             case .documentPicker?:
                 self?.openFilePicker()
 
+            case .browser?:
+                self?.openBrowserInputDialog()
+
             case .directLink?:
                 self?.openDirectLinkInputDialog()
 
@@ -159,14 +167,28 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     }
 
     private func openDirectLinkInputDialog() {
-
-        presentInput(title: "", message: "") { [weak self] directLink in
+        let title: String = currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
+        let desc: String = .SOURCE_OPTION_DIRECT_LINK
+        presentInput(title: title, message: desc) { [weak self] directLink in
             guard let `self` = self,
                 let link = directLink,
                 let url = URL(string: link) else {
                     return
             }
             self.downloadFile(url: url)
+        }
+    }
+
+    private func openBrowserInputDialog() {
+        let title: String = currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
+        let desc: String = .SOURCE_OPTION_BROWSER
+        presentInput(title: title, message: desc) { [weak self] directLink in
+            guard let `self` = self,
+                let link = directLink,
+                let url = URL(string: link) else {
+                    return
+            }
+            self.openWebView(url: url)
         }
     }
 
@@ -196,9 +218,17 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
             .disposed(by: disposeBag)
     }
 
+    private func openWebView(url: URL) {
+
+    }
+
     private func configureTitleViews() {
         titleLabel.attributedText = pageTitle.set(style: Style.pageTitleTextStyle)
         subtitleLabel.attributedText = pageSubtitle.set(style: Style.pageSubtitleTextStyle)
+        videoFileTitleLabel.attributedText = String.SOURCE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
+        videoFileDescriptionLabel.attributedText = String.SOURCE_FILE_DESC.set(style: Style.itemDescriptionTextStyle)
+        subtitleFileTitleLabel.attributedText = String.SUBTITLE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
+        subtitleFileDescriptionLabel.attributedText = String.SUBTITLE_FILE_DESC.set(style: Style.itemDescriptionTextStyle)
     }
 
     private func getDestinationURL() -> URL {

@@ -55,4 +55,18 @@ extension Style {
         }
     }
 
+    static var itemTitleTextStyle: Style {
+        return Style {
+            $0.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+            $0.color = UIColor.black
+        }
+    }
+
+    static var itemDescriptionTextStyle: Style {
+        return Style {
+            $0.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+            $0.color = UIColor.black
+        }
+    }
+
 }

@@ -26,10 +26,14 @@ extension String {
     static let MENU_ITEM_SPEECH = "MENU_ITEM_SPEECH".localize()
     static let MENU_ITEM_TRANSLATE = "MENU_ITEM_TRANSLATE".localize()
     static let OK = "OK".localize()
+    static let SOURCE_FILE_DESC = "SOURCE_FILE_DESC".localize()
+    static let SOURCE_FILE_TITLE = "SOURCE_FILE_TITLE".localize()
     static let SOURCE_OPTION_BROWSER = "SOURCE_OPTION_BROWSER".localize()
     static let SOURCE_OPTION_DIRECT_LINK = "SOURCE_OPTION_DIRECT_LINK".localize()
     static let SOURCE_OPTION_DOCUMENT = "SOURCE_OPTION_DOCUMENT".localize()
     static let SOURCE_OPTION_YOUTUBE = "SOURCE_OPTION_YOUTUBE".localize()
+    static let SUBTITLE_FILE_DESC = "SUBTITLE_FILE_DESC".localize()
+    static let SUBTITLE_FILE_TITLE = "SUBTITLE_FILE_TITLE".localize()
     //end-of-generated-keys//
 }
 
