@@ -10,19 +10,40 @@ import Foundation
 
 class FileRepository {
 
-    // MARK: Functions
+    // MARK: Constants
 
-    func getURLForVideoFile() -> URL {
-        // swiftlint:disable:next force_try
-        var url: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        url.appendPathComponent("video.mp4")
-        return url
+    enum PathName {
+
+        // MARK: Cases
+
+        case videoFile
+        case subtitleFile
+        case archiveFile
     }
 
-    func getURLForSubtitleFile() -> URL {
-        // swiftlint:disable:next force_try
-        var url: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        url.appendPathComponent("subtitle.srt")
+
+    // MARK: Properties
+
+    // swiftlint:disable:next force_try
+    private let baseURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+
+
+    // MARK: Functions
+
+    func getPathURL(for pathName: PathName) -> URL {
+        var url = baseURL
+
+        switch pathName {
+        case .videoFile:
+            url.appendPathComponent("video.mp4")
+
+        case .subtitleFile:
+            url.appendPathComponent("subtitle.srt")
+
+        case .archiveFile:
+            url.appendPathComponent("archive.zip")
+        }
+
         return url
     }
 
@@ -33,6 +54,10 @@ class FileRepository {
         } catch {
             print(error)
         }
+    }
+
+    func openArchiveFile(completion: ([URL]) -> Void) {
+        //TODO:
     }
 
 }

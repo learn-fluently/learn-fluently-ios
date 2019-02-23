@@ -23,7 +23,7 @@ extension UIViewController {
         return controller
     }
 
-    func presentInput(title: String, message: String, completion: ((String?) -> Void)? = nil) {
+    func presentInput(title: String, message: String = "", defaultValue: String = "", completion: ((String?) -> Void)? = nil) {
 
         let controller = createController(title: title, message: message, actions: [], appendCancel: true)
         let okAction = UIAlertAction(title: .OK, style: .default) { _ in
@@ -35,7 +35,9 @@ extension UIViewController {
         }
 
         controller.addAction(okAction)
-        controller.addTextField { _ in }
+        controller.addTextField { textField in
+            textField.text = defaultValue
+        }
         present(controller, animated: true)
     }
 

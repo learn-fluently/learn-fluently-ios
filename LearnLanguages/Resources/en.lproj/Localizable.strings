@@ -33,3 +33,6 @@
 "SOURCE_FILE_DESC" = "It can be a video or audio file";
 "SUBTITLE_FILE_TITLE" = "Subtitle";
 "SUBTITLE_FILE_DESC" = "The subtitle file for the source";
+"DOWNLOAD_SPEED" = "speed";
+"DOWNLOAD_SUCCESSFUL" = "Successfully downloaded";
+"ENTER_SOURCE_NAME" = "Enter source name";

@@ -250,12 +250,12 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
 
-        playerController.url = fileRepository.getURLForVideoFile()
+        playerController.url = fileRepository.getPathURL(for: .videoFile)
         playerController.play()
     }
 
     private func configureSubtitleRepository() {
-        let url = fileRepository.getURLForSubtitleFile()
+        let url = fileRepository.getPathURL(for: .subtitleFile)
         subtitleRepository = SubtitleRepository(url: url)
     }
 

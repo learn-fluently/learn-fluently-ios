@@ -12,7 +12,7 @@ import SnapKit
 
 protocol WebBrowserViewControllerDelegate: AnyObject {
 
-    func canHandleDownload(mimeType: String, url: URL) -> Bool
+    func getDownloadHandlerBlock(mimeType: String, url: URL) -> (() -> Void)?
 
 }
 
@@ -38,7 +38,7 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) is not available")
     }
 
     override func viewDidLoad() {
@@ -91,7 +91,6 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     private func configureWebView() {
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
-        webView.uiDelegate = self
         let top = topView.frame.height
         webView.scrollView.contentInset = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
         webView.scrollView.scrollIndicatorInsets = webView.scrollView.contentInset
@@ -175,8 +174,8 @@ extension WebBrowserViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         if let mimeType = navigationResponse.response.mimeType,
             let url = navigationResponse.response.url {
-            if delegate?.canHandleDownload(mimeType: mimeType, url: url) == true {
-                dismiss(animated: true, completion: nil)
+            if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: mimeType, url: url) {
+                dismiss(animated: true, completion: downloadHandler)
             }
         }
         decisionHandler(.allow)
@@ -186,10 +185,5 @@ extension WebBrowserViewController: WKNavigationDelegate {
         setLoading(true)
         inputTextField.text = webView.url?.absoluteString
     }
-
-}
-
-extension WebBrowserViewController: WKUIDelegate {
-
 
 }

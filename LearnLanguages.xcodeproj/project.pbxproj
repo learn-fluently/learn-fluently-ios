@@ -44,6 +44,7 @@
 		ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */; };
 		ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */; };
 		ABFE60252210D751001267C8 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60242210D751001267C8 /* FileRepository.swift */; };
+		ABFED1A22221CA3000F23313 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFED1A12221CA3000F23313 /* UserDefaultsService.swift */; };
 		C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SourceConfigViewController.xib; sourceTree = "<group>"; };
 		ABFE60232210CC68001267C8 /* LearnLanguages.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LearnLanguages.entitlements; sourceTree = "<group>"; };
 		ABFE60242210D751001267C8 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
+		ABFED1A12221CA3000F23313 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +186,7 @@
 		ABAF5C062218554B0079C5C7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				ABFED1A12221CA3000F23313 /* UserDefaultsService.swift */,
 				ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */,
 				ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */,
 			);
@@ -480,6 +483,7 @@
 				ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */,
 				ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
+				ABFED1A22221CA3000F23313 /* UserDefaultsService.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,

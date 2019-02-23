@@ -14,7 +14,8 @@ import RxSwift
 import RxCocoa
 import RLBAlertsPickers
 
-class SourceConfigViewController: BaseViewController, NibBasedViewController, UIDocumentPickerDelegate {
+
+class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Constants
 
@@ -58,6 +59,8 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     private let fileRepository = FileRepository()
     private let fileDownloaderService = FileDownloaderService()
     private let disposeBag = DisposeBag()
+    private var lastSubtitleSourceName: String? = UserDefaultsService.shared.subtitleSourceName
+    private var lastVideoSourceName: String? = UserDefaultsService.shared.videoSourceName
 
 
     // MARK: Outlets
@@ -86,7 +89,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) is not available")
     }
 
 
@@ -97,6 +100,12 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     }
 
     @IBAction private func playButtonTouched() {
+        if lastVideoSourceName != nil {
+            UserDefaultsService.shared.videoSourceName = lastVideoSourceName
+        }
+        if lastSubtitleSourceName != nil {
+            UserDefaultsService.shared.subtitleSourceName = lastSubtitleSourceName
+        }
         if sourceType == .watching {
             show(WatchingViewController(), sender: nil)
         }
@@ -111,17 +120,6 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
 
     @IBAction private func chooseSubtitleSourceButtonTouched() {
         openSourcePicker(mode: .subtitle)
-    }
-
-
-    // MARK: UIDocumentPickerDelegate
-
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let url = urls.first else {
-            return
-        }
-        fileRepository.replaceItem(at: getDestinationURL(), with: url)
-
     }
 
 
@@ -181,17 +179,37 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
         }
     }
 
-    private func downloadFile(url: URL) {
+    private func askAndSetSourceName(defaultValue: String) {
+        presentInput(title: .ENTER_SOURCE_NAME, defaultValue: defaultValue) { [weak self] name in
+            guard let `self` = self else {
+                return
+            }
+
+            var fileName = name ?? defaultValue
+            if fileName.lengthOfBytes(using: .utf8) < 1 {
+                fileName = defaultValue
+            }
+
+            if self.currentPickerMode == .video {
+                self.lastVideoSourceName = fileName
+            } else if self.currentPickerMode == .subtitle {
+                self.lastSubtitleSourceName = fileName
+            }
+            self.updateSourceFileDescriptions()
+        }
+    }
+
+    private func downloadFile(url: URL, isArchive: Bool = false) {
         let progressViewController = presentMessage(title: .DOWNLOADING)
-        var progressText: String = ""
+        var progressText = ""
         fileDownloaderService
-            .downloadFile(fromURL: url, toPath: getDestinationURL())
+            .downloadFile(fromURL: url, toPath: getDestinationURL(isArchive: isArchive))
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onNext: { event in
                 if event.type == .progress, let data = event.progress {
                     progressText = "\(data.progress) %"
-                    progressViewController.message = "\(progressText)\nspeed: \(data.speed)KB/s"
+                    progressViewController.message = "\(progressText)\n\(String.DOWNLOAD_SPEED): \(data.speed)KB/s"
                 } else if let message = event.messsage {
                     progressViewController.message = "\(progressText)\n\(message)"
                 }
@@ -200,11 +218,22 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
                     progressViewController.dismiss(animated: false, completion: nil)
                     self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
             },
-                onCompleted: {
-                    progressViewController.dismiss(animated: true, completion: nil)
+                onCompleted: { [weak self] in
+                    progressViewController.dismiss(animated: false, completion: nil)
+                    if isArchive {
+                        self?.handleDownloadedArchive()
+                    } else {
+                        self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
+                    }
             })
             .subscribe()
             .disposed(by: disposeBag)
+    }
+
+    private func handleDownloadedArchive() {
+        fileRepository.openArchiveFile { (files: [URL]) in
+            //TODO:
+        }
     }
 
     private func openWebView() {
@@ -219,34 +248,59 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
         titleLabel.attributedText = pageTitle.set(style: Style.pageTitleTextStyle)
         subtitleLabel.attributedText = pageSubtitle.set(style: Style.pageSubtitleTextStyle)
         videoFileTitleLabel.attributedText = String.SOURCE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
-        videoFileDescriptionLabel.attributedText = String.SOURCE_FILE_DESC.set(style: Style.itemDescriptionTextStyle)
         subtitleFileTitleLabel.attributedText = String.SUBTITLE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
-        subtitleFileDescriptionLabel.attributedText = String.SUBTITLE_FILE_DESC.set(style: Style.itemDescriptionTextStyle)
+
+        updateSourceFileDescriptions()
     }
 
-    private func getDestinationURL() -> URL {
-        return currentPickerMode == .video ? fileRepository.getURLForVideoFile() : fileRepository.getURLForSubtitleFile()
+    private func updateSourceFileDescriptions() {
+        let videoDesc = lastVideoSourceName ?? .SOURCE_FILE_DESC
+        videoFileDescriptionLabel.attributedText = videoDesc.set(style: Style.itemDescriptionTextStyle)
+
+        let subtitleDesc = lastSubtitleSourceName ?? .SUBTITLE_FILE_DESC
+        subtitleFileDescriptionLabel.attributedText = subtitleDesc.set(style: Style.itemDescriptionTextStyle)
+    }
+
+    private func getDestinationURL(isArchive: Bool = false) -> URL {
+        if isArchive {
+            return fileRepository.getPathURL(for: .archiveFile)
+        }
+        return currentPickerMode == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
     }
 
 }
 
+
 extension SourceConfigViewController: WebBrowserViewControllerDelegate {
 
-    func canHandleDownload(mimeType: String, url: URL) -> Bool {
+    func getDownloadHandlerBlock(mimeType: String, url: URL) -> (() -> Void)? {
+        let downloadHandler: () -> Void = { [weak self] in
+            self?.downloadFile(url: url, isArchive: mimeType == "application/zip")
+        }
         if currentPickerMode == .video, mimeType == "video/mp4" {
-
-            return true
+            return downloadHandler
         } else if currentPickerMode == .subtitle {
             if mimeType == "application/zip" {
-
-                return true
+                return downloadHandler
             } else if mimeType == "text/plain", url.absoluteString.hasSuffix(".srt") {
-
-                return true
+                return downloadHandler
             }
         }
-        print(mimeType)
-        return false
+        return nil
+    }
+
+}
+
+
+extension SourceConfigViewController: UIDocumentPickerDelegate {
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else {
+            return
+        }
+        askAndSetSourceName(defaultValue: url.lastPathComponent)
+        fileRepository.replaceItem(at: getDestinationURL(), with: url)
+
     }
 
 }
