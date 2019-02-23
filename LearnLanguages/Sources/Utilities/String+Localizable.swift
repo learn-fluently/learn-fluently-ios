@@ -24,6 +24,7 @@ extension String {
     static let DOWNLOAD_SUCCESSFUL = "DOWNLOAD_SUCCESSFUL".localize()
     static let ENTER_SOURCE_NAME = "ENTER_SOURCE_NAME".localize()
     static let ERROR = "ERROR".localize()
+    static let FAILED_TO_GET_CONTENTS_OF_ZIP_FILE = "FAILED_TO_GET_CONTENTS_OF_ZIP_FILE".localize()
     static let MENU_ITEM_GOOGLE_IMAGES = "MENU_ITEM_GOOGLE_IMAGES".localize()
     static let MENU_ITEM_GOOGLE_SEARCH = "MENU_ITEM_GOOGLE_SEARCH".localize()
     static let MENU_ITEM_SPEECH = "MENU_ITEM_SPEECH".localize()

@@ -215,15 +215,17 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
                 }
             },
                 onError: { [weak self] error in
-                    progressViewController.dismiss(animated: false, completion: nil)
-                    self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
-            },
+                    progressViewController.dismiss(animated: false) {
+                        self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
+                    }
+                },
                 onCompleted: { [weak self] in
-                    progressViewController.dismiss(animated: false, completion: nil)
-                    if isArchive {
-                        self?.handleDownloadedArchive()
-                    } else {
-                        self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
+                    progressViewController.dismiss(animated: false) {
+                        if isArchive {
+                            self?.handleDownloadedArchive()
+                        } else {
+                            self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
+                        }
                     }
             })
             .subscribe()
@@ -231,9 +233,30 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func handleDownloadedArchive() {
-        fileRepository.openArchiveFile { (files: [URL]) in
-            //TODO:
+        fileRepository.decompressArchiveFile { [weak self] filesUrls in
+            guard !filesUrls.isEmpty else {
+                self?.presentOKMessage(title: .ERROR, message: .FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)
+                return
+            }
+
+            if filesUrls.count == 1 {
+                askSourceNameAndSaveItWithURL(filesUrls.first!)
+                return
+            }
+
+            let alert = UIAlertController(style: .actionSheet)
+            filesUrls.forEach { url in
+                alert.addAction(title: url.lastPathComponent) { [weak self] _ in
+                    self?.askSourceNameAndSaveItWithURL(url)
+                }
+            }
+            self?.present(alert, animated: true, completion: nil)
         }
+    }
+
+    private func askSourceNameAndSaveItWithURL(_ url: URL) {
+        askAndSetSourceName(defaultValue: url.lastPathComponent)
+        fileRepository.replaceItem(at: getDestinationURL(), with: url)
     }
 
     private func openWebView() {
@@ -298,9 +321,7 @@ extension SourceConfigViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else {
             return
         }
-        askAndSetSourceName(defaultValue: url.lastPathComponent)
-        fileRepository.replaceItem(at: getDestinationURL(), with: url)
-
+        askSourceNameAndSaveItWithURL(url)
     }
 
 }

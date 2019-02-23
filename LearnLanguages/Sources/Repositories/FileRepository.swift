@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ZIPFoundation
 
 class FileRepository {
 
@@ -19,14 +20,23 @@ class FileRepository {
         case videoFile
         case subtitleFile
         case archiveFile
+        case archiveDecompressedDir
     }
 
 
     // MARK: Properties
 
-    // swiftlint:disable:next force_try
-    private let baseURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+    private let fileManager = FileManager.default
 
+    private let baseURL: URL
+
+
+    // MARK: Life cycle
+
+    init() {
+        // swiftlint:disable:next force_try
+        baseURL = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+    }
 
     // MARK: Functions
 
@@ -42,22 +52,30 @@ class FileRepository {
 
         case .archiveFile:
             url.appendPathComponent("archive.zip")
+
+        case .archiveDecompressedDir:
+            url.appendPathComponent("archiveDecompressedDir")
         }
 
         return url
     }
 
     func replaceItem(at dest: URL, with source: URL) {
-        try? FileManager.default.removeItem(at: dest)
+        try? fileManager.removeItem(at: dest)
         do {
-            try FileManager.default.copyItem(at: source, to: dest)
+            try fileManager.copyItem(at: source, to: dest)
         } catch {
             print(error)
         }
     }
 
-    func openArchiveFile(completion: ([URL]) -> Void) {
-        //TODO:
+    func decompressArchiveFile(completion: ([URL]) -> Void) {
+        let destPath = getPathURL(for: .archiveDecompressedDir)
+        try? fileManager.removeItem(at: destPath)
+        try? fileManager.createDirectory(at: destPath, withIntermediateDirectories: false, attributes: nil)
+        try? fileManager.unzipItem(at: getPathURL(for: .archiveFile), to: destPath)
+        let urls = try? fileManager.contentsOfDirectory(at: destPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+        completion(urls ?? [])
     }
 
 }

@@ -8,4 +8,5 @@ target 'LearnLanguages' do
   pod 'RxCocoa'
   pod 'SwiftLint'
   pod 'RLBAlertsPickers', :git => 'https://github.com/loicgriffie/Alerts-Pickers.git', :branch => 'master'
+  pod 'ZIPFoundation', '~> 0.9'
 end
