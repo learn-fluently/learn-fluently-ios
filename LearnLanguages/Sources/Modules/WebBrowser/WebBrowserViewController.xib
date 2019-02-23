@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebBrowserViewController" customModule="LearnLanguages" customModuleProvider="target">
+            <connections>
+                <outlet property="inputTextField" destination="QTM-IV-c8h" id="7gh-Cu-UVG"/>
+                <outlet property="loadingIndicator" destination="1qp-Ce-dfz" id="cmP-sq-nLG"/>
+                <outlet property="topView" destination="cgF-yV-66s" id="UjB-Xj-QOp"/>
+                <outlet property="view" destination="iN0-l3-epB" id="uHP-mK-q0C"/>
+                <outlet property="webView" destination="VtH-pA-loy" id="hny-nt-2EQ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="618"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VtH-pA-loy">
+                    <rect key="frame" x="0.0" y="0.0" width="370" height="618"/>
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <wkWebViewConfiguration key="configuration">
+                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                        <wkPreferences key="preferences"/>
+                    </wkWebViewConfiguration>
+                </wkWebView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgF-yV-66s">
+                    <rect key="frame" x="0.0" y="0.0" width="370" height="50"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="IeQ-qh-pia">
+                        <rect key="frame" x="0.0" y="0.0" width="370" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="3qW-xH-u0h">
+                                <rect key="frame" x="20" y="12.5" width="330" height="25"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1qp-Ce-dfz">
+                                        <rect key="frame" x="0.0" y="2.5" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="20" id="aF7-h2-wtA"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTM-IV-c8h">
+                                        <rect key="frame" x="28" y="4" width="269" height="17"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77q-Rg-6VN">
+                                        <rect key="frame" x="305" y="0.0" width="25" height="25"/>
+                                        <state key="normal" image="CrossGrayIcon"/>
+                                        <connections>
+                                            <action selector="onCloseButtonTouched" destination="-1" eventType="touchUpInside" id="dw3-L7-jgt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfM-0c-5DY">
+                                <rect key="frame" x="0.0" y="49" width="370" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="dcE-jx-c8I"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="HfM-0c-5DY" firstAttribute="leading" secondItem="IeQ-qh-pia" secondAttribute="leading" id="KL4-RT-RLE"/>
+                            <constraint firstItem="3qW-xH-u0h" firstAttribute="centerY" secondItem="IeQ-qh-pia" secondAttribute="centerY" id="Rb0-cb-mSY"/>
+                            <constraint firstAttribute="trailing" secondItem="3qW-xH-u0h" secondAttribute="trailing" constant="20" id="SZj-Do-N3B"/>
+                            <constraint firstItem="HfM-0c-5DY" firstAttribute="width" secondItem="IeQ-qh-pia" secondAttribute="width" id="YFY-1c-7iL"/>
+                            <constraint firstAttribute="trailing" secondItem="HfM-0c-5DY" secondAttribute="trailing" id="m1k-Fp-wce"/>
+                            <constraint firstAttribute="bottom" secondItem="HfM-0c-5DY" secondAttribute="bottom" id="ovW-2R-IP9"/>
+                            <constraint firstItem="3qW-xH-u0h" firstAttribute="leading" secondItem="IeQ-qh-pia" secondAttribute="leading" constant="20" id="uoO-0U-XrM"/>
+                        </constraints>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="gtm-31-dIB"/>
+                    </constraints>
+                    <blurEffect style="extraLight"/>
+                </visualEffectView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="VtH-pA-loy" secondAttribute="bottom" id="6DO-ex-IYF"/>
+                <constraint firstItem="VtH-pA-loy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="G0B-Rt-9Iw"/>
+                <constraint firstItem="VtH-pA-loy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K2J-re-QSJ"/>
+                <constraint firstAttribute="trailing" secondItem="cgF-yV-66s" secondAttribute="trailing" id="TAv-2I-doT"/>
+                <constraint firstAttribute="trailing" secondItem="VtH-pA-loy" secondAttribute="trailing" id="bYj-Hw-UpG"/>
+                <constraint firstItem="cgF-yV-66s" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e6d-Pt-sqE"/>
+                <constraint firstItem="cgF-yV-66s" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zpq-M1-aEP"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="134.40000000000001" y="174.51274362818592"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="CrossGrayIcon" width="25" height="25"/>
+    </resources>
+</document>

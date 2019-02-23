@@ -28,6 +28,9 @@
 		ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C32221954AD0079C5C7 /* Reachability.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
+		ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */; };
+		ABF2F3282220AA180023698D /* WebBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABF2F3272220AA180023698D /* WebBrowserViewController.xib */; };
+		ABF2F32A2220AE390023698D /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3292220AE390023698D /* String+Utilities.swift */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */; };
 		ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */; };
 		ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
@@ -69,6 +72,9 @@
 		ABAF5C32221954AD0079C5C7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
+		ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserViewController.swift; sourceTree = "<group>"; };
+		ABF2F3272220AA180023698D /* WebBrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebBrowserViewController.xib; sourceTree = "<group>"; };
+		ABF2F3292220AE390023698D /* String+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utilities.swift"; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertController.swift"; sourceTree = "<group>"; };
 		ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleRepository.swift; sourceTree = "<group>"; };
 		ABFE6009220F1D12001267C8 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -203,8 +209,18 @@
 				ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */,
 				ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */,
 				ABAF5C32221954AD0079C5C7 /* Reachability.swift */,
+				ABF2F3292220AE390023698D /* String+Utilities.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		ABF2F3242220A9E40023698D /* WebBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */,
+				ABF2F3272220AA180023698D /* WebBrowserViewController.xib */,
+			);
+			path = WebBrowser;
 			sourceTree = "<group>";
 		};
 		ABFE6005220F1A88001267C8 /* Repositories */ = {
@@ -228,6 +244,7 @@
 		ABFE60112210AE1A001267C8 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABF2F3242220A9E40023698D /* WebBrowser */,
 				ABFE601E2210AE41001267C8 /* SourceConfig */,
 				AB09959E21F9090F00867890 /* Overview */,
 				ABFE60122210AE1A001267C8 /* Watching */,
@@ -356,6 +373,7 @@
 				ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
 				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
+				ABF2F3282220AA180023698D /* WebBrowserViewController.xib in Resources */,
 				ABFE60222210B05E001267C8 /* SourceConfigViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,6 +488,8 @@
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
+				ABF2F32A2220AE390023698D /* String+Utilities.swift in Sources */,
+				ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */,

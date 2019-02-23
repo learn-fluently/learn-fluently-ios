@@ -12,6 +12,7 @@ import SwiftRichString
 import MobileCoreServices
 import RxSwift
 import RxCocoa
+import RLBAlertsPickers
 
 class SourceConfigViewController: BaseViewController, NibBasedViewController, UIDocumentPickerDelegate {
 
@@ -57,6 +58,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     private let fileRepository = FileRepository()
     private let fileDownloaderService = FileDownloaderService()
     private let disposeBag = DisposeBag()
+
 
     // MARK: Outlets
 
@@ -142,7 +144,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
                 self?.openFilePicker()
 
             case .browser?:
-                self?.openBrowserInputDialog()
+                self?.openWebView()
 
             case .directLink?:
                 self?.openDirectLinkInputDialog()
@@ -179,19 +181,6 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
         }
     }
 
-    private func openBrowserInputDialog() {
-        let title: String = currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
-        let desc: String = .SOURCE_OPTION_BROWSER
-        presentInput(title: title, message: desc) { [weak self] directLink in
-            guard let `self` = self,
-                let link = directLink,
-                let url = URL(string: link) else {
-                    return
-            }
-            self.openWebView(url: url)
-        }
-    }
-
     private func downloadFile(url: URL) {
         let progressViewController = presentMessage(title: .DOWNLOADING)
         var progressText: String = ""
@@ -218,8 +207,12 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
             .disposed(by: disposeBag)
     }
 
-    private func openWebView(url: URL) {
-
+    private func openWebView() {
+        let alert = UIAlertController(style: .actionSheet)
+        let browserViewController = WebBrowserViewController(parentView: view)
+        browserViewController.delegate = self
+        alert.set(vc: browserViewController)
+        self.present(alert, animated: true, completion: nil)
     }
 
     private func configureTitleViews() {
@@ -234,4 +227,26 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController, UI
     private func getDestinationURL() -> URL {
         return currentPickerMode == .video ? fileRepository.getURLForVideoFile() : fileRepository.getURLForSubtitleFile()
     }
+
+}
+
+extension SourceConfigViewController: WebBrowserViewControllerDelegate {
+
+    func canHandleDownload(mimeType: String, url: URL) -> Bool {
+        if currentPickerMode == .video, mimeType == "video/mp4" {
+
+            return true
+        } else if currentPickerMode == .subtitle {
+            if mimeType == "application/zip" {
+
+                return true
+            } else if mimeType == "text/plain", url.absoluteString.hasSuffix(".srt") {
+
+                return true
+            }
+        }
+        print(mimeType)
+        return false
+    }
+
 }
