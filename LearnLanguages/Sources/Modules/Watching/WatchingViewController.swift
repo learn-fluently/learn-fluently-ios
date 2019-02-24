@@ -50,11 +50,11 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fileRepository = FileRepository()
-        addPlayerViewControllerAndPlay()
-        configureSubtitleRepository()
+        addPlayerViewController()
         subscribeToPlayerTime()
         configureTextView()
         configureTextViewGestures()
+        configureSubtitleRepositoryAndThenPlay()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,9 +93,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
             UIMenuController.shared.setMenuVisible(false, animated: true)
         } else {
             if let range = getTextRangeByPointsOnTextView(startPoint: point) {
+                playerController.pause()
                 textViewSelectedTextRange = range
                 adjustAndShowMenuForSelectedTextIfNeeded()
-                playerController.pause()
             }
         }
     }
@@ -221,7 +221,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
-        let subtitleText = subtitleRepository.getSubtitleForTime(currentValue)
+        let subtitleText = subtitleRepository?.getSubtitleForTime(currentValue)
         if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
             return
         }
@@ -229,6 +229,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func setSubtitleText(_ text: String) {
+        guard !UIMenuController.shared.isMenuVisible else {
+            return
+        }
         textView.attributedText = text.set(style: Style.selectableSubtitleTextStyle)
     }
 
@@ -242,21 +245,38 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         textView.attributedText = attributedText
     }
 
-    private func addPlayerViewControllerAndPlay() {
+    private func addPlayerViewController() {
         playerController = PlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
         guard let videoView = playerController?.view else { return }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
-
         playerController.url = fileRepository.getPathURL(for: .videoFile)
-        playerController.play()
     }
 
-    private func configureSubtitleRepository() {
+    private func configureSubtitleRepositoryAndThenPlay() {
+        view.isUserInteractionEnabled = false
+        configureSubtitleRepositoryAsync { [weak self] in
+            self?.view.isUserInteractionEnabled = true
+            self?.playerController.play()
+        }
+    }
+
+    private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {
         let url = fileRepository.getPathURL(for: .subtitleFile)
-        subtitleRepository = SubtitleRepository(url: url)
+        Completable
+            .create { [weak self] event -> Disposable in
+                self?.subtitleRepository = SubtitleRepository(url: url)
+                event(.completed)
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onCompleted: {
+                completion()
+            })
+            .disposed(by: disposeBag)
     }
 
     private func configureTextView() {

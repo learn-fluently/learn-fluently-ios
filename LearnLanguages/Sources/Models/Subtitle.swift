@@ -180,7 +180,6 @@ struct Subtitle {
 
     private func htmlToText(encodedString: String) -> String {
         return encodedString.attributedHtmlString?.string ?? ""
-        //return (encodedString as NSString).byConvertingHTMLToPlainText()
     }
 
 }
@@ -207,80 +206,4 @@ private extension String {
             return nil
         }
     }
-}
-
-private extension NSString {
-
-    func byConvertingHTMLToPlainText() -> String {
-
-        let stopCharacters = CharacterSet(charactersIn: "< \t\n\r\(0x0085)\(0x000C)\(0x2028)\(0x2029)")
-        let newLineAndWhitespaceCharacters = CharacterSet(charactersIn: " \t\n\r\(0x0085)\(0x000C)\(0x2028)\(0x2029)")
-        let tagNameCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        let tagNamesNotWhiteSpace = ["a", "b", "i", "q", "span", "em", "strong", "cite", "abbr", "acronym", "label"]
-
-        let result = NSMutableString(capacity: length)
-        let scanner = Scanner(string: self as String)
-        scanner.charactersToBeSkipped = nil
-        scanner.caseSensitive = true
-        var str: NSString?
-        var tagName: NSString?
-        var dontReplaceTagWithSpace = false
-
-        repeat {
-            // Scan up to the start of a tag or whitespace
-            if scanner.scanUpToCharacters(from: stopCharacters, into: &str), let string = str {
-                result.append(string as String)
-                str = nil
-            }
-            // Check if we've stopped at a tag/comment or whitespace
-            if scanner.scanString("<", into: nil) {
-                // Stopped at a comment, script tag, or other tag
-                if scanner.scanString("!--", into: nil) {
-                    // Comment
-                    scanner.scanUpTo("-->", into: nil)
-                    scanner.scanString("-->", into: nil)
-                } else if scanner.scanString("script", into: nil) {
-                    // Script tag where things don't need escaping!
-                    scanner.scanUpTo("</script>", into: nil)
-                    scanner.scanString("</script>", into: nil)
-                } else {
-                    // Tag - remove and replace with space unless it's
-                    // a closing inline tag then dont replace with a space
-                    if scanner.scanString("/", into: nil) {
-                        // Closing tag - replace with space unless it's inline
-                        tagName = nil
-                        dontReplaceTagWithSpace = false
-                        if scanner.scanCharacters(from: tagNameCharacters, into: &tagName),
-                            let strongTagName = tagName?.lowercased {
-                            tagName = strongTagName as NSString
-                            dontReplaceTagWithSpace = tagNamesNotWhiteSpace.contains(strongTagName)
-                        }
-                        // Replace tag with string unless it was an inline
-                        if !dontReplaceTagWithSpace && result.length > 0 && !scanner.isAtEnd {
-                            result.append(" ")
-                        }
-                    }
-                    // Scan past tag
-                    scanner.scanUpTo(">", into: nil)
-                    scanner.scanString(">", into: nil)
-                }
-            } else {
-                // Stopped at whitespace - replace all whitespace and newlines with a space
-                if scanner.scanCharacters(from: newLineAndWhitespaceCharacters, into: nil) {
-                    if result.length > 0 && !scanner.isAtEnd {
-                        result.append(" ") // Dont append space to beginning or end of result
-                    }
-                }
-            }
-        } while !scanner.isAtEnd
-
-        // Cleanup
-
-        // Decode HTML entities and return (this isn't included in this gist, but is often important)
-        // let retString = (result as String).stringByDecodingHTMLEntities
-
-        // Return
-        return result as String
-    }
-
 }

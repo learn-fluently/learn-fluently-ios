@@ -6,7 +6,8 @@
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
 //
 
-import Foundation
+import RxCocoa
+import RxSwift
 
 class SubtitleRepository {
 
@@ -22,7 +23,7 @@ class SubtitleRepository {
 
     private var url: URL
 
-    private var subtitle: Subtitle
+    private var subtitle: Subtitle!
 
     private var lastSubtitleCloseEndTime: Double?
 

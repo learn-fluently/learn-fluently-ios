@@ -70,10 +70,10 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         try? speechRecognizer.configureAudioSession()
 
         configureRecordButton()
-        addPlayerViewControllerAndPlay()
-        configureSubtitleRepository()
+        addPlayerViewController()
         subscribeToPlayerTime()
         adjustResultViewIfNeeded()
+        configureSubtitleRepositoryAndThenPlay()
     }
 
     override public func viewDidAppear(_ animated: Bool) {
@@ -226,21 +226,19 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func adjustCurrentSubtitle(currentValue: Double) {
-        if let subtitle = self.subtitleRepository.getSubtitleForTime(currentValue) {
+        if let subtitle = subtitleRepository?.getSubtitleForTime(currentValue) {
             self.currentSubtitle = subtitle
         }
     }
 
-    private func addPlayerViewControllerAndPlay() {
+    private func addPlayerViewController() {
         playerController = PlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
         guard let videoView = playerController?.view else { return }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
-
         playerController.url = fileRepository.getPathURL(for: .videoFile)
-        playerController.play()
     }
 
     private func configureRecordButton() {
@@ -248,9 +246,28 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         recordButton.isEnabled = false
     }
 
-    private func configureSubtitleRepository() {
+    private func configureSubtitleRepositoryAndThenPlay() {
+        view.isUserInteractionEnabled = false
+        configureSubtitleRepositoryAsync { [weak self] in
+            self?.view.isUserInteractionEnabled = true
+            self?.playerController.play()
+        }
+    }
+
+    private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {
         let url = fileRepository.getPathURL(for: .subtitleFile)
-        subtitleRepository = SubtitleRepository(url: url)
+        Completable
+            .create { [weak self] event -> Disposable in
+                self?.subtitleRepository = SubtitleRepository(url: url)
+                event(.completed)
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onCompleted: {
+                completion()
+            })
+            .disposed(by: disposeBag)
     }
 
     private func updateTextLabelView(_ text: String?) {
