@@ -9,5 +9,6 @@ target 'LearnLanguages' do
   pod 'SwiftLint'
   pod 'RLBAlertsPickers', :git => 'https://github.com/loicgriffie/Alerts-Pickers.git', :branch => 'master'
   pod 'ZIPFoundation', '~> 0.9'
-  pod 'YoutubeDirectLinkExtractor'
+  pod 'XCDYouTubeKit', :git => 'https://github.com/0xced/XCDYouTubeKit.git', :branch => 'master'
+  pod 'SWXMLHash', '~> 4.7.0'
 end

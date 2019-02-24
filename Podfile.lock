@@ -8,7 +8,8 @@ PODS:
   - SnapKit (4.2.0)
   - SwiftLint (0.29.4)
   - SwiftRichString (2.0.5)
-  - YoutubeDirectLinkExtractor (0.2.0)
+  - SWXMLHash (4.7.6)
+  - XCDYouTubeKit (2.7.3)
   - ZIPFoundation (0.9.6)
 
 DEPENDENCIES:
@@ -18,7 +19,8 @@ DEPENDENCIES:
   - SnapKit (~> 4.2.0)
   - SwiftLint
   - SwiftRichString
-  - YoutubeDirectLinkExtractor
+  - SWXMLHash (~> 4.7.0)
+  - XCDYouTubeKit (from `https://github.com/0xced/XCDYouTubeKit.git`, branch `master`)
   - ZIPFoundation (~> 0.9)
 
 SPEC REPOS:
@@ -29,18 +31,24 @@ SPEC REPOS:
     - SnapKit
     - SwiftLint
     - SwiftRichString
-    - YoutubeDirectLinkExtractor
+    - SWXMLHash
     - ZIPFoundation
 
 EXTERNAL SOURCES:
   RLBAlertsPickers:
     :branch: master
     :git: https://github.com/loicgriffie/Alerts-Pickers.git
+  XCDYouTubeKit:
+    :branch: master
+    :git: https://github.com/0xced/XCDYouTubeKit.git
 
 CHECKOUT OPTIONS:
   RLBAlertsPickers:
     :commit: 5ce7637f4c8d5118442f1a9ae781020fa80fccb9
     :git: https://github.com/loicgriffie/Alerts-Pickers.git
+  XCDYouTubeKit:
+    :commit: 4dc4119021ce696c69748b8ca693309f54e4a3d6
+    :git: https://github.com/0xced/XCDYouTubeKit.git
 
 SPEC CHECKSUMS:
   RLBAlertsPickers: d8dd984ed0a686bd167554eeb4a3af5ae8d82d24
@@ -50,9 +58,10 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
   SwiftRichString: a3ebe72b13db2e1b917cdbb6b44d817254a7ff73
-  YoutubeDirectLinkExtractor: 068b6a09d64551cb7cec966179d7f5f5824cd2db
+  SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
+  XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
   ZIPFoundation: 68c35eb2637c21abe56dc60b3277636443bc1501
 
-PODFILE CHECKSUM: bddcf0df1fc2d5ec22edce607ff01e691b2c0b98
+PODFILE CHECKSUM: fdacf421bb38cd0ca06a510b93377080ab1a440e
 
 COCOAPODS: 1.5.3

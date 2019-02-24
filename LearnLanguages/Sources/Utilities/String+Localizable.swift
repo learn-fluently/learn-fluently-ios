@@ -40,6 +40,12 @@ extension String {
     static let SOURCE_OPTION_YOUTUBE = "SOURCE_OPTION_YOUTUBE".localize()
     static let SUBTITLE_FILE_DESC = "SUBTITLE_FILE_DESC".localize()
     static let SUBTITLE_FILE_TITLE = "SUBTITLE_FILE_TITLE".localize()
+    static let YOUTUBE_QUALITY_CHOOSE = "YOUTUBE_QUALITY_CHOOSE".localize()
+    static let YOUTUBE_SUBTITLE_AUTO_GENERATED = "YOUTUBE_SUBTITLE_AUTO_GENERATED".localize()
+    static let YOUTUBE_SUBTITLE_CHOOSE = "YOUTUBE_SUBTITLE_CHOOSE".localize()
+    static let YOUTUBE_VIDEO_HD = "YOUTUBE_VIDEO_HD".localize()
+    static let YOUTUBE_VIDEO_MEDIUM = "YOUTUBE_VIDEO_MEDIUM".localize()
+    static let YOUTUBE_VIDEO_SMALL = "YOUTUBE_VIDEO_SMALL".localize()
     //end-of-generated-keys//
 }
 

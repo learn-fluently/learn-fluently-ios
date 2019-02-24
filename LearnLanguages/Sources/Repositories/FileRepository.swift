@@ -48,7 +48,7 @@ class FileRepository {
             url.appendPathComponent("video.mp4")
 
         case .subtitleFile:
-            url.appendPathComponent("subtitle.srt")
+            url.appendPathComponent("subtitle.txt")
 
         case .archiveFile:
             url.appendPathComponent("archive.zip")

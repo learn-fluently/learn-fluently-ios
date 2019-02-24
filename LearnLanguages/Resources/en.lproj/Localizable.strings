@@ -39,3 +39,11 @@
 "FAILED_TO_GET_CONTENTS_OF_ZIP_FILE" = "Failed to get contents of zip file";
 "ENTER_YOUTUBE_LINK" = "Enter youtube link";
 "FAILED_TO_GET_YOUTUBE_LINKS" = "Failed to get youtube video";
+
+"YOUTUBE_VIDEO_SMALL" = "Small 240p";
+"YOUTUBE_VIDEO_MEDIUM" = "Medium 360p";
+"YOUTUBE_VIDEO_HD" = "HD 720p";
+
+"YOUTUBE_QUALITY_CHOOSE" = "Choose an option for quality";
+"YOUTUBE_SUBTITLE_CHOOSE" = "Choose an option for subtitle";
+"YOUTUBE_SUBTITLE_AUTO_GENERATED" = "Auto generated";
