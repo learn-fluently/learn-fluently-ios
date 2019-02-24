@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SWXMLHash
 
 struct Subtitle {
 
@@ -30,7 +31,11 @@ struct Subtitle {
         do {
             let fileContent = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
             do {
-                items = try self.parseSRTSub(fileContent)
+                if isXML(fileContent: fileContent) {
+                    items = self.parseXMLSub(fileContent)
+                } else {
+                    items = try self.parseSRTSub(fileContent)
+                }
             } catch {
                 debugPrint(error)
             }
@@ -41,6 +46,42 @@ struct Subtitle {
 
 
     // MARK: Private functions
+
+    private func isXML(fileContent: String) -> Bool {
+        return fileContent.starts(with: "<?xml")
+    }
+
+    private func parseXMLSub(_ rawXML: String) -> [SubtitleItem] {
+        let delay = 0.0
+        let xml = SWXMLHash.parse(rawXML)
+        var items: [SubtitleItem] = []
+        var index = 0
+        let texts = xml["transcript"].children
+        texts.forEach { xmlIndexer in
+            guard let element = xmlIndexer.element,
+                let start = element.attribute(by: "start")?.text,
+                let duration = element.attribute(by: "dur")?.text else {
+                    return
+            }
+            var end = delay + (Double(start) ?? 0) + (Double(duration) ?? 0)
+            if index + 1 < texts.count {
+                if let endText = texts[index + 1].element!.attribute(by: "start")?.text {
+                    end = delay + (Double(endText) ?? 0) - 0.01
+                }
+            }
+
+            items.append(
+                SubtitleItem(
+                    texts: [htmlToText(encodedString: element.text)],
+                    start: delay + (Double(start) ?? 0),
+                    end: end,
+                    index: index + 1
+                )
+            )
+            index += 1
+        }
+        return items
+    }
 
     private func parseSRTSub(_ rawSub: String) throws -> [SubtitleItem] {
         var allTitles = [SubtitleItem]()
@@ -138,11 +179,35 @@ struct Subtitle {
 
 
     private func htmlToText(encodedString: String) -> String {
-        return (encodedString as NSString).byConvertingHTMLToPlainText()
+        return encodedString.attributedHtmlString?.string ?? ""
+        //return (encodedString as NSString).byConvertingHTMLToPlainText()
     }
 
 }
 
+private extension String {
+
+    var utfData: Data {
+        return Data(utf8)
+    }
+
+    var attributedHtmlString: NSAttributedString? {
+
+        do {
+            return try NSAttributedString(
+                data: utfData,
+                options:
+                [
+                    .documentType: NSAttributedString.DocumentType.html,
+                    .characterEncoding: String.Encoding.utf8.rawValue
+                ],
+                documentAttributes: nil)
+        } catch {
+            print("Error:", error)
+            return nil
+        }
+    }
+}
 
 private extension NSString {
 
