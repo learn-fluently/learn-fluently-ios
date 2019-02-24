@@ -37,3 +37,5 @@
 "DOWNLOAD_SUCCESSFUL" = "Successfully downloaded";
 "ENTER_SOURCE_NAME" = "Enter source name";
 "FAILED_TO_GET_CONTENTS_OF_ZIP_FILE" = "Failed to get contents of zip file";
+"ENTER_YOUTUBE_LINK" = "Enter youtube link";
+"FAILED_TO_GET_YOUTUBE_LINKS" = "Failed to get youtube video";

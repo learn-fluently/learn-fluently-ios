@@ -8,6 +8,7 @@ PODS:
   - SnapKit (4.2.0)
   - SwiftLint (0.29.4)
   - SwiftRichString (2.0.5)
+  - YoutubeDirectLinkExtractor (0.2.0)
   - ZIPFoundation (0.9.6)
 
 DEPENDENCIES:
@@ -17,6 +18,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.2.0)
   - SwiftLint
   - SwiftRichString
+  - YoutubeDirectLinkExtractor
   - ZIPFoundation (~> 0.9)
 
 SPEC REPOS:
@@ -27,6 +29,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftLint
     - SwiftRichString
+    - YoutubeDirectLinkExtractor
     - ZIPFoundation
 
 EXTERNAL SOURCES:
@@ -47,8 +50,9 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
   SwiftRichString: a3ebe72b13db2e1b917cdbb6b44d817254a7ff73
+  YoutubeDirectLinkExtractor: 068b6a09d64551cb7cec966179d7f5f5824cd2db
   ZIPFoundation: 68c35eb2637c21abe56dc60b3277636443bc1501
 
-PODFILE CHECKSUM: dc4060db3f7f5c9bb3cc3357e3887e734ee5bab7
+PODFILE CHECKSUM: bddcf0df1fc2d5ec22edce607ff01e691b2c0b98
 
 COCOAPODS: 1.5.3

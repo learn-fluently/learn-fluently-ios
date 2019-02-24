@@ -57,10 +57,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private let pageSubtitle: String
     private var currentPickerMode: SourcePikcerMode?
     private let fileRepository = FileRepository()
-    private let fileDownloaderService = FileDownloaderService()
-    private let disposeBag = DisposeBag()
     private var lastSubtitleSourceName: String? = UserDefaultsService.shared.subtitleSourceName
     private var lastVideoSourceName: String? = UserDefaultsService.shared.videoSourceName
+    private var sourceDownloaderService: SourceDownloaderService!
 
 
     // MARK: Outlets
@@ -86,6 +85,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         pageTitle = title
         pageSubtitle = subtitle
         super.init(nibName: SourceConfigViewController.nibName, bundle: nil)
+        sourceDownloaderService = SourceDownloaderService(hostViewController: self, delegate: self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -145,7 +145,10 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
                 self?.openWebView()
 
             case .directLink?:
-                self?.openDirectLinkInputDialog()
+                self?.startWizardForDownloadByDirectLink()
+
+            case .youtube?:
+                self?.sourceDownloaderService.startDownloadFromYoutubeWizard()
 
             default: break
             }
@@ -166,20 +169,15 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         self.present(documentPicker, animated: true, completion: nil)
     }
 
-    private func openDirectLinkInputDialog() {
+    private func startWizardForDownloadByDirectLink() {
         let title: String = currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
         let desc: String = .SOURCE_OPTION_DIRECT_LINK
-        presentInput(title: title, message: desc) { [weak self] directLink in
-            guard let `self` = self,
-                let link = directLink,
-                let url = URL(string: link) else {
-                    return
-            }
-            self.downloadFile(url: url)
-        }
+        sourceDownloaderService.startDownloadWizard(title: title,
+                                                    desc: desc,
+                                                    destUrl: getDestinationURL())
     }
 
-    private func askAndSetSourceName(defaultValue: String) {
+    private func askAndSetSourceName(defaultValue: String, isYoutube: Bool = false) {
         presentInput(title: .ENTER_SOURCE_NAME, defaultValue: defaultValue) { [weak self] name in
             guard let `self` = self else {
                 return
@@ -189,74 +187,8 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             if fileName.lengthOfBytes(using: .utf8) < 1 {
                 fileName = defaultValue
             }
-
-            if self.currentPickerMode == .video {
-                self.lastVideoSourceName = fileName
-            } else if self.currentPickerMode == .subtitle {
-                self.lastSubtitleSourceName = fileName
-            }
-            self.updateSourceFileDescriptions()
+            self.updateSourceFileDescriptions(sourceName: fileName, isYoutube: isYoutube)
         }
-    }
-
-    private func downloadFile(url: URL, isArchive: Bool = false) {
-        let progressViewController = presentMessage(title: .DOWNLOADING)
-        var progressText = ""
-        fileDownloaderService
-            .downloadFile(fromURL: url, toPath: getDestinationURL(isArchive: isArchive))
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .do(onNext: { event in
-                if event.type == .progress, let data = event.progress {
-                    progressText = "\(data.progress) %"
-                    progressViewController.message = "\(progressText)\n\(String.DOWNLOAD_SPEED): \(data.speed)KB/s"
-                } else if let message = event.messsage {
-                    progressViewController.message = "\(progressText)\n\(message)"
-                }
-            },
-                onError: { [weak self] error in
-                    progressViewController.dismiss(animated: false) {
-                        self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
-                    }
-                },
-                onCompleted: { [weak self] in
-                    progressViewController.dismiss(animated: false) {
-                        if isArchive {
-                            self?.handleDownloadedArchive()
-                        } else {
-                            self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
-                        }
-                    }
-            })
-            .subscribe()
-            .disposed(by: disposeBag)
-    }
-
-    private func handleDownloadedArchive() {
-        fileRepository.decompressArchiveFile { [weak self] filesUrls in
-            guard !filesUrls.isEmpty else {
-                self?.presentOKMessage(title: .ERROR, message: .FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)
-                return
-            }
-
-            if filesUrls.count == 1 {
-                askSourceNameAndSaveItWithURL(filesUrls.first!)
-                return
-            }
-
-            let alert = UIAlertController(style: .actionSheet)
-            filesUrls.forEach { url in
-                alert.addAction(title: url.lastPathComponent) { [weak self] _ in
-                    self?.askSourceNameAndSaveItWithURL(url)
-                }
-            }
-            self?.present(alert, animated: true, completion: nil)
-        }
-    }
-
-    private func askSourceNameAndSaveItWithURL(_ url: URL) {
-        askAndSetSourceName(defaultValue: url.lastPathComponent)
-        fileRepository.replaceItem(at: getDestinationURL(), with: url)
     }
 
     private func openWebView() {
@@ -276,7 +208,18 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         updateSourceFileDescriptions()
     }
 
-    private func updateSourceFileDescriptions() {
+    private func updateSourceFileDescriptions(sourceName: String? = nil, isYoutube: Bool = false) {
+        if let sourceName = sourceName {
+            if isYoutube {
+                self.lastVideoSourceName = sourceName
+                self.lastSubtitleSourceName = sourceName
+            } else if self.currentPickerMode == .video {
+                self.lastVideoSourceName = sourceName
+            } else if self.currentPickerMode == .subtitle {
+                self.lastSubtitleSourceName = sourceName
+            }
+        }
+
         let videoDesc = lastVideoSourceName ?? .SOURCE_FILE_DESC
         videoFileDescriptionLabel.attributedText = videoDesc.set(style: Style.itemDescriptionTextStyle)
 
@@ -284,10 +227,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         subtitleFileDescriptionLabel.attributedText = subtitleDesc.set(style: Style.itemDescriptionTextStyle)
     }
 
-    private func getDestinationURL(isArchive: Bool = false) -> URL {
-        if isArchive {
-            return fileRepository.getPathURL(for: .archiveFile)
-        }
+    private func getDestinationURL() -> URL {
         return currentPickerMode == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
     }
 
@@ -298,7 +238,12 @@ extension SourceConfigViewController: WebBrowserViewControllerDelegate {
 
     func getDownloadHandlerBlock(mimeType: String, url: URL) -> (() -> Void)? {
         let downloadHandler: () -> Void = { [weak self] in
-            self?.downloadFile(url: url, isArchive: mimeType == "application/zip")
+            guard let `self` = self else {
+                return
+            }
+            self.sourceDownloaderService.startDownload(url: url,
+                                                       destUrl: self.getDestinationURL(),
+                                                       isArchive: mimeType == "application/zip")
         }
         if currentPickerMode == .video, mimeType == "video/mp4" {
             return downloadHandler
@@ -321,7 +266,17 @@ extension SourceConfigViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else {
             return
         }
-        askSourceNameAndSaveItWithURL(url)
+        fileRepository.replaceItem(at: getDestinationURL(), with: url)
+        askAndSetSourceName(defaultValue: url.lastPathComponent)
+    }
+
+}
+
+
+extension SourceConfigViewController: SourceDownloaderServiceDelegate {
+
+    func onSourceReady(deafulSourceName: String, isYoutube: Bool) {
+        askAndSetSourceName(defaultValue: deafulSourceName, isYoutube: isYoutube)
     }
 
 }
