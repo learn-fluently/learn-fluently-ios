@@ -59,23 +59,24 @@ struct Subtitle {
         let texts = xml["transcript"].children
         texts.forEach { xmlIndexer in
             guard let element = xmlIndexer.element,
-                let start = element.attribute(by: "start")?.text,
+                let startText = element.attribute(by: "start")?.text,
                 let duration = element.attribute(by: "dur")?.text else {
                     return
             }
-            var end = delay + (Double(start) ?? 0) + (Double(duration) ?? 0)
+            let start = delay + (Double(startText) ?? 0)
+            var end = start + (Double(duration) ?? 0)
             if index + 1 < texts.count {
                 if let endText = texts[index + 1].element!.attribute(by: "start")?.text {
-                    end = delay + (Double(endText) ?? 0) - 0.01
+                    end = delay + (Double(endText) ?? 0) - 0.2
                 }
             }
 
             items.append(
                 SubtitleItem(
                     texts: [htmlToText(encodedString: element.text)],
-                    start: delay + (Double(start) ?? 0),
+                    start: start,
                     end: end,
-                    index: index + 1
+                    index: index
                 )
             )
             index += 1
@@ -183,6 +184,7 @@ struct Subtitle {
     }
 
 }
+
 
 private extension String {
 

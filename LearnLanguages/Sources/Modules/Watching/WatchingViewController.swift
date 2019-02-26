@@ -225,13 +225,13 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
             return
         }
+        guard !UIMenuController.shared.isMenuVisible else {
+            return
+        }
         setSubtitleText(subtitleText ?? "")
     }
 
     private func setSubtitleText(_ text: String) {
-        guard !UIMenuController.shared.isMenuVisible else {
-            return
-        }
         textView.attributedText = text.set(style: Style.selectableSubtitleTextStyle)
     }
 

@@ -219,8 +219,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         playerController.playerTimeObservable
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] currentValue in
-                self?.adjustCurrentSubtitle(currentValue: currentValue)
                 self?.pausePlayerAndStartRecordingIfNeeded(currentValue: currentValue)
+                self?.adjustCurrentSubtitle(currentValue: currentValue)
             })
             .disposed(by: disposeBag)
     }
