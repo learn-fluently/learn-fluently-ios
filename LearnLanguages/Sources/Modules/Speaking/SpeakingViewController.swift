@@ -38,7 +38,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     // MARK: Properties
 
     // TODO: set language
-    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: "en-UK"))!
+    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: "en-US"))!
     private var playerController: PlayerViewController!
     private var subtitleRepository: SubtitleRepository!
     private var fileRepository: FileRepository!
@@ -46,8 +46,8 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     private var currentSubtitle: String?
     private var textLabelTempValue: String?
     private var autoStartRecordingForNext = true
-    private var autoStopRecording = true
     private var audioDetectionTimer: Timer?
+
 
     // MARK: Outlets
 
@@ -66,9 +66,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         super.viewDidLoad()
         fileRepository = FileRepository()
 
-        speechRecognizer.delegate = self
-        try? speechRecognizer.configureAudioSession()
-
+        configureSpeechRecognizerService()
         configureRecordButton()
         addPlayerViewController()
         subscribeToPlayerTime()
@@ -79,7 +77,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         speechRecognizer.requestAuthorization { [weak self] isAuthorized, errorDescription in
-            self?.recordButton.isEnabled = isAuthorized
+            self?.recordButton.isHidden = !isAuthorized
             if let error = errorDescription {
                 self?.showAlert(error)
             }
@@ -164,8 +162,9 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     private func adjustResultViewIfNeeded() {
         let currentSubtitleLength = currentSubtitle?.lengthOfBytes(using: .utf8) ?? 0
+        let bestTranscription = speechRecognizer.bestTranscription
 
-        if speechRecognizer.lastBestTranscription?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
+        if bestTranscription?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
             currentSubtitleLength < 1 ||
             playerController.isPlaying ||
             speechRecognizer.isRecording {
@@ -174,7 +173,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         }
 
         let originalText = normalizeTextForComparesion(currentSubtitle!)
-        let speachText = normalizeTextForComparesion(speechRecognizer.lastBestTranscription!)
+        let speachText = normalizeTextForComparesion(bestTranscription!)
 
         let editDifference = originalText.levenshtein(speachText)
         let beingCorrectRate = Double(currentSubtitleLength - editDifference) / Double(currentSubtitleLength)
@@ -246,6 +245,16 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
         recordButton.isEnabled = false
     }
 
+    private func configureSpeechRecognizerService() {
+        speechRecognizer.delegate = self
+        speechRecognizer.recordingDelegate = self
+        speechRecognizer.bestTranscriptionObservable
+            .subscribe(onNext: { [weak self] value in
+                self?.updateTextLabelView(value)
+            })
+            .disposed(by: disposeBag)
+    }
+
     private func configureSubtitleRepositoryAndThenPlay() {
         view.isUserInteractionEnabled = false
         configureSubtitleRepositoryAsync { [weak self] in
@@ -295,9 +304,7 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
             return
         }
         do {
-            try startRecording()
-            recordButton.setImage(#imageLiteral(resourceName: "Recording"), for: [])
-            playerController.showsPlaybackControls = false
+            try speechRecognizer.startRecognition()
         } catch {
             showAlert("Recording Not Available")
         }
@@ -311,28 +318,6 @@ class SpeakingViewController: BaseViewController, NibBasedViewController {
 
     private func stopRecording(shouldKeepResult: Bool = true) {
         speechRecognizer.stopRecognitionTaskIfNeeded(cancel: !shouldKeepResult)
-        if speechRecognizer.lastBestTranscription == nil {
-            updateTextLabelView(nil)
-        }
-        onRecordingStoped()
-    }
-
-    private func startRecording() throws {
-        try speechRecognizer.startRecording(onTranscriptionChanged: { [weak self] result in
-            self?.updateTextLabelView(result)
-            }, onStart: { [weak self] in
-                self?.updateTextLabelView(Constants.speakingHint)
-                self?.adjustResultViewIfNeeded()
-            }, onAutoStoped: { [weak self] in
-                self?.onRecordingStoped()
-        })
-    }
-
-    private func onRecordingStoped() {
-        recordButton.isEnabled = true
-        playerController.showsPlaybackControls = true
-        recordButton.setImage(#imageLiteral(resourceName: "Record"), for: [])
-        adjustResultViewIfNeeded()
     }
 
 }
@@ -358,18 +343,28 @@ extension SpeakingViewController: PlayerViewControllerPlayingDelegate {
 }
 
 
-extension SpeakingViewController: SFSpeechRecognizerDelegate {
+extension SpeakingViewController: SFSpeechRecognizerDelegate, SpeechRecognizerRecordingDelegate {
+
 
     // MARK: Functions
 
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
-        if available {
-            recordButton.isEnabled = true
-            recordButton.setImage(#imageLiteral(resourceName: "Record"), for: [])
-        } else {
-            recordButton.isEnabled = false
+        if !available {
+            recordButton.isHidden = true
             showAlert("Recognition Not Available")
         }
+    }
+
+    func onRecordingStateChanged(isRecording: Bool) {
+        if isRecording {
+            updateTextLabelView(Constants.speakingHint)
+        } else if speechRecognizer.bestTranscription == nil {
+            updateTextLabelView(nil)
+        }
+
+        adjustResultViewIfNeeded()
+        playerController.showsPlaybackControls = !isRecording
+        recordButton.setImage(isRecording ? #imageLiteral(resourceName: "Recording") : #imageLiteral(resourceName: "Record"), for: .normal)
     }
 
 }

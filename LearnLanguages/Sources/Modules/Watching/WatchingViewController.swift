@@ -322,7 +322,7 @@ extension WatchingViewController: LLTextViewMenuDelegate {
     func onSpeechMenuItemSelected(_ textView: UITextView) {
         let utterance = AVSpeechUtterance(string: getSelectedText())
         // TODO: set language
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-UK")
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechSynthesizer.speak(utterance)
         textViewSelectedTextRange = nil
     }

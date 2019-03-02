@@ -8,6 +8,17 @@
 
 import AVFoundation
 import Speech
+import RxCocoa
+import RxSwift
+
+protocol SpeechRecognizerRecordingDelegate: AnyObject {
+
+    // MARK: Functions
+
+    func onRecordingStateChanged(isRecording: Bool)
+
+}
+
 
 class SpeechRecognizerService: SFSpeechRecognizer {
 
@@ -21,18 +32,26 @@ class SpeechRecognizerService: SFSpeechRecognizer {
 
     // MARK: Properties
 
+    weak var recordingDelegate: SpeechRecognizerRecordingDelegate?
+
     var isRecording: Bool {
         return audioEngine.isRunning
     }
 
-    var autoStopAtEndOfDetection: Bool = true
+    var bestTranscriptionObservable: Observable<String?> {
+        return bestTranscriptionBehaviorRelay.asObservable()
+    }
 
-    private(set) var lastBestTranscription: String?
+    var bestTranscription: String? {
+        return bestTranscriptionBehaviorRelay.value
+    }
 
+    private var autoStopAtEndOfDetection: Bool = true
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private var audioEngine: AVAudioEngine!
     private var audioDetectionTimer: Timer?
+    private var bestTranscriptionBehaviorRelay = BehaviorRelay<String?>(value: nil)
 
 
     // MARK: Life cycle
@@ -40,6 +59,7 @@ class SpeechRecognizerService: SFSpeechRecognizer {
     override init?(locale: Locale) {
         super.init(locale: locale)
         audioEngine = AVAudioEngine()
+        try? configureAudioSession()
     }
 
 
@@ -71,29 +91,33 @@ class SpeechRecognizerService: SFSpeechRecognizer {
         }
     }
 
-    func configureAudioSession() throws {
 
-        // Configure the audio session for the app.
-        let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
-        try audioSession.setActive(true)
+    func startRecognition() throws {
+        guard !isRecording else {
+            return
+        }
+        try startRecording()
     }
 
-    func startRecording(onTranscriptionChanged: ((String?) -> Void)? = nil,
-                        onStart:(() -> Void)? = nil,
-                        onAutoStoped:(() -> Void)? = nil) throws {
+
+    func stopRecognitionTaskIfNeeded(cancel: Bool = false) {
+        guard isRecording else {
+            return
+        }
+        stopRecognitionTask(cancel: cancel)
+    }
+
+
+    // MARK: Private functions
+
+    private func startRecording() throws {
 
         let inputNode = audioEngine.inputNode
 
         // Cancel the previous task if it's running.
-        if let recognitionTask = recognitionTask {
-            audioEngine.stop()
-            inputNode.removeTap(onBus: 0)
-            recognitionTask.cancel()
-            recognitionRequest = nil
-            self.recognitionTask = nil
+        if recognitionTask != nil {
+            stopRecognitionTask(cancel: true)
         }
-
 
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -104,25 +128,21 @@ class SpeechRecognizerService: SFSpeechRecognizer {
 
         // Create a recognition task for the speech recognition session.
         // Keep a reference to the task so that it can be canceled.
-
         recognitionTask = recognitionTask(with: recognitionRequest) { [weak self] result, error in
             guard let `self` = self else {
                 return
             }
 
-            var isFinal = false
-
-            if let result = result {
-                if self.isRecording {
-                    self.lastBestTranscription = result.bestTranscription.formattedString
-                    onTranscriptionChanged?(self.lastBestTranscription)
-                }
-                isFinal = result.isFinal
+            if let result = result, self.isRecording {
+                self.bestTranscriptionBehaviorRelay.accept(result.bestTranscription.formattedString)
             }
 
-            if error != nil || isFinal {
-                self.stopRecognitionTask()
-            } else {
+            if let error = error {
+                if self.bestTranscription != nil {
+                    self.bestTranscriptionBehaviorRelay.accept(nil)
+                }
+                print(error)
+            } else if result?.isFinal == false {
                 if let timer = self.audioDetectionTimer, timer.isValid {
                     timer.invalidate()
                 }
@@ -130,9 +150,8 @@ class SpeechRecognizerService: SFSpeechRecognizer {
                     self.audioDetectionTimer = Timer.scheduledTimer(
                         withTimeInterval: Constants.stopRecordingAfterInactivityForSeconds,
                         repeats: false) { timer in
-                            if self.isRecording, !isFinal, self.lastBestTranscription != nil {
+                            if self.isRecording, self.bestTranscriptionBehaviorRelay.value != nil {
                                 self.stopRecognitionTask(cancel: false)
-                                onAutoStoped?()
                             }
                             timer.invalidate()
                     }
@@ -148,19 +167,20 @@ class SpeechRecognizerService: SFSpeechRecognizer {
 
         audioEngine.prepare()
         try audioEngine.start()
-
-        lastBestTranscription = nil
-        onStart?()
-    }
-
-    func stopRecognitionTaskIfNeeded(cancel: Bool = false) {
-        guard isRecording else {
-            return
+        DispatchQueue.main.async {
+            self.bestTranscriptionBehaviorRelay.accept(nil)
+            self.recordingDelegate?.onRecordingStateChanged(isRecording: true)
         }
-        stopRecognitionTask(cancel: cancel)
     }
 
-    func stopRecognitionTask(cancel: Bool = false) {
+    private func configureAudioSession() throws {
+        // Configure the audio session for the app.
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
+        try audioSession.setActive(true)
+    }
+
+    private func stopRecognitionTask(cancel: Bool = false) {
         if let timer = self.audioDetectionTimer, timer.isValid {
             timer.invalidate()
         }
@@ -168,15 +188,16 @@ class SpeechRecognizerService: SFSpeechRecognizer {
         recognitionRequest?.endAudio()
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
-
         recognitionRequest = nil
+
         if !cancel, recognitionTask?.isFinishing != true {
             recognitionTask?.finish()
-            recognitionTask = nil
         } else if cancel {
             recognitionTask?.cancel()
-            recognitionTask = nil
         }
+
+        recognitionTask = nil
+        recordingDelegate?.onRecordingStateChanged(isRecording: false)
     }
 
 }
