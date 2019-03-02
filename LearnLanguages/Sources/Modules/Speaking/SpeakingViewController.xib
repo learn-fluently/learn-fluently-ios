@@ -12,8 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SpeakingViewController" customModule="LearnLanguages">
             <connections>
-                <outlet property="correctPercentageLabel" destination="EVQ-aT-nfq" id="n0Z-bX-eAD"/>
+                <outlet property="correctPercentageLabel" destination="EVQ-aT-nfq" id="1Ru-bi-tDC"/>
                 <outlet property="hintButton" destination="4pG-UK-LE2" id="9q7-us-LyF"/>
+                <outlet property="hintLabel" destination="Fac-vd-cjV" id="jGP-Xo-DTV"/>
                 <outlet property="playPauseButton" destination="lKO-fS-w3b" id="KBT-Dn-CZf"/>
                 <outlet property="playerContainerView" destination="vGI-jM-gpR" id="KUB-fl-Nls"/>
                 <outlet property="recordButton" destination="Chn-eN-1Gd" id="Mp5-Bg-wJJ"/>
@@ -94,6 +95,12 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fac-vd-cjV">
+                            <rect key="frame" x="16" y="94" width="350" height="144.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JA7-Qz-ZmE">
                             <rect key="frame" x="16" y="246.5" width="350" height="55"/>
                             <subviews>
@@ -136,14 +143,18 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="rPX-Jd-zW7" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="3Dy-nB-Lau"/>
+                        <constraint firstItem="Fac-vd-cjV" firstAttribute="leading" secondItem="rPX-Jd-zW7" secondAttribute="leading" id="45F-Ey-8Ky"/>
                         <constraint firstItem="EVQ-aT-nfq" firstAttribute="top" secondItem="QwI-BU-Pqx" secondAttribute="bottom" id="6af-za-WY6"/>
                         <constraint firstItem="JA7-Qz-ZmE" firstAttribute="top" secondItem="rPX-Jd-zW7" secondAttribute="bottom" constant="8" id="DWF-qN-qxF"/>
+                        <constraint firstItem="Fac-vd-cjV" firstAttribute="trailing" secondItem="rPX-Jd-zW7" secondAttribute="trailing" id="GMC-Gc-m6W"/>
                         <constraint firstAttribute="trailing" secondItem="JA7-Qz-ZmE" secondAttribute="trailing" constant="16" id="Iep-Dd-Zf5"/>
                         <constraint firstAttribute="bottom" secondItem="JA7-Qz-ZmE" secondAttribute="bottom" constant="8" id="LKu-Lt-7fR"/>
+                        <constraint firstItem="Fac-vd-cjV" firstAttribute="top" secondItem="rPX-Jd-zW7" secondAttribute="top" id="Suf-Of-7cm"/>
                         <constraint firstItem="EVQ-aT-nfq" firstAttribute="centerX" secondItem="x32-Ok-0nE" secondAttribute="centerX" id="THK-Rm-jg4"/>
                         <constraint firstAttribute="trailing" secondItem="QwI-BU-Pqx" secondAttribute="trailing" constant="26" id="VWN-qT-pw1"/>
                         <constraint firstItem="QwI-BU-Pqx" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="26" id="bKn-zI-heS"/>
                         <constraint firstItem="JA7-Qz-ZmE" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="jw6-ZT-3M6"/>
+                        <constraint firstItem="Fac-vd-cjV" firstAttribute="bottom" secondItem="rPX-Jd-zW7" secondAttribute="bottom" id="lsL-yZ-E0o"/>
                         <constraint firstAttribute="trailing" secondItem="rPX-Jd-zW7" secondAttribute="trailing" constant="16" id="oJN-kU-9vq"/>
                         <constraint firstItem="QwI-BU-Pqx" firstAttribute="top" secondItem="x32-Ok-0nE" secondAttribute="top" constant="20" id="vj2-qT-AXz"/>
                         <constraint firstItem="rPX-Jd-zW7" firstAttribute="top" secondItem="EVQ-aT-nfq" secondAttribute="bottom" constant="8" id="zG9-sx-YXq"/>

@@ -28,6 +28,7 @@
 		ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C32221954AD0079C5C7 /* Reachability.swift */; };
 		ABD68206222AA8EB00AD5645 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68205222AA8EB00AD5645 /* WritingViewController.swift */; };
 		ABD68208222AA90100AD5645 /* WritingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABD68207222AA90100AD5645 /* WritingViewController.xib */; };
+		ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68209222ADA6F00AD5645 /* InputViewController.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */; };
@@ -77,6 +78,7 @@
 		ABAF5C32221954AD0079C5C7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		ABD68205222AA8EB00AD5645 /* WritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
 		ABD68207222AA90100AD5645 /* WritingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritingViewController.xib; sourceTree = "<group>"; };
+		ABD68209222ADA6F00AD5645 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		ABFE60162210AE1A001267C8 /* Speaking */ = {
 			isa = PBXGroup;
 			children = (
+				ABD68209222ADA6F00AD5645 /* InputViewController.swift */,
 				ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */,
 				ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */,
 			);
@@ -505,6 +508,7 @@
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
 				ABFE60252210D751001267C8 /* FileRepository.swift in Sources */,
+				ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */,
 				ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */,
 				ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */,
 				ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */,
