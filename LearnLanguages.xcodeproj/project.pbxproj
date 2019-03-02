@@ -26,6 +26,8 @@
 		ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */; };
 		ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABAF5C0F22189BE40079C5C7 /* Localizable.strings */; };
 		ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C32221954AD0079C5C7 /* Reachability.swift */; };
+		ABD68206222AA8EB00AD5645 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68205222AA8EB00AD5645 /* WritingViewController.swift */; };
+		ABD68208222AA90100AD5645 /* WritingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABD68207222AA90100AD5645 /* WritingViewController.xib */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
 		ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */; };
@@ -73,6 +75,8 @@
 		ABAF5C0E22189BE40079C5C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
 		ABAF5C32221954AD0079C5C7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		ABD68205222AA8EB00AD5645 /* WritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
+		ABD68207222AA90100AD5645 /* WritingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritingViewController.xib; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
 		ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +203,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		ABD68204222AA8C800AD5645 /* Writing */ = {
+			isa = PBXGroup;
+			children = (
+				ABD68205222AA8EB00AD5645 /* WritingViewController.swift */,
+				ABD68207222AA90100AD5645 /* WritingViewController.xib */,
+			);
+			path = Writing;
+			sourceTree = "<group>";
+		};
 		ABD73BAA21FBA2B8004B2FB9 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +266,7 @@
 		ABFE60112210AE1A001267C8 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABD68204222AA8C800AD5645 /* Writing */,
 				ABF2F3242220A9E40023698D /* WebBrowser */,
 				ABFE601E2210AE41001267C8 /* SourceConfig */,
 				AB09959E21F9090F00867890 /* Overview */,
@@ -378,6 +392,7 @@
 			files = (
 				ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */,
 				ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */,
+				ABD68208222AA90100AD5645 /* WritingViewController.xib in Resources */,
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
 				ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
@@ -495,6 +510,7 @@
 				ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */,
 				ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */,
 				AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */,
+				ABD68206222AA8EB00AD5645 /* WritingViewController.swift in Sources */,
 				ABFED1A22221CA3000F23313 /* UserDefaultsService.swift in Sources */,
 				AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */,
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
