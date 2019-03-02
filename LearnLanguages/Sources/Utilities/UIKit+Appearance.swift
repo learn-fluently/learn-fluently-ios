@@ -16,7 +16,7 @@ extension Style {
 
     static var subtitleTextStyle: Style {
         return Style {
-            $0.font = SystemFonts.Helvetica.font(size: 19)
+            $0.font = SystemFonts.Helvetica.font(size: 18)
             $0.color = UIColor.black
         }
     }

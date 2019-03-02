@@ -25,6 +25,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
         case watching
         case speaking
+        case writing
     }
 
     enum SourcePikcerMode {
@@ -106,11 +107,15 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         if lastSubtitleSourceName != nil {
             UserDefaultsService.shared.subtitleSourceName = lastSubtitleSourceName
         }
-        if sourceType == .watching {
+        switch sourceType {
+        case .watching:
             show(WatchingViewController(), sender: nil)
-        }
-        if sourceType == .speaking {
+
+        case .speaking:
             show(SpeakingViewController(), sender: nil)
+
+        case .writing:
+            show(WritingViewController(), sender: nil)
         }
     }
 

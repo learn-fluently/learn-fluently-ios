@@ -61,6 +61,9 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGY-6I-Jav">
                                     <rect key="frame" x="-9" y="-14" width="263" height="219"/>
                                     <state key="normal" title="Button" image="OverViewIconWriting"/>
+                                    <connections>
+                                        <action selector="writingButtonTouched" destination="-1" eventType="touchUpInside" id="OwM-9I-ACg"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Writing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20N-zj-U9a">
                                     <rect key="frame" x="79.5" y="162" width="48" height="17"/>

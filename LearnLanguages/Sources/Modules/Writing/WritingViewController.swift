@@ -17,15 +17,14 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Properties
 
-    override var isInputBusy: Bool {
-        return false// TODO: set language
-    }
+    private var isEditingAllowed = false
 
 
     // MARK: Outlets
 
     @IBOutlet private weak var inputTextView: UITextView!
     @IBOutlet private weak var doneButton: UIButton!
+    @IBOutlet private weak var contentViewBottomConstraint: NSLayoutConstraint!
 
 
     // MARK: Lifecyle
@@ -33,12 +32,18 @@ class WritingViewController: InputViewController, NibBasedViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        inputTextView.delegate = self
         adjustResultViewIfNeeded()
+        addKeyboardFrameNotificationObserver()
     }
 
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         inputTextView.becomeFirstResponder()
+    }
+
+    deinit {
+        removeKeyboardNotificationObserver()
     }
 
 
@@ -53,7 +58,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     internal override func togglePlayerPlaying() {
         super.togglePlayerPlaying()
-        inputTextView.text = ""
+        cleanInputTextView()
     }
 
     internal override func showHint() {
@@ -68,30 +73,71 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     internal override func replay() {
         super.replay()
-        inputTextView.text = ""
+        cleanInputTextView()
     }
 
     internal override func seek(to time: Double) {
         super.seek(to: time)
-        inputTextView.text = ""
+        cleanInputTextView()
     }
 
     internal override func onReadyToGetNewInput() {
-        inputTextView.text = ""
+        cleanInputTextView()
+        isEditingAllowed = true
+        doneButton.isEnabled = true
+        inputTextView.isHidden = false
         inputTextView.becomeFirstResponder()
     }
 
     internal override func onInputAllowedChanged(isAllowed: Bool) {
-//        recordButton.isEnabled = isAllowed
-//        if !isAllowed {
-//            textLabelView.text = ""
-//        }
+        isEditingAllowed = isAllowed
+        if !isAllowed {
+            cleanInputTextView()
+        }
+    }
+
+
+    // MARK: Private functions
+
+    private func cleanInputTextView() {
+        inputTextView.attributedText = nil
+        inputTextView.isHidden = true
+        doneButton.isEnabled = false
+    }
+
+    private func addKeyboardFrameNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleKeyboardWillChangeFrame(notification:)),
+            name: UIWindow.keyboardWillChangeFrameNotification,
+            object: nil)
+    }
+
+    private func removeKeyboardNotificationObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillChangeFrameNotification, object: nil)
+    }
+
+    @objc private func handleKeyboardWillChangeFrame(notification: Notification) {
+        let keyboardEndFrame = (notification.userInfo?[UIWindow.keyboardFrameEndUserInfoKey] as? CGRect) ?? .zero
+        var constant = self.view.frame.height - keyboardEndFrame.origin.y
+        if constant < 0 {
+            constant = 0
+        }
+        contentViewBottomConstraint.constant = constant + 4
+        view.layoutIfNeeded()
     }
 
 }
 
 
-extension WritingViewController: UITextFieldDelegate {
+extension WritingViewController: UITextViewDelegate {
 
+    func textViewDidChange(_ textView: UITextView) {
+        textView.attributedText = textView.text.set(style: Style.subtitleTextStyle)
+    }
+
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return isEditingAllowed
+    }
 
 }

@@ -41,4 +41,11 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
              sender: nil)
     }
 
+    @IBAction private func writingButtonTouched() {
+        show(SourceConfigViewController(title: "Writing",
+                                        subtitle: "Listening training\ndictation training",
+                                        type: .writing),
+             sender: nil)
+    }
+
 }

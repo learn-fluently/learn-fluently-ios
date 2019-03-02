@@ -18,7 +18,7 @@ class InputViewController: BaseViewController {
 
     internal struct Constants {
 
-        static let autoGoToTheNextWithPercentage = 90
+        static let autoGoToTheNextWithPercentage = 95
         static let autoGoToTheNextDelay: Double = 2
     }
 
@@ -178,9 +178,8 @@ class InputViewController: BaseViewController {
 
         // auto play
         if beingCorrectPercentage >= Constants.autoGoToTheNextWithPercentage {
-            view.isUserInteractionEnabled = false
+            onInputAllowedChanged(isAllowed: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + Constants.autoGoToTheNextDelay) { [weak self] in
-                self?.view.isUserInteractionEnabled = true
                 self?.playerController.play()
             }
         }
