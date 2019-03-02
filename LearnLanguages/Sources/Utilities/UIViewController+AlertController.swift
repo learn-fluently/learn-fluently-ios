@@ -58,7 +58,11 @@ extension UIViewController {
                                           actions: alertActions,
                                           style: .actionSheet,
                                           appendCancel: appendCancel)
-
+        if let popoverController = controller.popoverPresentationController {
+            popoverController.sourceView = self.view //to set the source of your alert
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
+            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
+        }
         present(controller, animated: true)
     }
 
