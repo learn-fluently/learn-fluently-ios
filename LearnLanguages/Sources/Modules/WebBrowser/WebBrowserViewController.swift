@@ -77,7 +77,11 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
         if let superview = view.superview?.superview {
             view.snp.makeConstraints {
                 $0.width.equalTo(superview)
-                $0.top.equalTo(parentView).inset(parentView.safeAreaInsets.top).priority(.high)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    $0.height.equalTo(700)
+                } else {
+                    $0.top.equalTo(parentView).inset(parentView.safeAreaInsets.top).priority(.high)
+                }
             }
         }
     }
