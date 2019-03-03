@@ -18,7 +18,9 @@ class WritingViewController: InputViewController, NibBasedViewController {
     // MARK: Properties
 
     private var isEditingAllowed = false
-
+    override var autoGoToTheNextWithPercentage: Int {
+        return 97
+    }
 
     // MARK: Outlets
 
@@ -96,6 +98,17 @@ class WritingViewController: InputViewController, NibBasedViewController {
         }
     }
 
+    internal override func inputWrongWordRanges(_ ranges: [NSRange]) {
+        let text = inputTextView.text ?? ""
+        let wrongWordStyle = Style.subtitleTextStyle
+        wrongWordStyle.color = UIColor.red
+        let attributedText = text.set(style: Style.subtitleTextStyle)
+        ranges.forEach {
+            attributedText.set(style: wrongWordStyle, range: $0)
+        }
+        inputTextView.attributedText = attributedText
+    }
+
 
     // MARK: Private functions
 
@@ -103,6 +116,9 @@ class WritingViewController: InputViewController, NibBasedViewController {
         inputTextView.attributedText = nil
         inputTextView.isHidden = true
         doneButton.isEnabled = false
+        inputTextView.textContainerInset = .zero
+        inputTextView.contentInset = .zero
+        inputTextView.textContainer.lineFragmentPadding = 0
     }
 
     private func addKeyboardFrameNotificationObserver() {

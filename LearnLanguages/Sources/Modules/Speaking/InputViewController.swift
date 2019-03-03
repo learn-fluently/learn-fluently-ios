@@ -14,15 +14,6 @@ import SwiftRichString
 
 class InputViewController: BaseViewController {
 
-    // MARK: Constants
-
-    internal struct Constants {
-
-        static let autoGoToTheNextWithPercentage = 95
-        static let autoGoToTheNextDelay: Double = 2
-    }
-
-
     // MARK: Properties
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -35,6 +26,10 @@ class InputViewController: BaseViewController {
     }
 
     internal var disposeBag = DisposeBag()
+
+    private(set) var autoGoToTheNextWithPercentage: Int = 90
+
+    private(set) var autoGoToTheNextDelay: Double = 2
 
     private(set) var isInputBusy: Bool = false
 
@@ -82,6 +77,10 @@ class InputViewController: BaseViewController {
         fatalError("Should implemented in child classes")
     }
 
+    internal func inputWrongWordRanges(_ ranges: [NSRange]) {
+        // can be implemented in child classes
+    }
+
 
     // MARK: - Event handlers
 
@@ -124,7 +123,9 @@ class InputViewController: BaseViewController {
 
     internal func showHint() {
         playerController.pause()
-        hintLabel.attributedText = (currentSubtitle ?? "").set(style: Style.subtitleTextStyle)
+        let style = Style.subtitleTextStyle
+        style.color = view.tintColor
+        hintLabel.attributedText = (currentSubtitle ?? "").set(style: style)
         hintLabel.isHidden = false
     }
 
@@ -159,29 +160,50 @@ class InputViewController: BaseViewController {
         }
 
         let originalText = normalizeTextForComparesion(currentSubtitle!)
-        let speachText = normalizeTextForComparesion(input!)
+        let inputText = normalizeTextForComparesion(input!)
 
-        let editDifference = originalText.levenshtein(speachText)
+        let editDifference = originalText.levenshtein(inputText)
         let beingCorrectRate = Double(currentSubtitleLength - editDifference) / Double(currentSubtitleLength)
 
         correctPercentageLabel.isHidden = false
         var color: UIColor = .red
-        if beingCorrectRate > 0.5 {
-            color = .orange
-        }
-        if beingCorrectRate > 0.85 {
+        if beingCorrectRate > (Double(autoGoToTheNextWithPercentage - 5) / 100.0) {
             color = .green
+        } else if beingCorrectRate > 0.5 {
+            color = .orange
         }
         let style = Style.beCorrectPercentage(color: color)
         let beingCorrectPercentage = Int(beingCorrectRate * 100)
         correctPercentageLabel.attributedText = (String(format: "%d", beingCorrectPercentage) + "%").set(style: style)
 
         // auto play
-        if beingCorrectPercentage >= Constants.autoGoToTheNextWithPercentage {
+        if beingCorrectPercentage >= autoGoToTheNextWithPercentage {
             onInputAllowedChanged(isAllowed: false)
-            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.autoGoToTheNextDelay) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + autoGoToTheNextDelay) { [weak self] in
                 self?.playerController.play()
             }
+        // finding wrong words ranges
+        } else {
+            var ranges: [NSRange] = []
+            let origirnalWords = currentSubtitle!
+                .components(separatedBy: " ")
+                .map { normalizeTextForComparesion($0) }
+
+            let inputWords = input!.components(separatedBy: " ")
+            var location = 0
+            if let first = inputWords.first {
+                location = input!.range(of: first)?.nsRange.location ?? 0
+            }
+            inputWords.forEach {
+                if $0.lengthOfBytes(using: .utf8) > 1,
+                    !origirnalWords.contains(normalizeTextForComparesion($0)) {
+                    ranges.append(
+                        NSRange(location: location, length: $0.lengthOfBytes(using: .utf8))
+                    )
+                }
+                location += $0.lengthOfBytes(using: .utf8) + 1
+            }
+            inputWrongWordRanges(ranges)
         }
     }
 
