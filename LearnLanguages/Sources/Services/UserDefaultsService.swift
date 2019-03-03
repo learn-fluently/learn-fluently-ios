@@ -19,6 +19,7 @@ class UserDefaultsService {
 
         case subtitleSourceName
         case videoSourceName
+        case learingLanguageCode
     }
 
     static let shared = UserDefaultsService()
@@ -34,6 +35,11 @@ class UserDefaultsService {
     var videoSourceName: String? {
         set { set(key: .videoSourceName, value: newValue) }
         get { return get(key: .videoSourceName) }
+    }
+
+    var learingLanguageCode: String {
+        set { set(key: .learingLanguageCode, value: newValue) }
+        get { return get(key: .learingLanguageCode) ?? "en-US" }
     }
 
 

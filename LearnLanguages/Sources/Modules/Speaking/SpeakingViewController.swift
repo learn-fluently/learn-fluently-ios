@@ -18,8 +18,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Properties
 
-    // TODO: set language
-    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: "en-US"))!
+    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: UserDefaultsService.shared.learingLanguageCode))!
     private var autoStartRecordingForNext = true
 
     override var isInputBusy: Bool {

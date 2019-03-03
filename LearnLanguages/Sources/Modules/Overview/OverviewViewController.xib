@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OverviewViewController" customModule="LearnLanguages" customModuleProvider="target">
             <connections>
+                <outlet property="learningLanguageTitle" destination="jjX-O9-waE" id="1JX-YD-4mO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="JEH-YG-QEF"/>
             </connections>
         </placeholder>
@@ -25,17 +26,18 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwW-5r-cKh">
                             <rect key="frame" x="253" y="56" width="22" height="22"/>
+                            <connections>
+                                <action selector="switchLanguageButtonTouched" destination="-1" eventType="touchUpInside" id="sSK-EU-eOV"/>
+                            </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jjX-O9-waE">
-                            <rect key="frame" x="38" y="51" width="187" height="21"/>
-                            <string key="text">You are learning English
-</string>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="You are learning English" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jjX-O9-waE">
+                            <rect key="frame" x="38" y="51" width="187" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to change" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XzX-3h-FEu">
-                            <rect key="frame" x="38" y="72" width="68.5" height="12"/>
+                            <rect key="frame" x="38" y="71.5" width="68.5" height="12"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -44,6 +46,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="XzX-3h-FEu" firstAttribute="top" secondItem="jjX-O9-waE" secondAttribute="bottom" id="4f1-Jx-j0d"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IwW-5r-cKh" secondAttribute="trailing" constant="8" id="7gk-7T-r7E"/>
                         <constraint firstItem="XzX-3h-FEu" firstAttribute="leading" secondItem="jjX-O9-waE" secondAttribute="leading" id="FXK-la-aek"/>
                         <constraint firstItem="jjX-O9-waE" firstAttribute="centerX" secondItem="g22-qt-L9f" secondAttribute="centerX" multiplier="0.55" priority="999" id="N6r-if-keP"/>
                         <constraint firstItem="jjX-O9-waE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="g22-qt-L9f" secondAttribute="leading" constant="38" id="S0I-FP-T5G"/>
