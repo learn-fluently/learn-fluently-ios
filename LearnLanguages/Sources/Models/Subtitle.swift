@@ -139,7 +139,7 @@ struct Subtitle {
             }
 
             let startTimeInterval: TimeInterval = timeIntervalFromString(startResult! as String)
-            let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String)
+            let endTimeInterval: TimeInterval = timeIntervalFromString(endResult! as String) - 0.2
 
             if !textLines.isEmpty {
                 let title = SubtitleItem(texts: textLines, start: startTimeInterval, end: endTimeInterval, index: indexResult)

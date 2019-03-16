@@ -24,11 +24,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGI-jM-gpR">
-                    <rect key="frame" x="0.0" y="88" width="414" height="448.5"/>
+                    <rect key="frame" x="0.0" y="88" width="414" height="458"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x32-Ok-0nE">
-                    <rect key="frame" x="16" y="552.5" width="382" height="309.5"/>
+                    <rect key="frame" x="16" y="562" width="382" height="300"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwI-BU-Pqx">
                             <rect key="frame" x="26" y="8" width="330" height="74"/>
@@ -79,7 +79,7 @@
                             </constraints>
                         </view>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n41-4B-wYE" customClass="LLTextView" customModule="LearnLanguages" customModuleProvider="target">
-                            <rect key="frame" x="16" y="90" width="350" height="211.5"/>
+                            <rect key="frame" x="16" y="90" width="350" height="202"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <attributedString key="attributedText"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -88,6 +88,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="n41-4B-wYE" firstAttribute="top" secondItem="QwI-BU-Pqx" secondAttribute="bottom" constant="8" id="2Xc-iA-Tbd"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="300" id="4yF-08-bz1"/>
                         <constraint firstItem="n41-4B-wYE" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="16" id="Na2-zW-Fif"/>
                         <constraint firstAttribute="trailing" secondItem="QwI-BU-Pqx" secondAttribute="trailing" constant="26" id="VWN-qT-pw1"/>
                         <constraint firstItem="QwI-BU-Pqx" firstAttribute="leading" secondItem="x32-Ok-0nE" secondAttribute="leading" constant="26" id="bKn-zI-heS"/>
@@ -108,7 +109,7 @@
                 <constraint firstItem="x32-Ok-0nE" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-16" id="6CV-os-EWd"/>
                 <constraint firstItem="x32-Ok-0nE" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" priority="999" id="GCK-uO-8rP"/>
                 <constraint firstItem="vGI-jM-gpR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="PQd-Id-VhH"/>
-                <constraint firstItem="x32-Ok-0nE" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" multiplier="0.4" id="Qmh-hY-Na6"/>
+                <constraint firstItem="x32-Ok-0nE" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" multiplier="0.4" priority="999" id="Qmh-hY-Na6"/>
                 <constraint firstItem="vGI-jM-gpR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ZGZ-Xv-kUa"/>
                 <constraint firstItem="x32-Ok-0nE" firstAttribute="top" secondItem="vGI-jM-gpR" secondAttribute="bottom" constant="16" id="eBc-Ra-YbA"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="x32-Ok-0nE" secondAttribute="trailing" constant="16" id="jGh-LD-tZe"/>
