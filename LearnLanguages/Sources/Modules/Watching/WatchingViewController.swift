@@ -148,13 +148,13 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         let selectedEndIndex: Int
         if let endPoint = endPoint {
             let characterIndexAtEndPoint = getCharacterIndexByPointOnTextView(endPoint)
-            if characterIndexAtEndPoint >= textView.text.lengthOfBytes(using: .utf8) ||
-                characterIndexAtEndPoint <= selectedStartIndex {
-                return nil
-            }
             selectedEndIndex = getWordStartOrEndIndex(indexInWord: characterIndexAtEndPoint, start: false)
         } else {
             selectedEndIndex = getWordStartOrEndIndex(indexInWord: characterIndexAtStartPoint, start: false)
+        }
+
+        if selectedEndIndex <= selectedStartIndex || selectedEndIndex >= textView.text.lengthOfBytes(using: .utf8) {
+            return nil
         }
 
         return NSRange(location: selectedStartIndex, length: selectedEndIndex - selectedStartIndex + 1)
@@ -240,7 +240,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         if let selectedRange = textViewSelectedTextRange {
             textView.selectedRange = selectedRange
             attributedText = attributedText.set(style: Style.selectableSubtitleSelectedTextStyle,
-                                                range: selectedRange)
+                                                range: textView.selectedRange)
         }
         textView.attributedText = attributedText
     }
