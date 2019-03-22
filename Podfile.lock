@@ -1,4 +1,5 @@
 PODS:
+  - MobileVLCKit (3.2.0)
   - RLBAlertsPickers (1.1.1)
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
@@ -13,6 +14,7 @@ PODS:
   - ZIPFoundation (0.9.6)
 
 DEPENDENCIES:
+  - MobileVLCKit
   - RLBAlertsPickers (from `https://github.com/loicgriffie/Alerts-Pickers.git`, branch `master`)
   - RxCocoa
   - RxSwift
@@ -25,6 +27,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - MobileVLCKit
     - RxAtomic
     - RxCocoa
     - RxSwift
@@ -51,6 +54,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/0xced/XCDYouTubeKit.git
 
 SPEC CHECKSUMS:
+  MobileVLCKit: f7af7d6bee693b904265768eaae6a0ed29fdcd65
   RLBAlertsPickers: d8dd984ed0a686bd167554eeb4a3af5ae8d82d24
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
@@ -62,6 +66,6 @@ SPEC CHECKSUMS:
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
   ZIPFoundation: 68c35eb2637c21abe56dc60b3277636443bc1501
 
-PODFILE CHECKSUM: fdacf421bb38cd0ca06a510b93377080ab1a440e
+PODFILE CHECKSUM: bb0ceb6b578d93bc1c6cee53e54e5b51b9e9da31
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

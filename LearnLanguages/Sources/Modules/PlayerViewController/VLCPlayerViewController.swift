@@ -1,8 +1,8 @@
 //
-//  PlayerViewController.swift
+//  VLCPlayerViewController.swift
 //  LearnLanguages
 //
-//  Created by Amir Khorsandi on 2/9/19.
+//  Created by Amir Khorsandi on 3/22/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
 //
 
@@ -12,25 +12,14 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-protocol PlayerViewControllerPlayingDelegate: AnyObject {
-
-    // MARK: Functions
-
-    func onPlayingStateChanged(playerViewController: PlayerViewController)
-
-    func onCloseButtonTouched(playerViewController: PlayerViewController)
-
-}
-
-
-class PlayerViewController: AVPlayerViewController {
+class VLCPlayerViewController: UIViewController, PlayerViewController {
 
     // MARK: Properties
 
-    weak var playingDelegate: PlayerViewControllerPlayingDelegate?
+    weak var playingDelegate: PlayerViewControllerDelegate?
 
     var isPlaying: Bool {
-        return player?.timeControlStatus == .playing
+        return mediaPlayer.isPlaying
     }
 
     var playerTime: Double {
@@ -47,14 +36,19 @@ class PlayerViewController: AVPlayerViewController {
         }
     }
 
+    var showsControls: Bool {
+        set {  }
+        get { return false }
+    }
+
 
     // MARK: Private properties
+
+    private let mediaPlayer = VLCMediaPlayer()
 
     private let playerTimeBehaviorRelay = BehaviorRelay<Double>(value: 0)
 
     private var closeButton: DarkCrossButton!
-
-    private var keyValueObservations: [NSKeyValueObservation] = []
 
 
     // MARK: Life cycle
@@ -70,50 +64,32 @@ class PlayerViewController: AVPlayerViewController {
     }
 
     private func commonInit() {
-        setValue(false, forKey: "canHidePlaybackControls")
+        mediaPlayer.delegate = self
+        mediaPlayer.drawable = self.view
     }
 
     override func didMove(toParent parent: UIViewController?) {
         configureView()
         configureCloseButton()
-        if parent == nil {
-            onRemoveFromParent()
-        }
     }
 
-    override func willMove(toParent parent: UIViewController?) {
-        if parent == nil {
-            onRemoveFromParent()
-        }
-    }
-
-    private func onRemoveFromParent() {
-        removeCloseButtonIfNeeded()
-        keyValueObservations.forEach {
-            $0.invalidate()
-        }
-        keyValueObservations = []
-    }
 
     // MARK: Public functions
 
     func play() {
-        player?.play()
+        mediaPlayer.play()
     }
 
     func pause() {
-        player?.pause()
+        mediaPlayer.pause()
     }
 
     func togglePlaying() {
-        isPlaying ? player?.pause() : player?.play()
+        isPlaying ? pause() : play()
     }
 
     func seek(byDelta delta: Double) {
-        guard let player = player else {
-                return
-        }
-        let newTime = CMTimeGetSeconds(player.currentTime()) + delta
+        let newTime = playerTime + delta
         seek(to: newTime)
     }
 
@@ -135,16 +111,8 @@ class PlayerViewController: AVPlayerViewController {
         guard url != nil else {
             return
         }
-        let avAsset = AVURLAsset(url: url!)
-        let playerItem = AVPlayerItem(asset: avAsset)
-        player = AVPlayer(playerItem: playerItem)
-        let observer = player?.observe(\.timeControlStatus) { [weak playingDelegate] _, _ in
-             playingDelegate?.onPlayingStateChanged(playerViewController: self)
-        }
-        if let observer = observer {
-            keyValueObservations.append(observer)
-        }
-        addPlayerTimeListener()
+        let media = VLCMedia(url: url!)
+        mediaPlayer.media = media
     }
 
     private func configureView() {
@@ -177,25 +145,13 @@ class PlayerViewController: AVPlayerViewController {
     }
 
     private func adjustAndSeek(to time: Double) {
-        guard let player = player,
-            let duration = player.currentItem?.duration else {
-            return
-        }
-        var newTime = time
+        var newTime = time * 1_000
         if newTime < 0 {
             newTime = 0
         }
-        if newTime < CMTimeGetSeconds(duration) {
-            let time: CMTime = CMTimeMakeWithSeconds(newTime, preferredTimescale: Int32(NSEC_PER_SEC))
-            player.seek(to: time, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-        }
-    }
-
-    private func addPlayerTimeListener( ) {
-        let interval = CMTimeMake(value: 1, timescale: 100)
-        player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            let currentValue = Double(time.value) / Double(time.timescale)
-            self?.playerTimeBehaviorRelay.accept(currentValue)
+        //let duration = (-mediaPlayer.remainingTime.value.doubleValue + mediaPlayer.time.value.doubleValue)
+        if mediaPlayer.isSeekable {
+            mediaPlayer.time = VLCTime(number: NSNumber(value: time))
         }
     }
 
@@ -203,4 +159,16 @@ class PlayerViewController: AVPlayerViewController {
         playingDelegate?.onCloseButtonTouched(playerViewController: self)
     }
 
+}
+
+
+extension VLCPlayerViewController: VLCMediaPlayerDelegate {
+
+    func mediaPlayerStateChanged(_ aNotification: Notification!) {
+        playingDelegate?.onPlayingStateChanged(playerViewController: self)
+    }
+
+    func mediaPlayerTimeChanged(_ aNotification: Notification!) {
+        playerTimeBehaviorRelay.accept(mediaPlayer.time.value.doubleValue / 1_000)
+    }
 }

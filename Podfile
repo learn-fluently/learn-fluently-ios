@@ -11,4 +11,5 @@ target 'LearnLanguages' do
   pod 'ZIPFoundation', '~> 0.9'
   pod 'XCDYouTubeKit', :git => 'https://github.com/0xced/XCDYouTubeKit.git', :branch => 'master'
   pod 'SWXMLHash', '~> 4.7.0'
+  pod 'MobileVLCKit'
 end

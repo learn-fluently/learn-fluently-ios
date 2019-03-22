@@ -11,6 +11,9 @@
 		AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
 		AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
 		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
+		AB51F6AB2244BA9B00C40A7D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AB51F6AA2244BA9B00C40A7D /* libc++.tbd */; };
+		AB51F6AD2244BAEA00C40A7D /* MobileVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */; };
+		AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
 		AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
@@ -59,6 +62,10 @@
 		AB0995A121F9094000867890 /* OverviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverviewViewController.xib; sourceTree = "<group>"; };
 		AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift.swift; sourceTree = "<group>"; };
 		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		AB51F6AA2244BA9B00C40A7D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileVLCKit.framework; path = Pods/MobileVLCKit/MobileVLCKit.framework; sourceTree = "<group>"; };
+		AB51F6AF2244BD8F00C40A7D /* LearnLanguages-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LearnLanguages-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerViewController.swift; sourceTree = "<group>"; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB522AC221D03612002421B8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -110,6 +117,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB51F6AD2244BAEA00C40A7D /* MobileVLCKit.framework in Frameworks */,
+				AB51F6AB2244BA9B00C40A7D /* libc++.tbd in Frameworks */,
 				AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */,
 				AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */,
 				C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */,
@@ -126,6 +135,15 @@
 				AB0995A121F9094000867890 /* OverviewViewController.xib */,
 			);
 			path = Overview;
+			sourceTree = "<group>";
+		};
+		AB51F6B02244DBF900C40A7D /* PlayerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				ABFE6009220F1D12001267C8 /* PlayerViewController.swift */,
+				AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */,
+			);
+			path = PlayerViewController;
 			sourceTree = "<group>";
 		};
 		AB522AA321CF2951002421B8 = {
@@ -149,6 +167,7 @@
 		AB522AAE21CF2951002421B8 /* LearnLanguages */ = {
 			isa = PBXGroup;
 			children = (
+				AB51F6AF2244BD8F00C40A7D /* LearnLanguages-Bridging-Header.h */,
 				ABFE60232210CC68001267C8 /* LearnLanguages.entitlements */,
 				AB522ABB21CF2953002421B8 /* Info.plist */,
 				AB522AC121D03612002421B8 /* Resources */,
@@ -219,7 +238,6 @@
 			children = (
 				AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */,
 				ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */,
-				ABFE6009220F1D12001267C8 /* PlayerViewController.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -268,6 +286,7 @@
 		ABFE60112210AE1A001267C8 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AB51F6B02244DBF900C40A7D /* PlayerViewController */,
 				ABD68204222AA8C800AD5645 /* Writing */,
 				ABF2F3242220A9E40023698D /* WebBrowser */,
 				ABFE601E2210AE41001267C8 /* SourceConfig */,
@@ -319,6 +338,8 @@
 		F2122A1D99995FA08A88DCF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */,
+				AB51F6AA2244BA9B00C40A7D /* libc++.tbd */,
 				AB30C6B821D4619100A2024D /* SafariServices.framework */,
 				AB522AE121D304DC002421B8 /* AVFoundation.framework */,
 				B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */,
@@ -470,7 +491,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RLBAlertsPickers/RLBAlertsPickers.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -495,7 +516,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -520,6 +541,7 @@
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
+				AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */,
 				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */,
@@ -678,6 +700,11 @@
 				CODE_SIGN_ENTITLEMENTS = LearnLanguages/LearnLanguages.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/MobileVLCKit",
+				);
 				INFOPLIST_FILE = LearnLanguages/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -686,6 +713,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = eu.amirs.learnlanguages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnLanguages-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -699,6 +727,11 @@
 				CODE_SIGN_ENTITLEMENTS = LearnLanguages/LearnLanguages.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/MobileVLCKit",
+				);
 				INFOPLIST_FILE = LearnLanguages/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -707,6 +740,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = eu.amirs.learnlanguages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnLanguages-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

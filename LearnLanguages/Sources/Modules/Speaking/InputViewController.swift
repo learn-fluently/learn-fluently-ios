@@ -21,8 +21,8 @@ class InputViewController: BaseViewController {
     }
 
     var showsPlaybackControls: Bool {
-        set { playerController.showsPlaybackControls = newValue }
-        get { return playerController.showsPlaybackControls }
+        set { playerController.showsControls = newValue }
+        get { return playerController.showsControls }
     }
 
     internal var disposeBag = DisposeBag()
@@ -236,13 +236,16 @@ class InputViewController: BaseViewController {
     }
 
     private func addPlayerViewController() {
-        playerController = PlayerViewController()
+        let playerController = VLCPlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
-        guard let videoView = playerController?.view else { return }
+        guard let videoView = playerController.view else {
+            return
+        }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
         playerController.url = fileRepository.getPathURL(for: .videoFile)
+        self.playerController = playerController
     }
 
     private func configureSubtitleRepositoryAndThenPlay() {
@@ -280,7 +283,7 @@ class InputViewController: BaseViewController {
 }
 
 
-extension InputViewController: PlayerViewControllerPlayingDelegate {
+extension InputViewController: PlayerViewControllerDelegate {
 
     // MARK: Functions
 

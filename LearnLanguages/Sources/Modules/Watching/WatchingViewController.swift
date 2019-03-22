@@ -246,13 +246,16 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func addPlayerViewController() {
-        playerController = PlayerViewController()
+        let playerController = VLCPlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
-        guard let videoView = playerController?.view else { return }
+        guard let videoView = playerController.view else {
+            return
+        }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
         playerController.url = fileRepository.getPathURL(for: .videoFile)
+        self.playerController = playerController
     }
 
     private func configureSubtitleRepositoryAndThenPlay() {
@@ -294,7 +297,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 }
 
 
-extension WatchingViewController: PlayerViewControllerPlayingDelegate {
+extension WatchingViewController: PlayerViewControllerDelegate {
 
     // MARK: Functions
 
