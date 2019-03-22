@@ -267,8 +267,14 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         let url = fileRepository.getPathURL(for: .subtitleFile)
         Completable
             .create { [weak self] event -> Disposable in
-                self?.subtitleRepository = SubtitleRepository(url: url)
-                event(.completed)
+                let queue = DispatchQueue(
+                    label: String(describing: WatchingViewController.self),
+                    qos: .background
+                )
+                queue.async {
+                    self?.subtitleRepository = SubtitleRepository(url: url)
+                    event(.completed)
+                }
                 return Disposables.create()
             }
             .subscribeOn(MainScheduler.asyncInstance)
