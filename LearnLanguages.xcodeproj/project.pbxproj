@@ -11,7 +11,6 @@
 		AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
 		AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
 		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
-		AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */; };
 		AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
@@ -64,7 +63,6 @@
 		AB51F6AA2244BA9B00C40A7D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileVLCKit.framework; path = Pods/MobileVLCKit/MobileVLCKit.framework; sourceTree = "<group>"; };
 		AB51F6AF2244BD8F00C40A7D /* LearnLanguages-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LearnLanguages-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
-		AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerViewController.swift; sourceTree = "<group>"; };
 		AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAVPlayerViewController.swift; sourceTree = "<group>"; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				ABFE6009220F1D12001267C8 /* PlayerViewController.swift */,
-				AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */,
 				AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */,
 			);
 			path = PlayerViewController;
@@ -540,7 +537,6 @@
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
-				AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */,
 				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
 				AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
