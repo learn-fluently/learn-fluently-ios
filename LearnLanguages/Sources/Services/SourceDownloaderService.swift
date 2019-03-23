@@ -150,9 +150,7 @@ class SourceDownloaderService {
                     progressViewController.dismiss(animated: false) {
                         if let completion = customCompletion {
                             completion()
-                            return
-                        }
-                        if isArchive {
+                        } else if isArchive {
                             self?.handleDownloadedArchive(destUrl: destUrl)
                         } else {
                             self?.onSourceReady(url: url, sourceName: sourceName)

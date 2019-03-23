@@ -119,7 +119,14 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         }
     }
 
+    let peg = MobileFFmpeg()
     @IBAction private func chooseVideoSourceButtonTouched() {
+
+        let videoUrl = fileRepository.getPathURL(for: .videoFile)
+        let srcVideoUrl = videoUrl.deletingLastPathComponent().appendingPathComponent("video.mkv")
+        let command = "-i \(srcVideoUrl.path) -codec copy \(videoUrl.path)"
+
+        MobileFFmpeg.execute(command)
         openSourcePicker(mode: .video)
     }
 
@@ -247,6 +254,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         return currentPickerMode == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
     }
 
+    private func proccessSourceFileIfNeeded(url: URL, completion: ((URL) -> Void)?) {
+        completion?(url)
+    }
 }
 
 
@@ -261,16 +271,20 @@ extension SourceConfigViewController: WebBrowserViewControllerDelegate {
                                                        destUrl: self.getDestinationURL(),
                                                        isArchive: mimeType == "application/zip")
         }
+
+        var isSupported = false
+
         if currentPickerMode == .video, mimeType == "video/mp4" {
-            return downloadHandler
+            isSupported = true
         } else if currentPickerMode == .subtitle {
             if mimeType == "application/zip" {
-                return downloadHandler
-            } else if mimeType == "text/plain", url.absoluteString.hasSuffix(".srt") {
-                return downloadHandler
+                isSupported = true
+            } else if mimeType == "text/plain", url.pathExtension == "srt" {
+                isSupported = true
             }
         }
-        return nil
+
+        return isSupported ? downloadHandler : nil
     }
 
 }
@@ -282,8 +296,11 @@ extension SourceConfigViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else {
             return
         }
-        fileRepository.replaceItem(at: getDestinationURL(), with: url)
-        askAndSetSourceName(defaultValue: url.lastPathComponent)
+        let destinationURL = getDestinationURL()
+        proccessSourceFileIfNeeded(url: url) { [weak self] url in
+            self?.fileRepository.replaceItem(at: destinationURL, with: url)
+            self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
+        }
     }
 
 }

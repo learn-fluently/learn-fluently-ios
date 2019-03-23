@@ -123,6 +123,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     // MARK: Private functions
 
     private func subscribeToPlayerTime() {
+        if playerController.isPlaying {
+            NSLog("asdasd")
+        }
         playerController.playerTimeObservable
             .subscribe(onNext: { [weak self] currentValue in
                 self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
@@ -246,7 +249,8 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func addPlayerViewController() {
-        let playerController = VLCPlayerViewController()
+        let playerController = LAVPlayerViewController()
+        self.playerController = playerController
         playerController.playingDelegate = self
         addChild(playerController)
         guard let videoView = playerController.view else {
@@ -255,7 +259,6 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
         playerController.url = fileRepository.getPathURL(for: .videoFile)
-        self.playerController = playerController
     }
 
     private func configureSubtitleRepositoryAndThenPlay() {

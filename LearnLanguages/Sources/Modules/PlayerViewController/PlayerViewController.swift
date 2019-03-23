@@ -23,7 +23,7 @@ protocol PlayerViewControllerDelegate: AnyObject {
 }
 
 
-protocol PlayerViewController where Self: UIViewController {
+protocol PlayerViewController {
 
     // MARK: Properties
 

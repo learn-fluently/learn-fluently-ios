@@ -236,7 +236,7 @@ class InputViewController: BaseViewController {
     }
 
     private func addPlayerViewController() {
-        let playerController = VLCPlayerViewController()
+        let playerController = LAVPlayerViewController()
         playerController.playingDelegate = self
         addChild(playerController)
         guard let videoView = playerController.view else {

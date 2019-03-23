@@ -11,9 +11,8 @@
 		AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
 		AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
 		AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
-		AB51F6AB2244BA9B00C40A7D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AB51F6AA2244BA9B00C40A7D /* libc++.tbd */; };
-		AB51F6AD2244BAEA00C40A7D /* MobileVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */; };
 		AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */; };
+		AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */; };
 		AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
 		AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
@@ -66,6 +65,7 @@
 		AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileVLCKit.framework; path = Pods/MobileVLCKit/MobileVLCKit.framework; sourceTree = "<group>"; };
 		AB51F6AF2244BD8F00C40A7D /* LearnLanguages-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LearnLanguages-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerViewController.swift; sourceTree = "<group>"; };
+		AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAVPlayerViewController.swift; sourceTree = "<group>"; };
 		AB522AAC21CF2951002421B8 /* LearnLanguages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnLanguages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB522AC221D03612002421B8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -117,8 +117,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB51F6AD2244BAEA00C40A7D /* MobileVLCKit.framework in Frameworks */,
-				AB51F6AB2244BA9B00C40A7D /* libc++.tbd in Frameworks */,
 				AB30C6B921D4619100A2024D /* SafariServices.framework in Frameworks */,
 				AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */,
 				C709DADB44231091552834BF /* Pods_LearnLanguages.framework in Frameworks */,
@@ -142,6 +140,7 @@
 			children = (
 				ABFE6009220F1D12001267C8 /* PlayerViewController.swift */,
 				AB51F6B12244DC1600C40A7D /* VLCPlayerViewController.swift */,
+				AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */,
 			);
 			path = PlayerViewController;
 			sourceTree = "<group>";
@@ -543,6 +542,7 @@
 				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
 				AB51F6B22244DC1600C40A7D /* VLCPlayerViewController.swift in Sources */,
 				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
+				AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */,
 				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
