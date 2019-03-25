@@ -102,7 +102,7 @@ extension FileDownloaderService: URLSessionDownloadDelegate {
 
     func urlSession(_: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard self.filePath != nil else {
-            eventsPublishSubject.onError(DownloadError.savingError(.DOWNLOADER_ERROR_NO_DEST))
+            eventsPublishSubject.onError(Errors.Download.saving(.DOWNLOADER_ERROR_NO_DEST))
             return
         }
 
@@ -144,13 +144,6 @@ extension FileDownloaderService {
 
         let progress: Int
         let speed: Int
-    }
-
-    enum DownloadError: Error {
-
-        // MARK: Cases
-
-        case savingError(String)
     }
 
 

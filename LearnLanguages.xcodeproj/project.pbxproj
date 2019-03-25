@@ -22,6 +22,7 @@
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
 		AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitle.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
+		ABAC2413224923BF001A226E /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAC2412224923BF001A226E /* Errors.swift */; };
 		ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */; };
 		ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
 		ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */; };
@@ -76,6 +77,7 @@
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB522AE821D311D4002421B8 /* Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
+		ABAC2412224923BF001A226E /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerService.swift; sourceTree = "<group>"; };
 		ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloaderService.swift; sourceTree = "<group>"; };
 		ABAF5C0E22189BE40079C5C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */,
 				ABAF5C32221954AD0079C5C7 /* Reachability.swift */,
 				ABF2F3292220AE390023698D /* String+Utilities.swift */,
+				ABAC2412224923BF001A226E /* Errors.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
 				ABFED1A62222A4D100F23313 /* SourceDownloaderService.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
+				ABAC2413224923BF001A226E /* Errors.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
 				ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */,
 				ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */,

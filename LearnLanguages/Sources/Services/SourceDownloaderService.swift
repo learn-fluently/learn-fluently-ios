@@ -14,182 +14,255 @@ import RLBAlertsPickers
 
 protocol SourceDownloaderServiceDelegate: AnyObject {
 
-    func onSourceReady(deafulSourceName: String, isYoutube: Bool)
-
+    func chooseOneFromMany(urls: [URL], onSelected: (URL) -> Void)
+    func convertFile(url: URL, onConverted: (URL) -> Void) throws
+    func onDownloadProgressUpdate(message: String)
 }
 
 
 class SourceDownloaderService {
 
+    // MARK: Constants
+
+    enum SourceUrlType {
+
+        // MARK: Cases
+
+        case regular // normal source
+        case archive // a zip file that should unzip then choose the source from its content
+        case convertible // a file that should convert to another format
+    }
+
+
     // MARK: Properties
 
     weak var delegate: SourceDownloaderServiceDelegate?
 
-    private let hostViewController: UIViewController
     private let fileRepository = FileRepository()
     private let fileDownloaderService = FileDownloaderService()
-    private var youtubeSourceService = YoutubeSourceService()
-    private let disposeBag = DisposeBag()
 
 
     // MARK: Life cycle
 
-    init(hostViewController: UIViewController, delegate: SourceDownloaderServiceDelegate) {
-        self.hostViewController = hostViewController
+    init(delegate: SourceDownloaderServiceDelegate) {
         self.delegate = delegate
     }
 
 
     // MARK: Functions
 
-    func startDownloadWizard(title: String, desc: String, destUrl: URL, isArchive: Bool = false) {
-        getLinkByInputDialog(title: title, desc: desc) { [weak self] url in
-            self?.startDownload(url: url, destUrl: destUrl, isArchive: isArchive)
-        }
+
+    func startDownload(url: URL, type: SourceUrlType = .regular) -> Single<URL> {
+        return downloadFile(url: url,
+                            isArchive: type == .archive,
+                            isConvertible: type == .convertible)
     }
 
-    func startDownload(url: URL, destUrl: URL, isArchive: Bool = false) {
-        downloadFile(url: url, destUrl: destUrl, isArchive: isArchive)
-    }
 
-    func startDownloadFromYoutubeWizard() {
-        getLinkByInputDialog(title: .ENTER_YOUTUBE_LINK, desc: "") { [weak self] url in
-            self?.youtubeSourceService.getVideoInfo(url: url) { videoInfo, error in
-                DispatchQueue.main.async {
-                    if error != nil || videoInfo?.videos.isEmpty ?? true {
-                        self?.hostViewController.presentOKMessage(title: .ERROR, message: .FAILED_TO_GET_YOUTUBE_LINKS)
-                    } else {
-                        self?.showVideoAndSubtitleDialogs(videoInfo: videoInfo)
-                    }
-                }
-            }
-        }
-    }
+//    func startDownloadWizard(title: String, desc: String, destUrl: URL, isArchive: Bool = false) {
+//        getLinkByInputDialog(title: title, desc: desc) { [weak self] url in
+//            self?.startDownload(url: url, isArchive: isArchive)
+//        }
+//    }
+//
+//    func startDownload(url: URL, isArchive: Bool = false) {
+//        downloadFile(url: url, isArchive: isArchive)
+//    }
+
+//    func startDownloadFromYoutubeWizard() {
+//        getLinkByInputDialog(title: .ENTER_YOUTUBE_LINK, desc: "") { [weak self] url in
+//            self?.youtubeSourceService.getVideoInfo(url: url) { videoInfo, error in
+//                DispatchQueue.main.async {
+//                    if error != nil || videoInfo?.videos.isEmpty ?? true {
+//                        self?.hostViewController.presentOKMessage(title: .ERROR, message: .FAILED_TO_GET_YOUTUBE_LINKS)
+//                    } else {
+//                        self?.showVideoAndSubtitleDialogs(videoInfo: videoInfo)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
     // MARK: Private functions
 
-    private func getLinkByInputDialog(title: String, desc: String, completion: ((URL) -> Void)?) {
-        hostViewController.presentInput(title: title, message: desc) { inputLink in
-            guard let link = inputLink,
-                let url = URL(string: link) else {
-                    return
-            }
-            completion?(url)
-        }
-    }
+//    private func getLinkByInputDialog(title: String, desc: String, completion: ((URL) -> Void)?) {
+//        hostViewController.presentInput(title: title, message: desc) { inputLink in
+//            guard let link = inputLink,
+//                let url = URL(string: link) else {
+//                    return
+//            }
+//            completion?(url)
+//        }
+//    }
 
-    private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo?) {
-        guard let videoInfo = videoInfo else {
-            return
-        }
-        let videoDestUrl = fileRepository.getPathURL(for: .videoFile)
-        let subtitleDestUrl = fileRepository.getPathURL(for: .subtitleFile)
-        let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty
+//    private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo?) {
+//        guard let videoInfo = videoInfo else {
+//            return
+//        }
+//        let videoDestUrl = fileRepository.getPathURL(for: .videoFile)
+//        let subtitleDestUrl = fileRepository.getPathURL(for: .subtitleFile)
+//        let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty
+//
+//        showChooseVideoQuality(videoInfo: videoInfo) { [weak self] videoUrl in
+//            if shouldShowChooseSubtitle {
+//                self?.showChooseSubtitle(videoInfo: videoInfo) { [weak self] subtitleUrl in
+//                    self?.downloadFile(url: videoUrl, destUrl: videoDestUrl) {
+//                        self?.downloadFile(url: subtitleUrl, destUrl: subtitleDestUrl) {
+//                            self?.delegate?.onSourceReady(deafulSourceName: videoInfo.title, isYoutube: true)
+//                        }
+//                    }
+//                }
+//            } else {
+//                self?.downloadFile(url: videoUrl, destUrl: videoDestUrl) {
+//                    self?.delegate?.onSourceReady(deafulSourceName: videoInfo.title, isYoutube: true)
+//                }
+//            }
+//        }
+//    }
 
-        showChooseVideoQuality(videoInfo: videoInfo) { [weak self] videoUrl in
-            if shouldShowChooseSubtitle {
-                self?.showChooseSubtitle(videoInfo: videoInfo) { [weak self] subtitleUrl in
-                    self?.downloadFile(url: videoUrl, destUrl: videoDestUrl) {
-                        self?.downloadFile(url: subtitleUrl, destUrl: subtitleDestUrl) {
-                            self?.delegate?.onSourceReady(deafulSourceName: videoInfo.title, isYoutube: true)
-                        }
-                    }
-                }
-            } else {
-                self?.downloadFile(url: videoUrl, destUrl: videoDestUrl) {
-                    self?.delegate?.onSourceReady(deafulSourceName: videoInfo.title, isYoutube: true)
-                }
-            }
-        }
-    }
+    //TODO:
+//    private func showChooseVideoQuality(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
+//        let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_QUALITY_CHOOSE)
+//        videoInfo?.videos.forEach { item in
+//            alert.addAction(title: item.name) { _ in
+//                completion?(item.url)
+//            }
+//        }
+//        hostViewController.present(alert, animated: true, completion: nil)
+//    }
 
-    private func showChooseVideoQuality(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
-        let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_QUALITY_CHOOSE)
-        videoInfo?.videos.forEach { item in
-            alert.addAction(title: item.name) { _ in
-                completion?(item.url)
-            }
-        }
-        hostViewController.present(alert, animated: true, completion: nil)
-    }
+//    private func showChooseSubtitle(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
+//        let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_SUBTITLE_CHOOSE)
+//        videoInfo?.captionURLs.forEach { item in
+//            let autoGeneratedSuffix = item.isAutoGenerated ? " (\(String.YOUTUBE_SUBTITLE_AUTO_GENERATED))" : ""
+//            alert.addAction(title: item.languageCode + " - " + item.languageName + autoGeneratedSuffix) { _ in
+//                completion?(item.url)
+//            }
+//        }
+//        hostViewController.present(alert, animated: true, completion: nil)
+//    }
 
-    private func showChooseSubtitle(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
-        let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_SUBTITLE_CHOOSE)
-        videoInfo?.captionURLs.forEach { item in
-            let autoGeneratedSuffix = item.isAutoGenerated ? " (\(String.YOUTUBE_SUBTITLE_AUTO_GENERATED))" : ""
-            alert.addAction(title: item.languageCode + " - " + item.languageName + autoGeneratedSuffix) { _ in
-                completion?(item.url)
-            }
-        }
-        hostViewController.present(alert, animated: true, completion: nil)
-    }
-
-    private func downloadFile(url: URL, destUrl: URL, sourceName: String? = nil, isArchive: Bool = false, customCompletion: (() -> Void)? = nil) {
-        let progressViewController = hostViewController.presentMessage(title: .DOWNLOADING)
+    private func downloadFile(url: URL,
+                              isArchive: Bool = false,
+                              isConvertible: Bool = false) -> Single<URL> {
+        //let progressViewController = hostViewController.presentMessage(title: .DOWNLOADING)
+        //TODO:
         var progressText = ""
-        let destinationURL = isArchive ? fileRepository.getPathURL(for: .archiveFile) : destUrl
-        fileDownloaderService
+        let destinationURL = fileRepository.getPathURL(for: .temporaryFileForDownload)
+        let sequence = fileDownloaderService
             .downloadFile(fromURL: url, toPath: destinationURL)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .do(onNext: { event in
+            .do(onNext: { [weak self] event in
+                var downloadMessage: String? = nil
                 if event.type == .progress, let data = event.progress {
                     progressText = "\(data.progress) %"
-                    progressViewController.message = "\(progressText)\n\(String.DOWNLOAD_SPEED): \(data.speed)KB/s"
+                    downloadMessage = "\(progressText)\n\(String.DOWNLOAD_SPEED): \(data.speed)KB/s"
                 } else if let message = event.messsage {
-                    progressViewController.message = "\(progressText)\n\(message)"
+                    downloadMessage = "\(progressText)\n\(message)"
                 }
-            },
-                onError: { [weak self] error in
-                    progressViewController.dismiss(animated: false) {
-                        self?.hostViewController.presentOKMessage(title: .ERROR, message: error.localizedDescription)
-                    }
-                },
-                onCompleted: { [weak self] in
-                    progressViewController.dismiss(animated: false) {
-                        if let completion = customCompletion {
-                            completion()
-                        } else if isArchive {
-                            self?.handleDownloadedArchive(destUrl: destUrl)
-                        } else {
-                            self?.onSourceReady(url: url, sourceName: sourceName)
-                        }
-                    }
+                if let message = downloadMessage {
+                    self?.delegate?.onDownloadProgressUpdate(message: message)
+                }
+                }
+                //TODO:
+//                onError: { [weak self] error in
+//                    progressViewController.dismiss(animated: false) {
+//                        self?.hostViewController.presentOKMessage(title: .ERROR, message: error.localizedDescription)
+//                    }
+//                },
+                //TODO:
+//                onCompleted: { [weak self] in
+//                    progressViewController.dismiss(animated: false) {
+//                        if let completion = customCompletion {
+//                            completion()
+//                        } else if isArchive {
+//                            self?.handleDownloadedArchive(url: destinationURL)
+//                        } else {
+//                            self?.onSourceReady(url: url, sourceName: sourceName)
+//                        }
+//                    }
+//            }
+            )
+            .asSingle()
+            .map({ _ -> URL in
+                destinationURL
             })
-            .subscribe()
-            .disposed(by: disposeBag)
+
+        if isArchive {
+            return sequence
+                .flatMap { _ -> Single<URL> in
+                    self.handleDownloadedArchive(url: destinationURL)
+                }
+        } else if isConvertible {
+            return sequence
+                .flatMap { _ -> Single<URL> in
+                    self.handleDownloadedConvertible(url: destinationURL)
+                }
+        } else {
+            return sequence
+        }
+
     }
 
-    private func handleDownloadedArchive(destUrl: URL) {
-        fileRepository.decompressArchiveFile { [weak self] filesUrls in
-            guard !filesUrls.isEmpty else {
-                self?.hostViewController.presentOKMessage(title: .ERROR, message: .FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)
-                return
+    private func handleDownloadedConvertible(url: URL) -> Single<URL> {
+        return .create(subscribe: { [weak self] event -> Disposable in
+            do {
+                try self?.delegate?.convertFile(url: url) { convertedFileUrl in
+                    event(.success(convertedFileUrl))
+                }
+            } catch {
+                event(.error(error))
             }
 
-            if filesUrls.count == 1 {
-                saveFileToDestination(url: filesUrls.first!, destUrl: destUrl)
-                return
-            }
+            return Disposables.create {}
+        })
+    }
 
-            let alert = UIAlertController(style: .actionSheet)
-            filesUrls.forEach { url in
-                alert.addAction(title: url.lastPathComponent) { [weak self] _ in
-                    self?.saveFileToDestination(url: url, destUrl: destUrl)
+    private func handleDownloadedArchive(url: URL) -> Single<URL> {
+        return .create(subscribe: { [weak self] event -> Disposable in
+            guard let `self` = self else {
+                return Disposables.create {}
+            }
+            self.fileRepository.decompressArchiveFile { [weak self] filesUrls in
+                guard !filesUrls.isEmpty else {
+                    event(.error(Errors.Download.archive(.FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)))
+                    return
+                }
+
+                if filesUrls.count == 1 {
+                    event(.success(filesUrls.first!))
+                    return
+                } else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.delegate?.chooseOneFromMany(urls: filesUrls) { url in
+                            event(.success(url))
+                        }
+                        //TODO:
+                        /*
+                        let alert = UIAlertController(style: .actionSheet)
+                        filesUrls.forEach { url in
+                            alert.addAction(title: url.lastPathComponent) { _ in
+                                event(.success(url))
+                            }
+                        }
+                        self?.hostViewController.present(alert, animated: true, completion: nil)
+                        */
+                    }
                 }
             }
-            self?.hostViewController.present(alert, animated: true, completion: nil)
-        }
+
+            return Disposables.create {}
+        })
     }
 
-    private func saveFileToDestination(url: URL, destUrl: URL) {
-        fileRepository.replaceItem(at: destUrl, with: url)
-        onSourceReady(url: url)
-    }
-
-    private func onSourceReady(url: URL, sourceName: String? = nil) {
-        self.delegate?.onSourceReady(deafulSourceName: sourceName ?? url.lastPathComponent, isYoutube: false)
-    }
+//    private func saveFileToDestination(url: URL) {
+//        onSourceReady(url: url)
+//    }
+//
+//    private func onSourceReady(url: URL, sourceName: String? = nil) {
+//        self.delegate?.onSourceReady(deafulSourceName: sourceName ?? url.lastPathComponent, isYoutube: false)
+//    }
 
 }

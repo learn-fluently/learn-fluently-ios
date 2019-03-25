@@ -21,6 +21,7 @@ class FileRepository {
         case subtitleFile
         case archiveFile
         case archiveDecompressedDir
+        case temporaryFileForDownload
     }
 
 
@@ -55,6 +56,9 @@ class FileRepository {
 
         case .archiveDecompressedDir:
             url.appendPathComponent("archiveDecompressedDir")
+
+        case .temporaryFileForDownload:
+            url.appendPathComponent("temporaryFileForDownload")
         }
 
         return url
