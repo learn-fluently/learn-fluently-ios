@@ -64,7 +64,9 @@ class YoutubeSourceService {
         do {
             let regex = try NSRegularExpression(pattern: "(?<=v(=|/))([-a-zA-Z0-9_]+)|(?<=youtu.be/)([-a-zA-Z0-9_]+)", options: .caseInsensitive)
             let match = regex.firstMatch(in: url.absoluteString, options: .reportProgress, range: NSRange(location: 0, length: url.absoluteString.lengthOfBytes(using: .utf8)))
-            let range = match!.range(at: 0)
+            guard let range = match?.range(at: 0) else {
+                return nil
+            }
             return url.absoluteString.substring(from: range.location, length: range.length)
         } catch {
             return nil

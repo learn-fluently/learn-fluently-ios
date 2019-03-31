@@ -22,6 +22,7 @@ class FileRepository {
         case archiveFile
         case archiveDecompressedDir
         case temporaryFileForDownload
+        case temporaryFileForConvert
     }
 
 
@@ -59,9 +60,24 @@ class FileRepository {
 
         case .temporaryFileForDownload:
             url.appendPathComponent("temporaryFileForDownload")
+
+        case .temporaryFileForConvert:
+            url.appendPathComponent("temporaryFileForConvert")
         }
 
         return url
+    }
+
+    func fileExists(at url: URL) -> Bool {
+        return fileManager.fileExists(atPath: url.path)
+    }
+
+    func moveItem(at: URL, to: URL) throws {
+        try fileManager.moveItem(at: at, to: to)
+    }
+
+    func removeItem(at url: URL) throws {
+        try fileManager.removeItem(at: url)
     }
 
     func replaceItem(at dest: URL, with source: URL) {

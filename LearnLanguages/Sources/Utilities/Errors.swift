@@ -14,6 +14,7 @@ struct Errors {
 
         case saving(String)
         case archive(String)
+        case convert(String)
     }
 
 }
