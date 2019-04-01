@@ -1,5 +1,5 @@
 //
-//  FileDownloaderService.swift
+//  FileDownloader.swift
 //  LearnLanguages
 //
 //  Created by Amir Khorsandi on 2/16/19.
@@ -10,7 +10,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class FileDownloaderService: NSObject {
+class FileDownloader: NSObject {
 
     // MARK: Properties
 
@@ -87,7 +87,7 @@ class FileDownloaderService: NSObject {
 }
 
 
-extension FileDownloaderService: URLSessionDownloadDelegate {
+extension FileDownloader: URLSessionDownloadDelegate {
 
     func urlSession(_: URLSession,
                     downloadTask: URLSessionDownloadTask,
@@ -136,7 +136,7 @@ extension FileDownloaderService: URLSessionDownloadDelegate {
 }
 
 
-extension FileDownloaderService {
+extension FileDownloader {
 
     struct DownloadProgressData {
 

@@ -39,7 +39,6 @@ class SourceDownloaderService {
     weak var delegate: SourceDownloaderServiceDelegate?
 
     private let fileRepository = FileRepository()
-    private let fileDownloaderService = FileDownloaderService()
 
 
     // MARK: Life cycle
@@ -66,7 +65,7 @@ class SourceDownloaderService {
                               isConvertible: Bool = false) -> Single<URL> {
         var progressText = ""
         let destinationURL = fileRepository.getPathURL(for: .temporaryFileForDownload)
-        let sequence = fileDownloaderService
+        let sequence = FileDownloader()
             .downloadFile(fromURL: url, toPath: destinationURL)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

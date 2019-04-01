@@ -272,24 +272,29 @@ extension SourceConfigViewController {
                 }
                 }, onError: { [weak self] error in
                     self?.present(error)
-                }, onDispose: { [weak self] in
-                    self?.downloadProgressViewController?.dismiss(animated: false)
-                    self?.downloadProgressViewController = nil
-            })
+                })
                 .asCompletable()
         }
 
-        subscribeCompletables(completables)
-    }
-
-
-    private func subscribeCompletables(_ completables: [Completable]) {
-        completables.first?.do(onCompleted: { [weak self] in
-            self?.subscribeCompletables(Array(completables.dropFirst()))
-        })
+        Completable
+            .merge(completables)
+            .do(onCompleted: { [weak self] in
+                    self?.downloadProgressViewController?.dismiss(animated: true) { [weak self] in
+                        self?.askAndSetSourceName(defaultValue: "")
+                    }
+                },
+                onSubscribed: { [weak self] in
+                    guard let `self` = self else {
+                        return
+                    }
+                    if self.downloadProgressViewController == nil {
+                        self.downloadProgressViewController = self.presentMessage(title: .DOWNLOADING)
+                    }
+                })
             .subscribe()
             .disposed(by: disposeBag)
     }
+
 }
 
 
@@ -302,15 +307,19 @@ extension SourceConfigViewController: WebBrowserViewControllerDelegate {
             }
             var type: SourceDownloaderService.SourceUrlType
             switch mimeType {
+
             case "application/zip":
                 type = .archive
+
             case "application/octet-stream":
                 type = .convertible
 
             default:
                 type = .regular
             }
-            self.handleDownloadingSourceSequences([self.startDownload(url: url, type: type)])
+            self.handleDownloadingSourceSequences(
+                [self.sourceDownloaderService.startDownload(url: url, type: type)]
+            )
         }
 
         var isSupported = false
@@ -395,11 +404,6 @@ extension SourceConfigViewController: SourceDownloaderServiceDelegate {
         downloadProgressViewController?.message = message
     }
 
-
-    func onSourceReady(deafulSourceName: String, isYoutube: Bool) {
-        askAndSetSourceName(defaultValue: deafulSourceName, isYoutube: isYoutube)
-    }
-
 }
 
 
@@ -413,20 +417,8 @@ extension SourceConfigViewController {
 
     private func startDownloadWizard(title: String, desc: String, isArchive: Bool = false) -> Single<URL> {
         return getLinkByInputDialog(title: title, desc: desc).flatMap { [weak self] url -> Single<URL> in
-            self?.startDownload(url: url) ?? .never()
+            self?.sourceDownloaderService.startDownload(url: url) ?? .never()
         }
-    }
-
-    private func startDownload(url: URL, type: SourceDownloaderService.SourceUrlType = .regular) -> Single<URL> {
-        return sourceDownloaderService.startDownload(url: url, type: type)
-            .do(onSubscribe: { [weak self] in
-                guard let `self` = self else {
-                    return
-                }
-                if self.downloadProgressViewController == nil {
-                    self.downloadProgressViewController = self.presentMessage(title: .DOWNLOADING)
-                }
-            })
     }
 
     private func getLinkByInputDialog(title: String, desc: String = "") -> Single<URL> {
@@ -455,7 +447,7 @@ extension SourceConfigViewController {
             .subscribe(
                 onSuccess: { [weak self] urls in
                     let sequences = urls.compactMap({ pickerMode, url in
-                        self?.startDownload(url: url).do(onSubscribed: {
+                        self?.sourceDownloaderService.startDownload(url: url).do(onSuccess: { [weak self] _ in
                             self?.currentPickerMode = pickerMode
                         })
                     })
@@ -465,7 +457,7 @@ extension SourceConfigViewController {
                     self?.present(error)
                 })
             .disposed(by: disposeBag)
-    }
+            }
 
     private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo) -> Single<[SourcePikcerMode: URL]> {
         let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty

@@ -62,7 +62,7 @@ class FileRepository {
             url.appendPathComponent("temporaryFileForDownload")
 
         case .temporaryFileForConvert:
-            url.appendPathComponent("temporaryFileForConvert")
+            url.appendPathComponent("temporaryFileForConvert" + String(Int.random(in: 0..<Int(RAND_MAX))))
         }
 
         return url
