@@ -59,7 +59,7 @@ class FileRepository {
             url.appendPathComponent("archiveDecompressedDir")
 
         case .temporaryFileForDownload:
-            url.appendPathComponent("temporaryFileForDownload")
+            url.appendPathComponent("temporaryFileForDownload" + String(Int.random(in: 0..<Int(RAND_MAX))))
 
         case .temporaryFileForConvert:
             url.appendPathComponent("temporaryFileForConvert" + String(Int.random(in: 0..<Int(RAND_MAX))))

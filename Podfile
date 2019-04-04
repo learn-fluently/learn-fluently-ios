@@ -12,5 +12,4 @@ target 'LearnLanguages' do
   pod 'XCDYouTubeKit', :git => 'https://github.com/0xced/XCDYouTubeKit.git', :branch => 'master'
   pod 'SWXMLHash', '~> 4.7.0'
   pod 'mobile-ffmpeg-full-gpl', '~> 4.2'
-  #pod 'MobileVLCKit'
 end

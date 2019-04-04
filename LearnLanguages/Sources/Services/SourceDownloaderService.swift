@@ -51,7 +51,7 @@ class SourceDownloaderService {
     // MARK: Functions
 
 
-    func startDownload(url: URL, type: SourceUrlType = .regular) -> Single<URL> {
+    func startDownload(url: URL, type: SourceUrlType = .regular) -> Single<DownloadResult> {
         return downloadFile(url: url,
                             isArchive: type == .archive,
                             isConvertible: type == .convertible)
@@ -62,7 +62,7 @@ class SourceDownloaderService {
 
     private func downloadFile(url: URL,
                               isArchive: Bool = false,
-                              isConvertible: Bool = false) -> Single<URL> {
+                              isConvertible: Bool = false) -> Single<DownloadResult> {
         var progressText = ""
         let destinationURL = fileRepository.getPathURL(for: .temporaryFileForDownload)
         let sequence = FileDownloader()
@@ -87,25 +87,25 @@ class SourceDownloaderService {
                 })
             .takeLast(1)
             .asSingle()
-            .map({ _ -> URL in
-                destinationURL
+            .map({ _ -> DownloadResult in
+                DownloadResult(sourceURL: url, destinationURL: destinationURL)
             })
 
         if isArchive {
             return sequence
-                .flatMap { [weak self] _ -> Single<URL> in
+                .flatMap { [weak self] result -> Single<DownloadResult> in
                     if let `self` = self {
                         self.delegate?.onProgressUpdate(message: "unziping")//TODO:
-                        return self.handleDownloadedArchive(url: destinationURL)
+                        return self.handleDownloadedArchive(result: result)
                     }
                     return .never()
                 }
         } else if isConvertible {
             return sequence
-                .flatMap { [weak self] _ -> Single<URL> in
+                .flatMap { [weak self] result -> Single<DownloadResult> in
                     if let `self` = self {
                         self.delegate?.onProgressUpdate(message: "converting")//TODO:
-                        return self.handleDownloadedConvertible(url: destinationURL)
+                        return self.handleDownloadedConvertible(result: result)
                     }
                     return .never()
                 }
@@ -115,11 +115,13 @@ class SourceDownloaderService {
 
     }
 
-    private func handleDownloadedConvertible(url: URL) -> Single<URL> {
+    private func handleDownloadedConvertible(result: DownloadResult) -> Single<DownloadResult> {
         return .create(subscribe: { [weak self] event -> Disposable in
-            self?.delegate?.convertFile(url: url) { convertedFileUrl, error in
+            self?.delegate?.convertFile(url: result.destinationURL) { convertedFileUrl, error in
                 if let convertedFileUrl = convertedFileUrl {
-                    event(.success(convertedFileUrl))
+                    var result = result
+                    result.destinationURL = convertedFileUrl
+                    event(.success(result))
                 } else if let error = error {
                     event(.error(error))
                 }
@@ -128,7 +130,7 @@ class SourceDownloaderService {
         })
     }
 
-    private func handleDownloadedArchive(url: URL) -> Single<URL> {
+    private func handleDownloadedArchive(result: DownloadResult) -> Single<DownloadResult> {
         return .create(subscribe: { [weak self] event -> Disposable in
             guard let `self` = self else {
                 return Disposables.create {}
@@ -138,14 +140,17 @@ class SourceDownloaderService {
                     event(.error(Errors.Download.archive(.FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)))
                     return
                 }
+                var result = result
 
                 if filesUrls.count == 1 {
-                    event(.success(filesUrls.first!))
+                    result.destinationURL = filesUrls.first!
+                    event(.success(result))
                     return
                 } else {
                     DispatchQueue.main.async { [weak self] in
                         self?.delegate?.chooseOneFromMany(urls: filesUrls) { url in
-                            event(.success(url))
+                            result.destinationURL = url
+                            event(.success(result))
                         }
                     }
                 }
@@ -153,6 +158,19 @@ class SourceDownloaderService {
 
             return Disposables.create {}
         })
+    }
+
+}
+
+
+extension SourceDownloaderService {
+
+    struct DownloadResult {
+
+        // MARK: Properties
+
+        var sourceURL: URL
+        var destinationURL: URL
     }
 
 }

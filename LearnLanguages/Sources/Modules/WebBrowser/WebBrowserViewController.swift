@@ -175,6 +175,14 @@ extension WebBrowserViewController: WKNavigationDelegate {
         setLoading(false)
     }
 
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url {
+            if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: "", url: url) {
+                dismiss(animated: true, completion: downloadHandler)
+            }
+        }
+    }
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         if let mimeType = navigationResponse.response.mimeType,
             let url = navigationResponse.response.url {

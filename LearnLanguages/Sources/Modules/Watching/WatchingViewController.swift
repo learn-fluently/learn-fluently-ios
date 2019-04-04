@@ -116,6 +116,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
                 let range = getTextRangeByPointsOnTextView(startPoint: paningStartPoint, endPoint: location) {
                 textViewSelectedTextRange = range
             }
+
+        default:
+            break
         }
     }
 
