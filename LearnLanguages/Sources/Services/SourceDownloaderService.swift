@@ -135,7 +135,8 @@ class SourceDownloaderService {
             guard let `self` = self else {
                 return Disposables.create {}
             }
-            self.fileRepository.decompressArchiveFile { [weak self] filesUrls in
+            self.fileRepository.decompressArchiveFile(sourceURL: result.destinationURL) { [weak self] filesUrls in
+                try? self?.fileRepository.removeItem(at: result.destinationURL)
                 guard !filesUrls.isEmpty else {
                     event(.error(Errors.Download.archive(.FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)))
                     return

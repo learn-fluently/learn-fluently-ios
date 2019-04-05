@@ -20,9 +20,12 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Properties
 
+    static var lastURL: URL?
+
     weak var delegate: WebBrowserViewControllerDelegate?
 
     private var parentView: UIView
+    private var isDismissing: Bool = false
 
     @IBOutlet private weak var topView: UIView!
     @IBOutlet private weak var webView: WKWebView!
@@ -56,11 +59,25 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         makeConstraintForView()
+        if let lastURL = WebBrowserViewController.lastURL {
+            webView.load(URLRequest(url: lastURL))
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         inputTextField.becomeFirstResponder()
+    }
+
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        if !isDismissing {
+            isDismissing = true
+            super.dismiss(animated: flag) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    completion?()
+                }
+            }
+        }
     }
 
 
@@ -86,7 +103,7 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
         }
     }
     private func configureInputTextField() {
-        inputTextField.keyboardType = .URL
+        inputTextField.keyboardType = .webSearch
         inputTextField.delegate = self
         setReturnKeyType(.done)
         inputTextField.addTarget(self, action: #selector(adjustInputTextFieldReturnKeyType), for: .editingChanged)
@@ -181,6 +198,7 @@ extension WebBrowserViewController: WKNavigationDelegate {
                 dismiss(animated: true, completion: downloadHandler)
             }
         }
+        decisionHandler(.allow)
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
@@ -196,6 +214,12 @@ extension WebBrowserViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         setLoading(true)
         inputTextField.text = webView.url?.absoluteString
+    }
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        if !isDismissing {
+            WebBrowserViewController.lastURL = webView.url
+        }
     }
 
 }

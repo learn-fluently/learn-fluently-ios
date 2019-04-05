@@ -19,7 +19,6 @@ class FileRepository {
 
         case videoFile
         case subtitleFile
-        case archiveFile
         case archiveDecompressedDir
         case temporaryFileForDownload
         case temporaryFileForConvert
@@ -51,9 +50,6 @@ class FileRepository {
 
         case .subtitleFile:
             url.appendPathComponent("subtitle.txt")
-
-        case .archiveFile:
-            url.appendPathComponent("archive.zip")
 
         case .archiveDecompressedDir:
             url.appendPathComponent("archiveDecompressedDir")
@@ -89,11 +85,11 @@ class FileRepository {
         }
     }
 
-    func decompressArchiveFile(completion: ([URL]) -> Void) {
+    func decompressArchiveFile(sourceURL: URL, completion: ([URL]) -> Void) {
         let destPath = getPathURL(for: .archiveDecompressedDir)
         try? fileManager.removeItem(at: destPath)
         try? fileManager.createDirectory(at: destPath, withIntermediateDirectories: false, attributes: nil)
-        try? fileManager.unzipItem(at: getPathURL(for: .archiveFile), to: destPath)
+        try? fileManager.unzipItem(at: sourceURL, to: destPath)
         let urls = try? fileManager.contentsOfDirectory(at: destPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
         completion(urls ?? [])
     }
