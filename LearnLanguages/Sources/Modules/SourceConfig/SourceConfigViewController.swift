@@ -242,8 +242,17 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func proccessSourceFileIfNeeded(url: URL, completion: ((URL) -> Void)?) {
-
-        completion?(url)
+        if sourceDownloaderService.getSourceUrlType(mimeType: nil, url: url) == .convertible {
+            self.convertFile(url: url) { [weak self] url, error in
+                if let error = error {
+                    self?.present(error)
+                } else if let url = url {
+                    completion?(url)
+                }
+            }
+        } else {
+            completion?(url)
+        }
     }
 
     private func present(_ error: Error) {
