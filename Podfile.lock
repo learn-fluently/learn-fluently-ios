@@ -1,5 +1,5 @@
 PODS:
-  - mobile-ffmpeg-full-gpl (4.2)
+  - mobile-ffmpeg-min (4.2)
   - RLBAlertsPickers (1.1.1)
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
@@ -14,7 +14,7 @@ PODS:
   - ZIPFoundation (0.9.6)
 
 DEPENDENCIES:
-  - mobile-ffmpeg-full-gpl (~> 4.2)
+  - mobile-ffmpeg-min (~> 4.2)
   - RLBAlertsPickers (from `https://github.com/loicgriffie/Alerts-Pickers.git`, branch `master`)
   - RxCocoa
   - RxSwift
@@ -27,7 +27,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - mobile-ffmpeg-full-gpl
+    - mobile-ffmpeg-min
     - RxAtomic
     - RxCocoa
     - RxSwift
@@ -54,7 +54,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/0xced/XCDYouTubeKit.git
 
 SPEC CHECKSUMS:
-  mobile-ffmpeg-full-gpl: b9418e642f87c8ba790500db707b527e38b69812
+  mobile-ffmpeg-min: 3cd9ee4ad2046270588c84449f7e2eee90a16110
   RLBAlertsPickers: d8dd984ed0a686bd167554eeb4a3af5ae8d82d24
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
@@ -66,6 +66,6 @@ SPEC CHECKSUMS:
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
   ZIPFoundation: 68c35eb2637c21abe56dc60b3277636443bc1501
 
-PODFILE CHECKSUM: cd6baf8f14fe183553bccc59124aca1cbbe7aaba
+PODFILE CHECKSUM: 97153a18905e9ef19a750bbb22213cc3ed682024
 
 COCOAPODS: 1.6.1

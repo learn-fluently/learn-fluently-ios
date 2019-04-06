@@ -201,9 +201,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         browserViewController.delegate = self
         alert.set(vc: browserViewController)
         if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view //to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
         }
 
         self.present(alert, animated: true, completion: nil)
@@ -247,23 +247,37 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func present(_ error: Error) {
-        if let downloadProgressViewController = downloadProgressViewController {
-            downloadProgressViewController.dismiss(animated: false) { [weak self] in
-                self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
-            }
-        } else {
-            presentOKMessage(title: .ERROR, message: error.localizedDescription)
+        dismissDownloadProgressDialog {  [weak self] in
+            self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
         }
     }
 
-    private func startDownload(url: URL, type: SourceDownloaderService.SourceUrlType = .regular) -> Single<SourceDownloaderService.DownloadResult> {
+    private func dismissDownloadProgressDialog(completion: (() -> Void)?) {
+        if let downloadProgressViewController = downloadProgressViewController {
+            downloadProgressViewController.dismiss(animated: false) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    completion?()
+                }
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                completion?()
+            }
+        }
+        self.downloadProgressViewController = nil
+    }
+
+    private func startDownload(url: URL, type: SourceDownloaderService.SourceUrlType? = nil) -> Single<SourceDownloaderService.DownloadResult> {
+        let type = type ?? sourceDownloaderService.getSourceUrlType(mimeType: nil, url: url)
         return sourceDownloaderService.startDownload(url: url, type: type)
-            .do(onSubscribed: { [weak self] in
+            .do(onSubscribe: { [weak self] in
                 guard let `self` = self else {
                     return
                 }
-                if self.downloadProgressViewController == nil {
-                    self.downloadProgressViewController = self.presentMessage(title: .DOWNLOADING)
+                DispatchQueue.main.async {
+                    if self.downloadProgressViewController == nil {
+                        self.downloadProgressViewController = self.presentMessage(title: .DOWNLOADING)
+                    }
                 }
             })
     }
@@ -295,10 +309,10 @@ extension SourceConfigViewController {
         Completable
             .merge(completables)
             .do(onCompleted: { [weak self] in
-                    self?.downloadProgressViewController?.dismiss(animated: true) { [weak self] in
-                        self?.askAndSetSourceName(defaultValue: sourceName, isYoutube: isYoutube)
-                    }
-                })
+                self?.dismissDownloadProgressDialog {
+                    self?.askAndSetSourceName(defaultValue: sourceName, isYoutube: isYoutube)
+                }
+            })
             .subscribe()
             .disposed(by: disposeBag)
     }
@@ -313,19 +327,7 @@ extension SourceConfigViewController: WebBrowserViewControllerDelegate {
             guard let `self` = self else {
                 return
             }
-            var type: SourceDownloaderService.SourceUrlType
-            switch mimeType {
-
-            case "application/zip":
-                type = .archive
-
-            default:
-                if url.pathExtension.lowercased() == "mkv" {
-                    type = .convertible
-                } else {
-                    type = .regular
-                }
-            }
+            let type = self.sourceDownloaderService.getSourceUrlType(mimeType: mimeType, url: url)
             self.handleDownloadingSourceSequences(
                 [self.startDownload(url: url, type: type)],
                 sourceDefaultName: url.lastPathComponent
@@ -378,7 +380,9 @@ extension SourceConfigViewController: SourceDownloaderServiceDelegate {
                 onSelected?(url)
             }
         }
-        present(alert, animated: true, completion: nil)
+        dismissDownloadProgressDialog { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
     }
 
     func convertFile(url: URL, completion: ((URL?, Error?) -> Void)?) {

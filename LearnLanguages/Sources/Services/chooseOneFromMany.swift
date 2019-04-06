@@ -57,6 +57,28 @@ class SourceDownloaderService {
                             isConvertible: type == .convertible)
     }
 
+    func getSourceUrlType(mimeType: String?, url: URL) -> SourceUrlType {
+        var type: SourceUrlType = .regular
+
+        if let mimeType = mimeType {
+            switch mimeType {
+
+            case "application/zip":
+                type = .archive
+
+            default:
+                type = .regular
+            }
+        }
+
+        if url.pathExtension.lowercased() == "mkv" {
+            type = .convertible
+        } else if url.pathExtension.lowercased() == "zip" {
+            type = .archive
+        }
+
+        return type
+    }
 
     // MARK: Private functions
 
@@ -149,9 +171,13 @@ class SourceDownloaderService {
                     return
                 } else {
                     DispatchQueue.main.async { [weak self] in
-                        self?.delegate?.chooseOneFromMany(urls: filesUrls) { url in
+                        guard let `self` = self else {
+                            return
+                        }
+                        self.delegate?.chooseOneFromMany(urls: filesUrls) { url in
                             result.destinationURL = url
                             event(.success(result))
+                            try? self.fileRepository.removeItem(at: self.fileRepository.getPathURL(for: .archiveDecompressedDir))
                         }
                     }
                 }
