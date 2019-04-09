@@ -1,6 +1,6 @@
 platform :ios, '11.0'
 
-target 'LearnLanguages' do
+target 'Learn Fluently' do
   use_frameworks!
   pod 'SnapKit', '~> 4.2.0'
   pod 'SwiftRichString'
@@ -11,4 +11,5 @@ target 'LearnLanguages' do
   pod 'ZIPFoundation', '~> 0.9'
   pod 'XCDYouTubeKit', :git => 'https://github.com/0xced/XCDYouTubeKit.git', :branch => 'master'
   pod 'SWXMLHash', '~> 4.7.0'
+  pod 'mobile-ffmpeg-min', '~> 4.2'
 end

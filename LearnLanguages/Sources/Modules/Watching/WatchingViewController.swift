@@ -116,6 +116,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
                 let range = getTextRangeByPointsOnTextView(startPoint: paningStartPoint, endPoint: location) {
                 textViewSelectedTextRange = range
             }
+
+        default:
+            break
         }
     }
 
@@ -123,6 +126,9 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     // MARK: Private functions
 
     private func subscribeToPlayerTime() {
+        if playerController.isPlaying {
+            NSLog("asdasd")
+        }
         playerController.playerTimeObservable
             .subscribe(onNext: { [weak self] currentValue in
                 self?.adjustSubtitleByPlayerTime(currentValue: currentValue)
@@ -246,10 +252,13 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func addPlayerViewController() {
-        playerController = PlayerViewController()
+        let playerController = LAVPlayerViewController()
+        self.playerController = playerController
         playerController.playingDelegate = self
         addChild(playerController)
-        guard let videoView = playerController?.view else { return }
+        guard let videoView = playerController.view else {
+            return
+        }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
         playerController.url = fileRepository.getPathURL(for: .videoFile)
@@ -294,7 +303,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 }
 
 
-extension WatchingViewController: PlayerViewControllerPlayingDelegate {
+extension WatchingViewController: PlayerViewControllerDelegate {
 
     // MARK: Functions
 

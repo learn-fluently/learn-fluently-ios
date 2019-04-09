@@ -20,9 +20,12 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Properties
 
+    static var lastURL: URL?
+
     weak var delegate: WebBrowserViewControllerDelegate?
 
     private var parentView: UIView
+    private var isDismissing: Bool = false
 
     @IBOutlet private weak var topView: UIView!
     @IBOutlet private weak var webView: WKWebView!
@@ -56,11 +59,25 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         makeConstraintForView()
+        if let lastURL = WebBrowserViewController.lastURL {
+            webView.load(URLRequest(url: lastURL))
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         inputTextField.becomeFirstResponder()
+    }
+
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        if !isDismissing {
+            isDismissing = true
+            super.dismiss(animated: flag) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    completion?()
+                }
+            }
+        }
     }
 
 
@@ -86,7 +103,7 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
         }
     }
     private func configureInputTextField() {
-        inputTextField.keyboardType = .URL
+        inputTextField.keyboardType = .webSearch
         inputTextField.delegate = self
         setReturnKeyType(.done)
         inputTextField.addTarget(self, action: #selector(adjustInputTextFieldReturnKeyType), for: .editingChanged)
@@ -147,6 +164,21 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
             self.loadingIndicator.alpha = isLoading ? 1 : 0
         }
     }
+
+    private func saveCookies(navigationResponse: WKNavigationResponse) {
+        if let httpResponse = navigationResponse.response as? HTTPURLResponse, let url = httpResponse.url {
+            let allHeaders = httpResponse.allHeaderFields.reduce([String: String](), { result, next -> [String: String] in
+                guard let stringKey = next.key as? String, let stringValue = next.value as? String else { return result }
+                var buffer = result
+                buffer[stringKey] = stringValue
+                return buffer
+            })
+            let cookies = HTTPCookie.cookies(withResponseHeaderFields: allHeaders, for: url)
+            for cookie in cookies {
+                HTTPCookieStorage.shared.setCookie(cookie)
+            }
+        }
+    }
 }
 
 
@@ -175,19 +207,37 @@ extension WebBrowserViewController: WKNavigationDelegate {
         setLoading(false)
     }
 
+    /*
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url {
+            if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: "", url: url) {
+                dismiss(animated: true, completion: downloadHandler)
+            }
+        }
+        decisionHandler(.allow)
+    }*/
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         if let mimeType = navigationResponse.response.mimeType,
             let url = navigationResponse.response.url {
             if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: mimeType, url: url) {
+                saveCookies(navigationResponse: navigationResponse)
                 dismiss(animated: true, completion: downloadHandler)
             }
         }
+
         decisionHandler(.allow)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         setLoading(true)
         inputTextField.text = webView.url?.absoluteString
+    }
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        if !isDismissing {
+            WebBrowserViewController.lastURL = webView.url
+        }
     }
 
 }

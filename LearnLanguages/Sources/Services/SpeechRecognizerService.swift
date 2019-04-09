@@ -85,6 +85,9 @@ class SpeechRecognizerService: SFSpeechRecognizer {
 
                 case .notDetermined:
                     completion?(false, "Speech recognition not yet authorized")
+
+                default:
+                    completion?(false, nil)
                 }
             }
 

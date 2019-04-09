@@ -63,4 +63,8 @@ file_header:
                    
 type_name:
   excluded: id # excluded via string
+identifier_name:
+  excluded: 
+    - to
+    - at
 reporter: "xcode"

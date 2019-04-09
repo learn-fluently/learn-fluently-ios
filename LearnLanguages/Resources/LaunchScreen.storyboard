@@ -18,17 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="831-9f-X8i">
-                                <rect key="frame" x="178" y="333" width="19" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconInSplash" translatesAutoresizingMaskIntoConstraints="NO" id="HKG-S2-JZo">
+                                <rect key="frame" x="87.5" y="243.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="K0c-9l-kEX"/>
+                                    <constraint firstAttribute="width" constant="200" id="lsv-jV-Dnp"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="831-9f-X8i" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Bvd-AT-dl1"/>
-                            <constraint firstItem="831-9f-X8i" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="gan-mH-cfD"/>
+                            <constraint firstItem="HKG-S2-JZo" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="17R-GN-dlI"/>
+                            <constraint firstItem="HKG-S2-JZo" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="lwB-YA-37v"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -38,4 +39,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="IconInSplash" width="512" height="512"/>
+    </resources>
 </document>

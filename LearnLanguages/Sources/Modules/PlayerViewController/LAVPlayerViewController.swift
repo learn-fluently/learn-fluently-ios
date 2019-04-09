@@ -1,8 +1,8 @@
 //
-//  PlayerViewController.swift
+//  LAVPlayerViewController.swift
 //  LearnLanguages
 //
-//  Created by Amir Khorsandi on 2/9/19.
+//  Created by Amir Khorsandi on 3/22/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
 //
 
@@ -12,22 +12,16 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-protocol PlayerViewControllerPlayingDelegate: AnyObject {
-
-    // MARK: Functions
-
-    func onPlayingStateChanged(playerViewController: PlayerViewController)
-
-    func onCloseButtonTouched(playerViewController: PlayerViewController)
-
-}
-
-
-class PlayerViewController: AVPlayerViewController {
+class LAVPlayerViewController: AVPlayerViewController, PlayerViewController {
 
     // MARK: Properties
 
-    weak var playingDelegate: PlayerViewControllerPlayingDelegate?
+    weak var playingDelegate: PlayerViewControllerDelegate?
+
+    var showsControls: Bool {
+        set { showsPlaybackControls = newValue }
+        get { return showsPlaybackControls }
+    }
 
     var isPlaying: Bool {
         return player?.timeControlStatus == .playing
@@ -111,7 +105,7 @@ class PlayerViewController: AVPlayerViewController {
 
     func seek(byDelta delta: Double) {
         guard let player = player else {
-                return
+            return
         }
         let newTime = CMTimeGetSeconds(player.currentTime()) + delta
         seek(to: newTime)
@@ -139,7 +133,7 @@ class PlayerViewController: AVPlayerViewController {
         let playerItem = AVPlayerItem(asset: avAsset)
         player = AVPlayer(playerItem: playerItem)
         let observer = player?.observe(\.timeControlStatus) { [weak playingDelegate] _, _ in
-             playingDelegate?.onPlayingStateChanged(playerViewController: self)
+            playingDelegate?.onPlayingStateChanged(playerViewController: self)
         }
         if let observer = observer {
             keyValueObservations.append(observer)
@@ -179,7 +173,7 @@ class PlayerViewController: AVPlayerViewController {
     private func adjustAndSeek(to time: Double) {
         guard let player = player,
             let duration = player.currentItem?.duration else {
-            return
+                return
         }
         var newTime = time
         if newTime < 0 {

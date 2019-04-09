@@ -19,8 +19,9 @@ class FileRepository {
 
         case videoFile
         case subtitleFile
-        case archiveFile
         case archiveDecompressedDir
+        case temporaryFileForDownload
+        case temporaryFileForConvert
     }
 
 
@@ -50,14 +51,29 @@ class FileRepository {
         case .subtitleFile:
             url.appendPathComponent("subtitle.txt")
 
-        case .archiveFile:
-            url.appendPathComponent("archive.zip")
-
         case .archiveDecompressedDir:
             url.appendPathComponent("archiveDecompressedDir")
+
+        case .temporaryFileForDownload:
+            url.appendPathComponent("temporaryFileForDownload" + String(Int.random(in: 0..<Int(RAND_MAX))))
+
+        case .temporaryFileForConvert:
+            url.appendPathComponent("temporaryFileForConvert" + String(Int.random(in: 0..<Int(RAND_MAX))))
         }
 
         return url
+    }
+
+    func fileExists(at url: URL) -> Bool {
+        return fileManager.fileExists(atPath: url.path)
+    }
+
+    func moveItem(at: URL, to: URL) throws {
+        try fileManager.moveItem(at: at, to: to)
+    }
+
+    func removeItem(at url: URL) throws {
+        try fileManager.removeItem(at: url)
     }
 
     func replaceItem(at dest: URL, with source: URL) {
@@ -69,11 +85,11 @@ class FileRepository {
         }
     }
 
-    func decompressArchiveFile(completion: ([URL]) -> Void) {
+    func decompressArchiveFile(sourceURL: URL, completion: ([URL]) -> Void) {
         let destPath = getPathURL(for: .archiveDecompressedDir)
         try? fileManager.removeItem(at: destPath)
         try? fileManager.createDirectory(at: destPath, withIntermediateDirectories: false, attributes: nil)
-        try? fileManager.unzipItem(at: getPathURL(for: .archiveFile), to: destPath)
+        try? fileManager.unzipItem(at: sourceURL, to: destPath)
         let urls = try? fileManager.contentsOfDirectory(at: destPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
         completion(urls ?? [])
     }
