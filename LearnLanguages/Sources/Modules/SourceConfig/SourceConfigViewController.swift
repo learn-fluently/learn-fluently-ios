@@ -1,6 +1,6 @@
 //
 //  SourceConfigViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/10/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -14,37 +14,12 @@ import RxSwift
 import RxCocoa
 import RLBAlertsPickers
 
+protocol SourceConfigViewControllerDelegate: AnyObject {
+
+}
+
 
 class SourceConfigViewController: BaseViewController, NibBasedViewController {
-
-    // MARK: Constants
-
-    enum SourceType {
-
-        // MARK: Cases
-
-        case watching
-        case speaking
-        case writing
-    }
-
-    enum SourcePikcerMode {
-
-        // MARK: Cases
-
-        case video
-        case subtitle
-    }
-
-    enum SourcePickerOption: Int {
-
-        // MARK: Cases
-
-        case youtube
-        case browser
-        case directLink
-        case documentPicker
-    }
 
 
     // MARK: Properties
@@ -53,17 +28,13 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         return .default
     }
 
-    private let sourceType: SourceType
-    private let pageTitle: String
-    private let pageSubtitle: String
-    private let fileRepository = FileRepository()
-    private let youtubeSourceService = YoutubeSourceService()
     private let disposeBag = DisposeBag()
-    private var currentPickerMode: SourcePikcerMode?
-    private var lastSubtitleSourceName: String? = UserDefaultsService.shared.subtitleSourceName
-    private var lastVideoSourceName: String? = UserDefaultsService.shared.videoSourceName
     private var sourceDownloaderService: SourceDownloaderService!
     private var downloadProgressViewController: UIAlertController?
+
+    private(set) var viewModel: SourceConfigViewModel!
+    private weak var delegate: SourceConfigViewControllerDelegate?
+
 
     // MARK: Outlets
 
@@ -78,21 +49,20 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureTitleViews()
-    }
-
-    init(title: String, subtitle: String, type: SourceType) {
-        sourceType = type
-        pageTitle = title
-        pageSubtitle = subtitle
-        super.init(nibName: SourceConfigViewController.nibName, bundle: nil)
-        sourceDownloaderService = SourceDownloaderService(delegate: self)
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not available")
+    }
+
+    init(viewModel: SourceConfigViewModel, delegate: SourceConfigViewControllerDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        sourceDownloaderService = SourceDownloaderService(delegate: self)
+        configureTitleViews()
     }
 
 
@@ -132,7 +102,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Private functions
 
-    private func openSourcePicker(mode: SourcePikcerMode) {
+    private func openSourcePicker(mode: SourceConfigViewModel.SourcePikcerMode) {
         currentPickerMode = mode
 
         let actions: [ActionData<SourcePickerOption>] = [
@@ -183,7 +153,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     private func askAndSetSourceName(defaultValue: String, isYoutube: Bool = false) {
         presentInput(title: .ENTER_SOURCE_NAME, defaultValue: defaultValue) { [weak self] name in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
 

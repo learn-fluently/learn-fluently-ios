@@ -17,12 +17,14 @@
 		AB522AC821D03613002421B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
 		AB522ACA21D03613002421B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
 		AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD221D03DC9002421B8 /* BaseViewController.swift */; };
-		AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD321D03DC9002421B8 /* RootViewController.swift */; };
 		AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */; };
 		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
 		AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitle.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
+		AB86CAB5225D1E0C00C15B1B /* SourceConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */; };
+		AB86CAB7225D1EBE00C15B1B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */; };
+		AB86CAB9225D21AB00C15B1B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB8225D21AB00C15B1B /* Coordinator.swift */; };
 		ABAC2413224923BF001A226E /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAC2412224923BF001A226E /* Errors.swift */; };
 		ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */; };
 		ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
@@ -74,12 +76,14 @@
 		AB522AC321D03612002421B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB522AC621D03612002421B8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB522AD221D03DC9002421B8 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		AB522AD321D03DC9002421B8 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB522AE821D311D4002421B8 /* Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
+		AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceConfigViewModel.swift; sourceTree = "<group>"; };
+		AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		AB86CAB8225D21AB00C15B1B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		ABAC2412224923BF001A226E /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerService.swift; sourceTree = "<group>"; };
 		ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloaderService.swift; sourceTree = "<group>"; };
@@ -190,10 +194,11 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
 				ABAF5C062218554B0079C5C7 /* Services */,
 				ABFE60112210AE1A001267C8 /* Modules */,
-				AB522AD121D03DC9002421B8 /* BaseViewControllers */,
+				AB522AD121D03DC9002421B8 /* Base */,
 				ABD73BAA21FBA2B8004B2FB9 /* CustomViews */,
 				ABFE6006220F1A9F001267C8 /* Models */,
 				ABFE6005220F1A88001267C8 /* Repositories */,
@@ -202,15 +207,14 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		AB522AD121D03DC9002421B8 /* BaseViewControllers */ = {
+		AB522AD121D03DC9002421B8 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */,
 				AB522AD221D03DC9002421B8 /* BaseViewController.swift */,
 				AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */,
-				AB522AD321D03DC9002421B8 /* RootViewController.swift */,
 			);
-			path = BaseViewControllers;
+			path = Base;
 			sourceTree = "<group>";
 		};
 		ABAF5C062218554B0079C5C7 /* Services */ = {
@@ -254,6 +258,7 @@
 				ABAF5C32221954AD0079C5C7 /* Reachability.swift */,
 				ABF2F3292220AE390023698D /* String+Utilities.swift */,
 				ABAC2412224923BF001A226E /* Errors.swift */,
+				AB86CAB8225D21AB00C15B1B /* Coordinator.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */,
+				AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */,
 				ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */,
 			);
 			path = SourceConfig;
@@ -547,15 +553,16 @@
 				ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */,
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
+				AB86CAB9225D21AB00C15B1B /* Coordinator.swift in Sources */,
 				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
 				AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */,
-				AB522AD821D03DC9002421B8 /* RootViewController.swift in Sources */,
 				ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
 				ABF2F32A2220AE390023698D /* String+Utilities.swift in Sources */,
 				ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */,
 				AB522AD721D03DC9002421B8 /* BaseViewController.swift in Sources */,
 				ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */,
+				AB86CAB7225D1EBE00C15B1B /* AppCoordinator.swift in Sources */,
 				ABFED1A42222A34500F23313 /* YoutubeSourceService.swift in Sources */,
 				AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */,
 				ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */,
@@ -563,6 +570,7 @@
 				ABFED1A62222A4D100F23313 /* chooseOneFromMany.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,
 				ABAC2413224923BF001A226E /* Errors.swift in Sources */,
+				AB86CAB5225D1E0C00C15B1B /* SourceConfigViewModel.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
 				ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */,
 				ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */,

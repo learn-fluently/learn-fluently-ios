@@ -1,6 +1,6 @@
 //
 //  LLTextView.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 12/27/18.
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.

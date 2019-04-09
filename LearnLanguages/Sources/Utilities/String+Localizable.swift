@@ -1,6 +1,6 @@
 //
 //  String+Localizable.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/16/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.

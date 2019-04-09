@@ -1,6 +1,6 @@
 //
 //  SubtitleItem.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 12/26/18.
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
