@@ -13,3 +13,11 @@ target 'Learn Fluently' do
   pod 'SWXMLHash', '~> 4.7.0'
   pod 'mobile-ffmpeg-min', '~> 4.2'
 end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
+    end
+  end
+end
