@@ -34,6 +34,15 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Lifecyle
 
+    init(delegate: InputViewControllerDelegate) {
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+        self.delegate = delegate
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 

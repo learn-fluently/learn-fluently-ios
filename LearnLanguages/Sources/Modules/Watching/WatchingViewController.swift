@@ -12,6 +12,13 @@ import SafariServices
 import SwiftRichString
 import RxSwift
 
+protocol WatchingViewControllerDelegate: AnyObject {
+
+    func onCloseButtonTouched(watchingViewController: WatchingViewController)
+
+}
+
+
 class WatchingViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Properties
@@ -31,6 +38,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     private var subtitleRepository: SubtitleRepository!
     private var fileRepository: FileRepository!
     private var disposeBag = DisposeBag()
+    private weak var delegate: WatchingViewControllerDelegate?
     private var textViewSelectedTextRange: NSRange? = nil {
         didSet {
             setTextViewSelectedTextRange()
@@ -46,6 +54,15 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
 
     // MARK: Life Cycle
+
+    init(delegate: WatchingViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -313,7 +330,7 @@ extension WatchingViewController: PlayerViewControllerDelegate {
     }
 
     func onCloseButtonTouched(playerViewController: PlayerViewController) {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched(watchingViewController: self)
     }
 }
 

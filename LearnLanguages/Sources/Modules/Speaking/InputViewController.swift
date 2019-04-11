@@ -12,6 +12,13 @@ import AVKit
 import RxSwift
 import SwiftRichString
 
+protocol InputViewControllerDelegate: AnyObject {
+
+    func onCloseButtonTouched(inputViewControllerDelegate: InputViewController)
+
+}
+
+
 class InputViewController: BaseViewController {
 
     // MARK: Properties
@@ -24,6 +31,8 @@ class InputViewController: BaseViewController {
         set { playerController.showsControls = newValue }
         get { return playerController.showsControls }
     }
+
+    weak var delegate: InputViewControllerDelegate?
 
     internal var disposeBag = DisposeBag()
 
@@ -295,6 +304,6 @@ extension InputViewController: PlayerViewControllerDelegate {
     }
 
     func onCloseButtonTouched(playerViewController: PlayerViewController) {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched(inputViewControllerDelegate: self)
     }
 }

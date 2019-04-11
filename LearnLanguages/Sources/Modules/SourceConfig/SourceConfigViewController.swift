@@ -16,6 +16,10 @@ import RLBAlertsPickers
 
 protocol SourceConfigViewControllerDelegate: AnyObject {
 
+    func onPlayButtonTouched()
+
+    func onCloseButtonTouched()
+
 }
 
 
@@ -32,7 +36,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private var sourceDownloaderService: SourceDownloaderService!
     private var downloadProgressViewController: UIAlertController?
 
-    private(set) var viewModel: SourceConfigViewModel!
+    let viewModel: SourceConfigViewModel
     private weak var delegate: SourceConfigViewControllerDelegate?
 
 
@@ -69,26 +73,12 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     // MARK: Event handeling
 
     @IBAction private func closeButtonTouched() {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched()
     }
 
     @IBAction private func playButtonTouched() {
-        if lastVideoSourceName != nil {
-            UserDefaultsService.shared.videoSourceName = lastVideoSourceName
-        }
-        if lastSubtitleSourceName != nil {
-            UserDefaultsService.shared.subtitleSourceName = lastSubtitleSourceName
-        }
-        switch sourceType {
-        case .watching:
-            show(WatchingViewController(), sender: nil)
-
-        case .speaking:
-            show(SpeakingViewController(), sender: nil)
-
-        case .writing:
-            show(WritingViewController(), sender: nil)
-        }
+        viewModel.saveSourceNameIfNeeded()
+        delegate?.onPlayButtonTouched()
     }
 
     @IBAction private func chooseVideoSourceButtonTouched() {
@@ -103,16 +93,10 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     // MARK: Private functions
 
     private func openSourcePicker(mode: SourceConfigViewModel.SourcePikcerMode) {
-        currentPickerMode = mode
-
-        let actions: [ActionData<SourcePickerOption>] = [
-            ActionData(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
-            ActionData(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
-            ActionData(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
-            ActionData(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
-        ]
-
-        presentActionSheet(title: "", message: .CHOOSE_SOURCE_TITLE, actions: actions) { [weak self] selected in
+        viewModel.currentPickerMode = mode
+        presentActionSheet(title: "",
+                           message: .CHOOSE_SOURCE_TITLE,
+                           actions: viewModel.sourcePickerOptions) { [weak self] selected in
 
             switch selected?.identifier {
             case .documentPicker?:
@@ -156,12 +140,11 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             guard let self = self else {
                 return
             }
-
             var fileName = name ?? defaultValue
             if fileName.lengthOfBytes(using: .utf8) < 1 {
                 fileName = defaultValue
             }
-            self.updateSourceFileDescriptions(sourceName: fileName, isYoutube: isYoutube)
+            self.viewModel.updateSourceFileDescriptions(sourceName: fileName, isYoutube: isYoutube)
         }
     }
 
@@ -180,35 +163,22 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func configureTitleViews() {
-        titleLabel.attributedText = pageTitle.set(style: Style.pageTitleTextStyle)
-        subtitleLabel.attributedText = pageSubtitle.set(style: Style.pageSubtitleTextStyle)
-        videoFileTitleLabel.attributedText = String.SOURCE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
-        subtitleFileTitleLabel.attributedText = String.SUBTITLE_FILE_TITLE.set(style: Style.itemTitleTextStyle)
+        titleLabel.attributedText = viewModel.title.set(style: Style.pageTitleTextStyle)
+        subtitleLabel.attributedText = viewModel.subtitle.set(style: Style.pageSubtitleTextStyle)
 
-        updateSourceFileDescriptions()
-    }
+        viewModel.videoFileDescription
+            .subscribe(onNext: { [weak self] value in
+                self?.videoFileDescriptionLabel.attributedText = value?.set(style: Style.itemDescriptionTextStyle)
+            })
+            .disposed(by: disposeBag)
 
-    private func updateSourceFileDescriptions(sourceName: String? = nil, isYoutube: Bool = false) {
-        if let sourceName = sourceName {
-            if isYoutube {
-                self.lastVideoSourceName = sourceName
-                self.lastSubtitleSourceName = sourceName
-            } else if self.currentPickerMode == .video {
-                self.lastVideoSourceName = sourceName
-            } else if self.currentPickerMode == .subtitle {
-                self.lastSubtitleSourceName = sourceName
-            }
-        }
+        viewModel.subtitleFileDescription
+            .subscribe(onNext: { [weak self] value in
+                self?.subtitleFileDescriptionLabel.attributedText = value?.set(style: Style.itemDescriptionTextStyle)
+            })
+            .disposed(by: disposeBag)
 
-        let videoDesc = lastVideoSourceName ?? .SOURCE_FILE_DESC
-        videoFileDescriptionLabel.attributedText = videoDesc.set(style: Style.itemDescriptionTextStyle)
-
-        let subtitleDesc = lastSubtitleSourceName ?? .SUBTITLE_FILE_DESC
-        subtitleFileDescriptionLabel.attributedText = subtitleDesc.set(style: Style.itemDescriptionTextStyle)
-    }
-
-    private func getDestinationURL() -> URL {
-        return currentPickerMode == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
+        viewModel.updateSourceFileDescriptions()
     }
 
     private func proccessSourceFileIfNeeded(url: URL, completion: ((URL) -> Void)?) {
@@ -275,10 +245,7 @@ extension SourceConfigViewController {
         let completables = sequences.map {
             $0.do(onSuccess: { [weak self] result in
                 sourceName = sourceDefaultName.isEmpty ? result.sourceURL.lastPathComponent : sourceDefaultName
-                if let `self` = self {
-                    self.fileRepository.replaceItem(at: self.getDestinationURL(), with: result.destinationURL)
-                    try? self.fileRepository.removeItem(at: result.destinationURL)
-                }
+                self?.viewModel.handleDownloadResult(result)
                 }, onError: { [weak self] error in
                     self?.present(error)
                 })
@@ -313,21 +280,7 @@ extension SourceConfigViewController: WebBrowserViewControllerDelegate {
             )
         }
 
-        var isSupported = false
-
-        if currentPickerMode == .video {
-            if mimeType == "video/mp4" ||
-                url.pathExtension.lowercased() == "mkv" {
-                isSupported = true
-            }
-        } else if currentPickerMode == .subtitle {
-            if mimeType == "application/zip" {
-                isSupported = true
-            } else if mimeType == "text/plain", url.pathExtension.lowercased() == "srt" {
-                isSupported = true
-            }
-        }
-
+        let isSupported = viewModel.isSupported(mimeType: mimeType, url: url)
         return isSupported ? downloadHandler : nil
     }
 
@@ -340,9 +293,8 @@ extension SourceConfigViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else {
             return
         }
-        let destinationURL = getDestinationURL()
         proccessSourceFileIfNeeded(url: url) { [weak self] url in
-            self?.fileRepository.replaceItem(at: destinationURL, with: url)
+            self?.viewModel.handleDocumentPickerResult(url: url)
             self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
         }
     }
@@ -365,32 +317,7 @@ extension SourceConfigViewController: SourceDownloaderServiceDelegate {
     }
 
     func convertFile(url: URL, completion: ((URL?, Error?) -> Void)?) {
-        if !fileRepository.fileExists(at: url) {
-            completion?(nil, Errors.Download.convert("source file doesn't exist"))//TODO:
-        }
-        var srcVideoUrl = url
-        if srcVideoUrl.pathExtension.isEmpty {
-            let newUrl = srcVideoUrl.appendingPathExtension("mkv")
-            try? fileRepository.moveItem(at: srcVideoUrl, to: newUrl)
-            srcVideoUrl = newUrl
-        }
-        let destVideoUrl = fileRepository.getPathURL(for: .temporaryFileForConvert).appendingPathExtension("mp4")
-        try? fileRepository.removeItem(at: destVideoUrl)
-
-        let command = "-i \(srcVideoUrl.path) -codec copy \(destVideoUrl.path)"
-        let queue = DispatchQueue(
-            label: String(describing: SourceConfigViewController.self),
-            qos: .background
-        )
-        queue.async { [weak self] in
-            MobileFFmpeg.execute(command)
-            if self?.fileRepository.fileExists(at: destVideoUrl) == true {
-                completion?(destVideoUrl, nil)
-                ((try? self?.fileRepository.removeItem(at: srcVideoUrl)) as ()??)
-            } else {
-                completion?(nil, Errors.Download.convert("failed to convert"))//TODO:
-            }
-        }
+        viewModel.convertFile(url: url, completion: completion)
     }
 
     func onProgressUpdate(message: String) {
@@ -403,7 +330,7 @@ extension SourceConfigViewController: SourceDownloaderServiceDelegate {
 extension SourceConfigViewController {
 
     private func startWizardForDownloadByDirectLink() {
-        let title: String = currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
+        let title = viewModel.downloadByDirectLinkTitle
         let desc: String = .SOURCE_OPTION_DIRECT_LINK
         let sequence = getLinkByInputDialog(title: title, desc: desc).flatMap { [weak self] url -> Single<SourceDownloaderService.DownloadResult> in
             self?.startDownload(url: url) ?? .never()
@@ -428,9 +355,9 @@ extension SourceConfigViewController {
         var videoTitle: String = ""
         getLinkByInputDialog(title: .ENTER_YOUTUBE_LINK)
             .flatMap { [weak self] url -> Single<YoutubeSourceService.YoutubeVideoInfo> in
-                self?.youtubeSourceService.getVideoInfo(url: url) ?? .never()
+                self?.viewModel.getYoutubeVideoInfo(url: url) ?? .never()
             }
-            .flatMap { [weak self] videoInfo -> Single<[SourcePikcerMode: URL]> in
+            .flatMap { [weak self] videoInfo -> Single<[SourceConfigViewModel.SourcePikcerMode: URL]> in
                 videoTitle = videoInfo.title
                 return self?.showVideoAndSubtitleDialogs(videoInfo: videoInfo) ?? .never()
             }
@@ -438,20 +365,20 @@ extension SourceConfigViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(
                 onSuccess: { [weak self] urls in
-                    let sequences = urls.compactMap({ pickerMode, url in
+                    let sequences = urls.compactMap { pickerMode, url in
                         self?.startDownload(url: url).do(onSuccess: { [weak self] _ in
-                            self?.currentPickerMode = pickerMode
+                            self?.viewModel.currentPickerMode = pickerMode
                         })
-                    })
+                    }
                     self?.handleDownloadingSourceSequences(sequences, sourceDefaultName: videoTitle, isYoutube: true)
                 },
                 onError: { [weak self] error in
                     self?.present(error)
                 })
             .disposed(by: disposeBag)
-            }
+    }
 
-    private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo) -> Single<[SourcePikcerMode: URL]> {
+    private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo) -> Single<[SourceConfigViewModel.SourcePikcerMode: URL]> {
         let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty
         return .create { [weak self] event -> Disposable in
             self?.showChooseVideoQuality(videoInfo: videoInfo) { [weak self] videoUrl in

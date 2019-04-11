@@ -43,9 +43,9 @@ extension UIViewController {
 
     func presentActionSheet<Type: Hashable>(title: String,
                                             message: String,
-                                            actions: [ActionData<Type>],
+                                            actions: [UIAlertAction.ActionData<Type>],
                                             appendCancel: Bool = true,
-                                            completion: ((ActionData<Type>?) -> Void)? = nil) {
+                                            completion: ((UIAlertAction.ActionData<Type>?) -> Void)? = nil) {
 
         let alertActions = actions.map { action in
             UIAlertAction(title: action.title, style: action.style) { _ in
@@ -96,7 +96,7 @@ extension UIViewController {
 }
 
 
-extension UIViewController {
+extension UIAlertAction {
 
     struct ActionData<Type: Hashable> {
 
