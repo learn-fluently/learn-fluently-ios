@@ -68,29 +68,30 @@ class SpeechRecognizerService: SFSpeechRecognizer {
     func requestAuthorization(completion: ((Bool, String?) -> Void)?) {
 
         // Make the authorization request.
-        SFSpeechRecognizer.requestAuthorization { authStatus in
+        SFSpeechRecognizer.requestAuthorization { speechAuthStatus in
+            AVAudioSession.sharedInstance().requestRecordPermission { recordAuthStatus in
+                // Divert to the app's main thread so that the UI
+                // can be updated.
+                OperationQueue.main.addOperation {
+                    if speechAuthStatus == .authorized, recordAuthStatus {
+                        completion?(true, nil)
+                    } else {
+                        switch speechAuthStatus {
+                        case .denied:
+                            completion?(false, "User denied access to speech recognition")
 
-            // Divert to the app's main thread so that the UI
-            // can be updated.
-            OperationQueue.main.addOperation {
-                switch authStatus {
-                case .authorized:
-                    completion?(true, nil)
+                        case .restricted:
+                            completion?(false, "Speech recognition restricted on this device")
 
-                case .denied:
-                    completion?(false, "User denied access to speech recognition")
+                        case .notDetermined:
+                            completion?(false, "Speech recognition not yet authorized")
 
-                case .restricted:
-                    completion?(false, "Speech recognition restricted on this device")
-
-                case .notDetermined:
-                    completion?(false, "Speech recognition not yet authorized")
-
-                default:
-                    completion?(false, nil)
+                        default:
+                            completion?(false, "User denied access to recording")
+                        }
+                    }
                 }
             }
-
         }
     }
 

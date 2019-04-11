@@ -58,6 +58,9 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
             if let error = errorDescription {
                 self?.showAlert(error)
             }
+            if isAuthorized {
+                self?.configureSubtitleRepositoryAndThenPlay()
+            }
         }
     }
 

@@ -67,7 +67,6 @@ class InputViewController: BaseViewController {
         addPlayerViewController()
         subscribeToPlayerTime()
         adjustResultViewIfNeeded()
-        configureSubtitleRepositoryAndThenPlay()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -128,6 +127,12 @@ class InputViewController: BaseViewController {
 
     internal func togglePlayerPlaying() {
         playerController.togglePlaying()
+    }
+
+    internal func configureSubtitleRepositoryAndThenPlay() {
+        configureSubtitleRepositoryAsync { [weak self] in
+            self?.playerController.play()
+        }
     }
 
     internal func showHint() {
@@ -255,14 +260,6 @@ class InputViewController: BaseViewController {
         playerController.didMove(toParent: self)
         playerController.url = fileRepository.getPathURL(for: .videoFile)
         self.playerController = playerController
-    }
-
-    private func configureSubtitleRepositoryAndThenPlay() {
-        view.isUserInteractionEnabled = false
-        configureSubtitleRepositoryAsync { [weak self] in
-            self?.view.isUserInteractionEnabled = true
-            self?.playerController.play()
-        }
     }
 
     private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {

@@ -50,6 +50,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        configureSubtitleRepositoryAndThenPlay()
         inputTextView.becomeFirstResponder()
     }
 
