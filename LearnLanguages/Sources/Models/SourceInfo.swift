@@ -42,7 +42,11 @@ struct SourceInfo {
     var youtubeVideoInfo: Youtube.VideoInfo?
     var youtubeSelectedUrls: [Type: URL] = [:]
     var selectedName: String?
-    var extractedFiles: [URL] = []
+    var extractedFiles: [URL] = [] {
+        didSet {
+            mimeType = nil
+        }
+    }
 
     var typeName: String {
         return type == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
@@ -98,7 +102,7 @@ struct SourceInfo {
     }
 
     private func getIsSupported() -> Bool {
-        if picker == .youtube || picker == .auto {
+        if picker == .youtube || picker == .auto || isArchive {
             return true
         }
         var isSupported = false
