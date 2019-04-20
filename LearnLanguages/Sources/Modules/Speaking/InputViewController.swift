@@ -165,16 +165,17 @@ class InputViewController: BaseViewController {
     internal func adjustResultViewIfNeeded(input: String? = nil) {
         let currentSubtitleLength = currentSubtitle?.lengthOfBytes(using: .utf8) ?? 0
 
-        if input?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
-            currentSubtitleLength < 1 ||
-            playerController.isPlaying ||
-            isInputBusy {
-            correctPercentageLabel.isHidden = true
-            return
+        guard let input = input,
+            input.lengthOfBytes(using: .utf8) > 0,
+            currentSubtitleLength > 0,
+            !playerController.isPlaying,
+            !isInputBusy else {
+                correctPercentageLabel.isHidden = true
+                return
         }
 
         let originalText = normalizeTextForComparesion(currentSubtitle!)
-        let inputText = normalizeTextForComparesion(input!)
+        let inputText = normalizeTextForComparesion(input)
 
         let editDifference = originalText.levenshtein(inputText)
         let beingCorrectRate = Double(currentSubtitleLength - editDifference) / Double(currentSubtitleLength)
@@ -203,17 +204,16 @@ class InputViewController: BaseViewController {
                 .components(separatedBy: " ")
                 .map { normalizeTextForComparesion($0) }
 
-            let inputWords = input!.components(separatedBy: " ")
+            let inputWords = input.components(separatedBy: " ")
             var location = 0
             if let first = inputWords.first {
-                location = input!.range(of: first)?.nsRange.location ?? 0
+                if let range = input.range(of: first) {
+                    location = input.nsRange(from: range).location
+                }
             }
             inputWords.forEach {
-                if $0.lengthOfBytes(using: .utf8) > 1,
-                    !origirnalWords.contains(normalizeTextForComparesion($0)) {
-                    ranges.append(
-                        NSRange(location: location, length: $0.lengthOfBytes(using: .utf8))
-                    )
+                if $0.lengthOfBytes(using: .utf8) > 1, !origirnalWords.contains(normalizeTextForComparesion($0)) {
+                    ranges.append(NSRange(location: location, length: $0.lengthOfBytes(using: .utf8)))
                 }
                 location += $0.lengthOfBytes(using: .utf8) + 1
             }

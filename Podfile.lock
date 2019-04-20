@@ -1,17 +1,15 @@
 PODS:
-  - mobile-ffmpeg-min (4.2)
+  - mobile-ffmpeg-min (4.2.1)
   - RLBAlertsPickers (1.1.1)
-  - RxAtomic (4.4.0)
-  - RxCocoa (4.4.0):
-    - RxSwift (~> 4.0)
-  - RxSwift (4.4.0):
-    - RxAtomic (~> 4.4)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxSwift (4.5.0)
   - SnapKit (4.2.0)
-  - SwiftLint (0.29.4)
-  - SwiftRichString (2.0.5)
+  - SwiftLint (0.31.0)
+  - SwiftRichString (3.0.0)
   - SWXMLHash (4.7.6)
   - XCDYouTubeKit (2.7.3)
-  - ZIPFoundation (0.9.6)
+  - ZIPFoundation (0.9.9)
 
 DEPENDENCIES:
   - mobile-ffmpeg-min (~> 4.2)
@@ -28,7 +26,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - mobile-ffmpeg-min
-    - RxAtomic
     - RxCocoa
     - RxSwift
     - SnapKit
@@ -54,17 +51,16 @@ CHECKOUT OPTIONS:
     :git: https://github.com/0xced/XCDYouTubeKit.git
 
 SPEC CHECKSUMS:
-  mobile-ffmpeg-min: 3cd9ee4ad2046270588c84449f7e2eee90a16110
+  mobile-ffmpeg-min: 8a3b9913c8b900ba8ced9b0fa35cff665f5bbf8b
   RLBAlertsPickers: d8dd984ed0a686bd167554eeb4a3af5ae8d82d24
-  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
-  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
-  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
-  SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
-  SwiftRichString: a3ebe72b13db2e1b917cdbb6b44d817254a7ff73
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftRichString: 5cb4860df3dc8e4d9087d7b948b210177342c3da
   SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
-  ZIPFoundation: 68c35eb2637c21abe56dc60b3277636443bc1501
+  ZIPFoundation: 89df685c971926b0323087952320bdfee9f0b6ef
 
 PODFILE CHECKSUM: ebfb174ac257156b3463ea7b6f0d51c94dbeddba
 

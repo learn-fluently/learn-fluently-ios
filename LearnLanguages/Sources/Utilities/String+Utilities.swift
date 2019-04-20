@@ -28,4 +28,8 @@ extension String {
     var asURL: URL? {
         return URL(string: self)
     }
+
+    func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
+    }
 }

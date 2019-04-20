@@ -12,19 +12,6 @@ extension SourceInfo {
 
     struct MimeType {
 
-        // MARK: Constants
-
-        enum `Type` {
-
-            // MARK: Cases
-
-            case video
-            case archive
-            case text
-            case unknown
-        }
-
-
         // MARK: Properties
 
         let type: Type
@@ -51,4 +38,21 @@ extension SourceInfo {
             self.type = type
         }
     }
+}
+
+
+extension SourceInfo.MimeType {
+
+    // MARK: Constants
+
+    enum `Type` {
+
+        // MARK: Cases
+
+        case video
+        case archive
+        case text
+        case unknown
+    }
+
 }

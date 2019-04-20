@@ -40,6 +40,7 @@ class FileRepository {
         // swiftlint:disable:next force_try
         baseURL = try! fileManager.url(for: .developerDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         self.queue = DispatchQueue(label: String(describing: type(of: self).self), qos: .background)
+        removeAllTempFiles()
     }
 
     // MARK: Functions
@@ -65,10 +66,6 @@ class FileRepository {
         }
 
         return url
-    }
-
-    func removeAllTempFiles() {
-        //TODO:
     }
 
     func fileExists(at url: URL) -> Bool {
@@ -98,6 +95,18 @@ class FileRepository {
                 completion(nil, urls, destPath)
             } catch {
                 completion(error, [], nil)
+            }
+        }
+    }
+
+
+    // MARK: Private functions
+
+    private func removeAllTempFiles() {
+        let contents = try? fileManager.contentsOfDirectory(at: baseURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+        contents?.forEach {
+            if $0.lastPathComponent.starts(with: "temp") {
+                try? fileManager.removeItem(at: $0)
             }
         }
     }
