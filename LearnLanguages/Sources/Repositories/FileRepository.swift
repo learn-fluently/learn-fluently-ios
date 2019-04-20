@@ -38,7 +38,7 @@ class FileRepository {
 
     init() {
         // swiftlint:disable:next force_try
-        baseURL = try! fileManager.url(for: .developerDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        baseURL = try! fileManager.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         self.queue = DispatchQueue(label: String(describing: type(of: self).self), qos: .background)
         removeAllTempFiles()
     }
