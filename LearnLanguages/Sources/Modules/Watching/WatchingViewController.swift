@@ -340,7 +340,7 @@ extension WatchingViewController: LLTextViewMenuDelegate {
     // MARK: Functions
 
     func onTranslateMenuItemSelected(_ textView: UITextView) {
-        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=fa&text=" + urlEncode(getSelectedText()) )
+        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=" + urlEncode(getSelectedText()) )
     }
 
     func onImageMenuItemSelected(_ textView: UITextView) {

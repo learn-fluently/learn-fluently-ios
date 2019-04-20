@@ -32,7 +32,7 @@ class SubtitleRepository {
 
     init(url: URL) {
         self.url = url
-        self.subtitle = Subtitle(fileUrl: url)
+        self.subtitle = Subtitle(itemsFileUrl: url)
     }
 
 

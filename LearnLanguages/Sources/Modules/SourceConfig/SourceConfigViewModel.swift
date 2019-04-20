@@ -13,161 +13,177 @@ import RxCocoa
 
 class SourceConfigViewModel {
 
-    // MARK: Constants
-
-    enum SourcePikcerMode {
-
-        // MARK: Cases
-
-        case video
-        case subtitle
-    }
-
-    enum SourcePickerOption: Int {
-
-        // MARK: Cases
-
-        case youtube
-        case browser
-        case directLink
-        case documentPicker
-    }
-
-
     // MARK: Properties
 
-    let title: String
+    let pageInfo: TitleDesc
 
-    let subtitle: String
+    let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
+        .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
+        .init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
+        .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
+        .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
+    ]
 
-    var currentPickerMode: SourcePikcerMode?
-
-    var sourcePickerOptions: [UIAlertAction.ActionData<SourcePickerOption>] {
-        return [
-            .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
-            .init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
-            .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
-            .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
-        ]
+    var videoFileDescriptionObservable: Observable<String> {
+        return UserDefaultsService.shared.videoSourceName.map { $0 ?? .SOURCE_FILE_DESC }
     }
 
-    var downloadByDirectLinkTitle: String {
-        return currentPickerMode == .video ? .SOURCE_FILE_TITLE : .SUBTITLE_FILE_TITLE
+    var subtitleFileDescriptionObservable: Observable<String> {
+        return UserDefaultsService.shared.subtitleSourceName.map { $0 ?? .SUBTITLE_FILE_DESC }
     }
 
-    let videoFileDescription = BehaviorRelay<String?>(value: nil)
+    var progressMessageObservable: Observable<TitleDesc> {
+        return progressMessageBehaviorRelay.asObservable()
+    }
 
-    let subtitleFileDescription = BehaviorRelay<String?>(value: nil)
-
-    private var lastSubtitleSourceName: String? = UserDefaultsService.shared.subtitleSourceName
-    private var lastVideoSourceName: String? = UserDefaultsService.shared.videoSourceName
+    private let progressMessageBehaviorRelay = BehaviorRelay<TitleDesc>(value: .empty)
     private let fileRepository = FileRepository()
     private let youtubeSourceService = YoutubeSourceService()
+    private let sourceConverterService: SourceConverterService
+    private let sourceDownloaderService: SourceDownloaderService
+    private let disposeBag = DisposeBag()
 
 
     // MARK: Life cycle
 
-    init(title: String, subtitle: String) {
-        self.title = title
-        self.subtitle = subtitle
+    init(pageInfo: TitleDesc) {
+        self.pageInfo = pageInfo
+        self.sourceConverterService = SourceConverterService(fileRepository: fileRepository)
+        self.sourceDownloaderService = SourceDownloaderService(fileRepository: fileRepository)
+        subscribeToDownladerMessages()
     }
 
 
     // MARK: Functions
 
-    func isSupported(mimeType: String, url: URL) -> Bool {
-        var isSupported = false
-        if currentPickerMode == .video {
-            if mimeType == "video/mp4" ||
-                url.pathExtension.lowercased() == "mkv" {
-                isSupported = true
+    func createYoutubeInfoGetter(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        guard let url = sourceInfo.sourceURL else {
+            return .never()
+        }
+        return youtubeSourceService.getVideoInfo(url: url)?.map {
+            var sourceInfo = sourceInfo
+            sourceInfo.youtubeVideoInfo = $0
+            return sourceInfo
+        } ?? .never()
+    }
+
+    func createDownloaderIfNeeded(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        switch sourceInfo.picker {
+        case .documentPicker?:
+            return .just(sourceInfo)
+
+        default:
+            return createDownloader(sourceInfo: sourceInfo)
+        }
+    }
+
+    func createConverterIfNeeded(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        guard sourceInfo.shouldConvert else {
+            return .just(sourceInfo)
+        }
+        return sourceConverterService.createConverter(sourceInfo: sourceInfo).do(onSubscribed: { [weak self] in
+            self?.progressMessageBehaviorRelay.accept(
+                .init(title: sourceInfo.typeName, description: .CONVERTING)
+            )
+        })
+    }
+
+    func createSaver(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return .create { [weak self] event in
+            guard let self = self else {
+                return Disposables.create {}
             }
-        } else if currentPickerMode == .subtitle {
-            if mimeType == "application/zip" {
-                isSupported = true
-            } else if mimeType == "text/plain", url.pathExtension.lowercased() == "srt" {
-                isSupported = true
+            do {
+                let sourceInfo = try self.saveSource(sourceInfo: sourceInfo)
+                event(.success(sourceInfo))
+            } catch {
+                event(.error(error))
             }
-        }
-        return isSupported
-    }
-
-    func handleDocumentPickerResult(url: URL) {
-        let destinationURL = getDestinationURL()
-        fileRepository.replaceItem(at: destinationURL, with: url)
-    }
-
-    func handleDownloadResult(_ result: SourceDownloaderService.DownloadResult) {
-        fileRepository.replaceItem(at: getDestinationURL(), with: result.destinationURL)
-        try? fileRepository.removeItem(at: result.destinationURL)
-    }
-
-    func saveSourceNameIfNeeded() {
-        if lastVideoSourceName != nil {
-            UserDefaultsService.shared.videoSourceName = lastVideoSourceName
-        }
-        if lastSubtitleSourceName != nil {
-            UserDefaultsService.shared.subtitleSourceName = lastSubtitleSourceName
+            return Disposables.create {}
         }
     }
 
-    func updateSourceFileDescriptions(sourceName: String? = nil, isYoutube: Bool = false) {
-        if let sourceName = sourceName {
-            if isYoutube {
-                self.lastVideoSourceName = sourceName
-                self.lastSubtitleSourceName = sourceName
-            } else if self.currentPickerMode == .video {
-                self.lastVideoSourceName = sourceName
-            } else if self.currentPickerMode == .subtitle {
-                self.lastSubtitleSourceName = sourceName
+    func updateSourceFileDescriptions(sourceInfo: SourceInfo) {
+        guard let selectedName = sourceInfo.selectedName else {
+            return
+        }
+        if sourceInfo.picker == .youtube {
+            UserDefaultsService.shared.videoSourceName.accept(selectedName)
+            UserDefaultsService.shared.subtitleSourceName.accept(selectedName)
+        } else if sourceInfo.type == .video {
+            UserDefaultsService.shared.videoSourceName.accept(selectedName)
+        } else if sourceInfo.type == .subtitle {
+            UserDefaultsService.shared.subtitleSourceName.accept(selectedName)
+        }
+    }
+
+    func handleDownloadedArchive(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return .create(subscribe: { [weak self] event -> Disposable in
+            guard let `self` = self, let sourceInfoDestinationURL = sourceInfo.destinationURL else {
+                return Disposables.create {}
             }
-        }
-
-        let videoDesc = lastVideoSourceName ?? .SOURCE_FILE_DESC
-        videoFileDescription.accept(videoDesc)
-
-        let subtitleDesc = lastSubtitleSourceName ?? .SUBTITLE_FILE_DESC
-        subtitleFileDescription.accept(subtitleDesc)
-    }
-
-    func convertFile(url: URL, completion: ((URL?, Error?) -> Void)?) {
-        if !fileRepository.fileExists(at: url) {
-            completion?(nil, Errors.Download.convert("source file doesn't exist"))//TODO:
-        }
-        var srcVideoUrl = url
-        if srcVideoUrl.pathExtension.isEmpty {
-            let newUrl = srcVideoUrl.appendingPathExtension("mkv")
-            try? fileRepository.moveItem(at: srcVideoUrl, to: newUrl)
-            srcVideoUrl = newUrl
-        }
-        let destVideoUrl = fileRepository.getPathURL(for: .temporaryFileForConvert).appendingPathExtension("mp4")
-        try? fileRepository.removeItem(at: destVideoUrl)
-
-        let command = "-i \(srcVideoUrl.path) -codec copy \(destVideoUrl.path)"
-        let queue = DispatchQueue(
-            label: String(describing: SourceConfigViewController.self),
-            qos: .background
-        )
-        queue.async { [weak self] in
-            MobileFFmpeg.execute(command)
-            if self?.fileRepository.fileExists(at: destVideoUrl) == true {
-                completion?(destVideoUrl, nil)
-                ((try? self?.fileRepository.removeItem(at: srcVideoUrl)) as ()??)
-            } else {
-                completion?(nil, Errors.Download.convert("failed to convert"))//TODO:
+            self.fileRepository.decompressArchiveFile(sourceURL: sourceInfoDestinationURL) { [weak self] filesUrls in
+                try? self?.fileRepository.removeItem(at: sourceInfoDestinationURL)
+                guard !filesUrls.isEmpty else {
+                    event(.error(Errors.Download.archive(.FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)))
+                    return
+                }
+                var sourceInfo = sourceInfo
+                sourceInfo.extractedFiles = filesUrls
+                event(.success(sourceInfo))
             }
-        }
-    }
 
-    func getYoutubeVideoInfo(url: URL) -> Single<YoutubeSourceService.YoutubeVideoInfo>? {
-        return youtubeSourceService.getVideoInfo(url: url)
+            return Disposables.create {}
+        })
     }
-
 
     // MARK: Private functions
 
-    func getDestinationURL() -> URL {
-        return currentPickerMode == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
+    private func createDownloader(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return sourceDownloaderService.startDownload(sourceInfo: sourceInfo)
+    }
+
+    private func saveSource(sourceInfo: SourceInfo) throws -> SourceInfo {
+        guard sourceInfo.picker != .documentPicker else {
+            return try copySourceFile(sourceInfo: sourceInfo)
+        }
+        guard let sourceInfoDestinationURL = sourceInfo.destinationURL else {
+            return sourceInfo
+        }
+        let destinationURL = getDestinationURL(sourceInfo: sourceInfo)
+        try fileRepository.replaceItem(at: destinationURL, with: sourceInfoDestinationURL)
+        try fileRepository.removeItem(at: sourceInfoDestinationURL)
+        var sourceInfo = sourceInfo
+        sourceInfo.destinationURL = destinationURL
+        return sourceInfo
+    }
+
+    private func getDestinationURL(sourceInfo: SourceInfo) -> URL {
+        return sourceInfo.type == .video ? fileRepository.getPathURL(for: .videoFile) : fileRepository.getPathURL(for: .subtitleFile)
+    }
+
+    private func copySourceFile(sourceInfo: SourceInfo) throws -> SourceInfo {
+        guard let sourceURL = sourceInfo.sourceURL else {
+            return sourceInfo
+        }
+        var sourceInfo = sourceInfo
+        let destinationURL = getDestinationURL(sourceInfo: sourceInfo)
+        try fileRepository.replaceItem(at: destinationURL, with: sourceURL)
+        sourceInfo.destinationURL = destinationURL
+        return sourceInfo
+    }
+
+    private func subscribeToDownladerMessages() {
+        sourceDownloaderService.progressMessageObservable
+            .subscribe(onNext: { [weak self] progress in
+                self?.progressMessageBehaviorRelay.accept(
+                    .init(
+                        title: "\(String.DOWNLOADING) \(progress.sourceInfo.typeName)",
+                        description: progress.message
+                    )
+                )
+            })
+            .disposed(by: disposeBag)
     }
 
 }

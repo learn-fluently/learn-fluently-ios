@@ -17,7 +17,7 @@ extension UIViewController {
         present(controller, animated: true)
     }
 
-    func presentMessage(title: String, message: String = "") -> UIAlertController {
+    func presentMessage(title: String = "", message: String = "") -> UIAlertController {
         let controller = createController(title: title, message: message, actions: [])
         present(controller, animated: true)
         return controller

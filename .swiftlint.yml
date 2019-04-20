@@ -55,7 +55,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/  .*?\.swift
-                    \/\/  (LearnLanguages.*?|Unit Tests)
+                    \/\/  (Learn Fluently.*?|Unit Tests)
                     \/\/
                     \/\/  (Created by .*? on .*?)
                     \/\/  Copyright © \d{4} Amir Khorsandi\. All rights reserved\.

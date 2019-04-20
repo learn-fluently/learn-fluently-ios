@@ -69,7 +69,7 @@ class FileDownloader: NSObject {
     private func updateProgress(progress: Int, speed: Int) {
         eventsPublishSubject.onNext(
             DownloadUpdateEvent.with(
-                progress: DownloadProgressData(progress: progress, speed: speed)
+                progress: .init(progress: progress, speed: speed)
             )
         )
     }
@@ -131,57 +131,6 @@ extension FileDownloader: URLSessionDownloadDelegate {
             self.resumeData = resumeData
             waitForNetworkConnection()
         }
-    }
-
-}
-
-
-extension FileDownloader {
-
-    struct DownloadProgressData {
-
-        // MARK: Properties
-
-        let progress: Int
-        let speed: Int
-    }
-
-
-    enum DownloadUpdateEventType {
-
-        // MARK: Cases
-
-        case info
-        case progress
-    }
-
-
-    struct DownloadUpdateEvent {
-
-        // MARK: Static functions
-
-        static func with(progress: DownloadProgressData) -> DownloadUpdateEvent {
-            return DownloadUpdateEvent(type: .progress,
-                                       messsage: nil,
-                                       error: nil,
-                                       progress: progress)
-        }
-
-        static func with(info: String) -> DownloadUpdateEvent {
-            return DownloadUpdateEvent(type: .info,
-                                       messsage: info,
-                                       error: nil,
-                                       progress: nil)
-        }
-
-
-        // MARK: Properties
-
-        let type: DownloadUpdateEventType
-        let messsage: String?
-        let error: Error?
-        let progress: DownloadProgressData?
-
     }
 
 }

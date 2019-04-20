@@ -17,4 +17,10 @@ struct Errors {
         case convert(String)
     }
 
+    enum Source: Error {
+
+        // MARK: Cases
+
+        case unsupported(String)
+    }
 }

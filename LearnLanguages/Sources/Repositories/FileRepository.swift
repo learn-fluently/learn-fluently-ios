@@ -64,6 +64,10 @@ class FileRepository {
         return url
     }
 
+    func removeAllTempFiles() {
+        //TODO:
+    }
+
     func fileExists(at url: URL) -> Bool {
         return fileManager.fileExists(atPath: url.path)
     }
@@ -76,13 +80,9 @@ class FileRepository {
         try fileManager.removeItem(at: url)
     }
 
-    func replaceItem(at dest: URL, with source: URL) {
+    func replaceItem(at dest: URL, with source: URL) throws {
         try? fileManager.removeItem(at: dest)
-        do {
-            try fileManager.copyItem(at: source, to: dest)
-        } catch {
-            print(error)
-        }
+        try fileManager.copyItem(at: source, to: dest)
     }
 
     func decompressArchiveFile(sourceURL: URL, completion: ([URL]) -> Void) {

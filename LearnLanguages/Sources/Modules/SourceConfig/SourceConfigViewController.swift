@@ -33,8 +33,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private let disposeBag = DisposeBag()
-    private var sourceDownloaderService: SourceDownloaderService!
-    private var downloadProgressViewController: UIAlertController?
+    private var progressViewController: UIAlertController?
 
     let viewModel: SourceConfigViewModel
     private weak var delegate: SourceConfigViewControllerDelegate?
@@ -65,8 +64,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        sourceDownloaderService = SourceDownloaderService(delegate: self)
-        configureTitleViews()
+        configureViews()
     }
 
 
@@ -77,265 +75,225 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     @IBAction private func playButtonTouched() {
-        viewModel.saveSourceNameIfNeeded()
         delegate?.onPlayButtonTouched()
     }
 
     @IBAction private func chooseVideoSourceButtonTouched() {
-        openSourcePicker(mode: .video)
+        startPickingSource(sourceInfo: .init(type: .video))
     }
 
     @IBAction private func chooseSubtitleSourceButtonTouched() {
-        openSourcePicker(mode: .subtitle)
+        startPickingSource(sourceInfo: .init(type: .subtitle))
     }
 
 
     // MARK: Private functions
 
-    private func openSourcePicker(mode: SourceConfigViewModel.SourcePikcerMode) {
-        viewModel.currentPickerMode = mode
-        presentActionSheet(title: "",
-                           message: .CHOOSE_SOURCE_TITLE,
-                           actions: viewModel.sourcePickerOptions) { [weak self] selected in
+    private func startPickingSource(sourceInfo: SourceInfo) {
+        createSelectingPicker(sourceInfo: sourceInfo)
+            .flatMap(weak: self) {
+                switch $1.picker {
+                case .documentPicker?:
+                    return $0.createFilePicker(sourceInfo: $1)
 
-            switch selected?.identifier {
-            case .documentPicker?:
-                self?.openFilePicker()
+                case .browser?:
+                    return $0.createWebBrowserPicker(sourceInfo: $1)
 
-            case .browser?:
-                self?.openWebView()
+                case .directLink?:
+                    return $0.createDirectLinkGetter(sourceInfo: $1)
 
-            case .directLink?:
-                self?.startWizardForDownloadByDirectLink()
+                case .youtube?:
+                    return $0.createYoutubeLinkGetter(sourceInfo: $1)
+                             .flatMap(weak: self) {
+                                $0.viewModel.createYoutubeInfoGetter(sourceInfo: $1)
+                             }
+                             .flatMap(weak: self) {
+                                $0.createYoutubeOptionChooser(sourceInfo: $1)
+                             }
 
-            case .youtube?:
-                self?.startYoutubeDownloadSourceWizard()
+                case .auto?:
+                    return .just($1)
 
-            default: break
+                case .none:
+                    return .never()
+                }
             }
-        }
-    }
-
-    private func openFilePicker() {
-        let types: [String] = [
-            kUTTypeVideo as String, kUTTypeText as String,
-            kUTTypeData as String, kUTTypeUTF8PlainText as String,
-            kUTTypeText as String, kUTTypeUTF16PlainText as String,
-            kUTTypeTXNTextAndMultimediaData as String,
-            "public.text", "public.content", "public.data"
-        ]
-        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
-        documentPicker.delegate = self
-        documentPicker.modalPresentationStyle = .formSheet
-        if let popoverController = documentPicker.popoverPresentationController {
-            popoverController.sourceView = self.view //to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-        }
-        self.present(documentPicker, animated: true, completion: nil)
-    }
-
-    private func askAndSetSourceName(defaultValue: String, isYoutube: Bool = false) {
-        presentInput(title: .ENTER_SOURCE_NAME, defaultValue: defaultValue) { [weak self] name in
-            guard let self = self else {
-                return
-            }
-            var fileName = name ?? defaultValue
-            if fileName.lengthOfBytes(using: .utf8) < 1 {
-                fileName = defaultValue
-            }
-            self.viewModel.updateSourceFileDescriptions(sourceName: fileName, isYoutube: isYoutube)
-        }
-    }
-
-    private func openWebView() {
-        let alert = UIAlertController(style: .actionSheet)
-        let browserViewController = WebBrowserViewController(parentView: view)
-        browserViewController.delegate = self
-        alert.set(vc: browserViewController)
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    private func configureTitleViews() {
-        titleLabel.attributedText = viewModel.title.set(style: Style.pageTitleTextStyle)
-        subtitleLabel.attributedText = viewModel.subtitle.set(style: Style.pageSubtitleTextStyle)
-
-        viewModel.videoFileDescription
-            .subscribe(onNext: { [weak self] value in
-                self?.videoFileDescriptionLabel.attributedText = value?.set(style: Style.itemDescriptionTextStyle)
+            .do(onSuccess: {
+                if !$0.isSupported {
+                    throw Errors.Source.unsupported("")//TODO:
+                }
             })
-            .disposed(by: disposeBag)
-
-        viewModel.subtitleFileDescription
-            .subscribe(onNext: { [weak self] value in
-                self?.subtitleFileDescriptionLabel.attributedText = value?.set(style: Style.itemDescriptionTextStyle)
-            })
-            .disposed(by: disposeBag)
-
-        viewModel.updateSourceFileDescriptions()
-    }
-
-    private func proccessSourceFileIfNeeded(url: URL, completion: ((URL) -> Void)?) {
-        if sourceDownloaderService.getSourceUrlType(mimeType: nil, url: url) == .convertible {
-            self.convertFile(url: url) { [weak self] url, error in
-                if let error = error {
-                    self?.present(error)
-                } else if let url = url {
-                    completion?(url)
-                }
+            .flatMap(weak: self) {
+                $0.viewModel.createDownloaderIfNeeded(sourceInfo: $1)
             }
-        } else {
-            completion?(url)
-        }
-    }
-
-    private func present(_ error: Error) {
-        dismissDownloadProgressDialog {  [weak self] in
-            self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
-        }
-    }
-
-    private func dismissDownloadProgressDialog(completion: (() -> Void)?) {
-        if let downloadProgressViewController = downloadProgressViewController {
-            downloadProgressViewController.dismiss(animated: false) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    completion?()
-                }
+            .flatMap(weak: self) {
+                $0.viewModel.createSaver(sourceInfo: $1)
             }
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                completion?()
+//            .flatMap(weak: self) {
+//                $0.viewModel.createExtractorIfNeeded(sourceInfo: $1)
+//            }
+            .flatMap(weak: self) {
+                $0.viewModel.createConverterIfNeeded(sourceInfo: $1)
             }
-        }
-        self.downloadProgressViewController = nil
-    }
-
-    private func startDownload(url: URL, type: SourceDownloaderService.SourceUrlType? = nil) -> Single<SourceDownloaderService.DownloadResult> {
-        let type = type ?? sourceDownloaderService.getSourceUrlType(mimeType: nil, url: url)
-        return sourceDownloaderService.startDownload(url: url, type: type)
-            .do(onSubscribe: { [weak self] in
-                guard let `self` = self else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    if self.downloadProgressViewController == nil {
-                        self.downloadProgressViewController = self.presentMessage(title: .DOWNLOADING)
+            .flatMap(weak: self) {
+                $0.createAskAndSetSourceName(sourceInfo: $1)
+            }
+            .do(
+                onSuccess: { [weak self] sourceInfo in
+                    if let sourceInfo = sourceInfo.getNextAutoPickSourceInfo() {
+                        self?.startPickingSource(sourceInfo: sourceInfo)
                     }
-                }
-            })
-    }
-}
-
-
-extension SourceConfigViewController {
-
-    private func handleDownloadingSourceSequences(
-        _ sequences: [Single<SourceDownloaderService.DownloadResult>],
-        sourceDefaultName: String = "",
-        isYoutube: Bool = false) {
-
-        var sourceName: String = ""
-
-        let completables = sequences.map {
-            $0.do(onSuccess: { [weak self] result in
-                sourceName = sourceDefaultName.isEmpty ? result.sourceURL.lastPathComponent : sourceDefaultName
-                self?.viewModel.handleDownloadResult(result)
-                }, onError: { [weak self] error in
+                },
+                onError: { [weak self] error in
                     self?.present(error)
-                })
-                .asCompletable()
-        }
-
-        Completable
-            .merge(completables)
-            .do(onCompleted: { [weak self] in
-                self?.dismissDownloadProgressDialog {
-                    self?.askAndSetSourceName(defaultValue: sourceName, isYoutube: isYoutube)
                 }
-            })
+            )
+            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
             .subscribe()
             .disposed(by: disposeBag)
     }
 
-}
+    private func createYoutubeOptionChooser(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        guard let youtubeVideoInfo = sourceInfo.youtubeVideoInfo else {
+            return .just(sourceInfo)
+        }
+        return showVideoAndSubtitleDialogs(videoInfo: youtubeVideoInfo).map {
+            var sourceInfo = sourceInfo
+            sourceInfo.youtubeSelectedUrls = $0
+            sourceInfo.sourceURL = $0[sourceInfo.type]
+            return sourceInfo
+        }
+    }
 
-
-extension SourceConfigViewController: WebBrowserViewControllerDelegate {
-
-    func getDownloadHandlerBlock(mimeType: String, url: URL) -> (() -> Void)? {
-        let downloadHandler: () -> Void = { [weak self] in
-            guard let `self` = self else {
-                return
+    private func createAskAndSetSourceName(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        if sourceInfo.picker == .auto {
+            dismissProgressDialog()
+            return .just(sourceInfo)
+        }
+        return .create { [weak self] event in
+            self?.dismissProgressDialog {
+                self?.presentInput(title: .ENTER_SOURCE_NAME, defaultValue: sourceInfo.defaultName) { [weak self] name in
+                    guard let self = self else {
+                        return
+                    }
+                    var selectedName = name ?? sourceInfo.defaultName
+                    if selectedName.lengthOfBytes(using: .utf8) < 1 {
+                        selectedName = sourceInfo.defaultName
+                    }
+                    var sourceInfo = sourceInfo
+                    sourceInfo.selectedName = selectedName
+                    self.viewModel.updateSourceFileDescriptions(sourceInfo: sourceInfo)
+                    event(.success(sourceInfo))
+                }
             }
-            let type = self.sourceDownloaderService.getSourceUrlType(mimeType: mimeType, url: url)
-            self.handleDownloadingSourceSequences(
-                [self.startDownload(url: url, type: type)],
-                sourceDefaultName: url.lastPathComponent
-            )
-        }
-
-        let isSupported = viewModel.isSupported(mimeType: mimeType, url: url)
-        return isSupported ? downloadHandler : nil
-    }
-
-}
-
-
-extension SourceConfigViewController: UIDocumentPickerDelegate {
-
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let url = urls.first else {
-            return
-        }
-        proccessSourceFileIfNeeded(url: url) { [weak self] url in
-            self?.viewModel.handleDocumentPickerResult(url: url)
-            self?.askAndSetSourceName(defaultValue: url.lastPathComponent)
+            return Disposables.create {}
         }
     }
 
-}
-
-
-extension SourceConfigViewController: SourceDownloaderServiceDelegate {
-
-    func chooseOneFromMany(urls: [URL], onSelected: ((URL) -> Void)?) {
-        let alert = UIAlertController(style: .actionSheet)
-        urls.forEach { url in
-            alert.addAction(title: url.lastPathComponent) { _ in
-                onSelected?(url)
+    private func createSelectingPicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        if sourceInfo.picker != nil {
+            return .just(sourceInfo)
+        }
+        return .create { [weak self] event -> Disposable in
+            guard let self = self else {
+                return Disposables.create {}
             }
-        }
-        dismissDownloadProgressDialog { [weak self] in
-            self?.present(alert, animated: true, completion: nil)
+            self.presentActionSheet(
+                title: "",
+                message: .CHOOSE_SOURCE_TITLE,
+                actions: self.viewModel.sourcePickerOptions) { selected in
+                    guard let selected = selected else {
+                        return
+                    }
+                    var sourceInfo = sourceInfo
+                    sourceInfo.picker = selected.identifier
+                    event(.success(sourceInfo))
+            }
+            return Disposables.create {}
         }
     }
 
-    func convertFile(url: URL, completion: ((URL?, Error?) -> Void)?) {
-        viewModel.convertFile(url: url, completion: completion)
+    private func createFilePicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return RxImportDocumentPickerViewController()
+            .createPresenter(viewController: self)
+            .map {
+                var sourceInfo = sourceInfo
+                sourceInfo.sourceURL = $0
+                return sourceInfo
+            }
     }
 
-    func onProgressUpdate(message: String) {
-        downloadProgressViewController?.message = message
+    private func createWebBrowserPicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return RxSourceWebBrowserViewController(viewController: self)
+            .createPresenter(sourceInfo: sourceInfo)
     }
 
-}
+    private func createDirectLinkGetter(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return self.getSourceInfoLinkByInputDialog(title: sourceInfo.typeName,
+                                                   desc: .SOURCE_OPTION_DIRECT_LINK,
+                                                   sourceInfo: sourceInfo)
+    }
 
+    private func createYoutubeLinkGetter(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        let title: String = .SOURCE_OPTION_YOUTUBE
+        let desc: String = .ENTER_YOUTUBE_LINK
+        return self.getSourceInfoLinkByInputDialog(title: title, desc: desc, sourceInfo: sourceInfo)
+    }
 
-extension SourceConfigViewController {
-
-    private func startWizardForDownloadByDirectLink() {
-        let title = viewModel.downloadByDirectLinkTitle
-        let desc: String = .SOURCE_OPTION_DIRECT_LINK
-        let sequence = getLinkByInputDialog(title: title, desc: desc).flatMap { [weak self] url -> Single<SourceDownloaderService.DownloadResult> in
-            self?.startDownload(url: url) ?? .never()
+    private func getSourceInfoLinkByInputDialog(title: String, desc: String, sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        return self.getLinkByInputDialog(title: title, desc: desc).map { url in
+            var sourceInfo = sourceInfo
+            sourceInfo.sourceURL = url
+            return sourceInfo
         }
-        handleDownloadingSourceSequences([sequence])
+    }
+
+    private func configureViews() {
+        titleLabel.attributedText = viewModel.pageInfo.title.set(style: Style.pageTitleTextStyle)
+        subtitleLabel.attributedText = viewModel.pageInfo.description.set(style: Style.pageSubtitleTextStyle)
+
+        viewModel.videoFileDescriptionObservable
+            .subscribe(onNext: { [weak self] value in
+                self?.videoFileDescriptionLabel.attributedText = value.set(style: Style.itemDescriptionTextStyle)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.subtitleFileDescriptionObservable
+            .subscribe(onNext: { [weak self] value in
+                self?.subtitleFileDescriptionLabel.attributedText = value.set(style: Style.itemDescriptionTextStyle)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.progressMessageObservable
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self else {
+                    return
+                }
+                if self.progressViewController == nil, !message.isEmpty {
+                    self.progressViewController = self.presentMessage()
+                }
+                self.progressViewController?.title = message.title
+                self.progressViewController?.message = message.description
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func present(_ error: Error) {
+        dismissProgressDialog {  [weak self] in
+            self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
+        }
+    }
+
+    private func dismissProgressDialog(completion: (() -> Void)? = nil) {
+        if let progressViewController = progressViewController {
+            progressViewController.dismiss(animated: true) {
+                completion?()
+                self.progressViewController = nil
+            }
+        } else {
+            completion?()
+        }
     }
 
     private func getLinkByInputDialog(title: String, desc: String = "") -> Single<URL> {
@@ -351,34 +309,7 @@ extension SourceConfigViewController {
         })
     }
 
-    private func startYoutubeDownloadSourceWizard() {
-        var videoTitle: String = ""
-        getLinkByInputDialog(title: .ENTER_YOUTUBE_LINK)
-            .flatMap { [weak self] url -> Single<YoutubeSourceService.YoutubeVideoInfo> in
-                self?.viewModel.getYoutubeVideoInfo(url: url) ?? .never()
-            }
-            .flatMap { [weak self] videoInfo -> Single<[SourceConfigViewModel.SourcePikcerMode: URL]> in
-                videoTitle = videoInfo.title
-                return self?.showVideoAndSubtitleDialogs(videoInfo: videoInfo) ?? .never()
-            }
-            .subscribeOn(MainScheduler.instance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(
-                onSuccess: { [weak self] urls in
-                    let sequences = urls.compactMap { pickerMode, url in
-                        self?.startDownload(url: url).do(onSuccess: { [weak self] _ in
-                            self?.viewModel.currentPickerMode = pickerMode
-                        })
-                    }
-                    self?.handleDownloadingSourceSequences(sequences, sourceDefaultName: videoTitle, isYoutube: true)
-                },
-                onError: { [weak self] error in
-                    self?.present(error)
-                })
-            .disposed(by: disposeBag)
-    }
-
-    private func showVideoAndSubtitleDialogs(videoInfo: YoutubeSourceService.YoutubeVideoInfo) -> Single<[SourceConfigViewModel.SourcePikcerMode: URL]> {
+    private func showVideoAndSubtitleDialogs(videoInfo: Youtube.VideoInfo) -> Single<[SourceInfo.`Type`: URL]> {
         let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty
         return .create { [weak self] event -> Disposable in
             self?.showChooseVideoQuality(videoInfo: videoInfo) { [weak self] videoUrl in
@@ -394,7 +325,7 @@ extension SourceConfigViewController {
         }
     }
 
-    private func showChooseVideoQuality(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
+    private func showChooseVideoQuality(videoInfo: Youtube.VideoInfo?, completion: ((URL) -> Void)? = nil) {
         let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_QUALITY_CHOOSE)
         videoInfo?.videos.forEach { item in
             alert.addAction(title: item.name) { _ in
@@ -404,7 +335,7 @@ extension SourceConfigViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    private func showChooseSubtitle(videoInfo: YoutubeSourceService.YoutubeVideoInfo?, completion: ((URL) -> Void)? = nil) {
+    private func showChooseSubtitle(videoInfo: Youtube.VideoInfo?, completion: ((URL) -> Void)? = nil) {
         let alert = UIAlertController(style: .actionSheet, title: "", message: .YOUTUBE_SUBTITLE_CHOOSE)
         videoInfo?.captionURLs.forEach { item in
             let autoGeneratedSuffix = item.isAutoGenerated ? " (\(String.YOUTUBE_SUBTITLE_AUTO_GENERATED))" : ""

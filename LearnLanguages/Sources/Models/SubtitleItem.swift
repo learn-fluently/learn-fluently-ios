@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct SubtitleItem {
+struct SubtitleItem: Codable {
 
     // MARK: Properties
 

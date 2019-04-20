@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Speech
 
 protocol OverviewViewControllerDelegate: AnyObject {
 
@@ -65,17 +66,20 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     }
 
     @IBAction private func writingButtonTouched() {
-        delegate?.onWatchingButtonTouched()
+        delegate?.onWritingButtonTouched()
     }
 
     @IBAction private func switchLanguageButtonTouched() {
-        let actions: [UIAlertAction.ActionData<String>] = ["en-US", "en-UK", "nl-NL"]
+        let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
             .map {
-                .init(identifier: $0,
-                      title: locale.displayName(forKey: .identifier, value: $0) ?? "")
+                .init(identifier: $0.identifier,
+                      title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
+            }
+            .sorted { actionA, actionB in
+                actionA.title < actionB.title
             }
 
-        presentActionSheet(title: "", message: "Choose language", actions: actions) { [weak self] selected in
+        presentActionSheet(title: "", message: "Choose a language", actions: actions) { [weak self] selected in
             if let languageCode = selected?.identifier {
                 UserDefaultsService.shared.learingLanguageCode = languageCode
                 self?.reloadLearningLanguageTitle()

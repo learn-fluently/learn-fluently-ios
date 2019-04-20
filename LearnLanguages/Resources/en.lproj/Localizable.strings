@@ -28,6 +28,7 @@
 "DOWNLOADER_MOVING_FILE" = "Moving downloaded file";
 "DOWNLOADER_CONNECTION_WAITING" = "Waiting for connection to be restored";
 "DOWNLOADING" = "Downloading";
+"CONVERTING" = "Converting";
 
 "SOURCE_FILE_TITLE" = "Source file";
 "SOURCE_FILE_DESC" = "It can be a video or audio file";

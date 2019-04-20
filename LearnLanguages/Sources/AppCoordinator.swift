@@ -61,7 +61,7 @@ class AppCoordinator: Coordinator {
         case .writing: subtitle = "Listening training\ndictation training"
         }
 
-        let viewModel = SourceConfigViewModel(title: title, subtitle: subtitle)
+        let viewModel = SourceConfigViewModel(pageInfo: .init(title: title, description: subtitle))
         let viewController = SourceConfigViewController(viewModel: viewModel, delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }

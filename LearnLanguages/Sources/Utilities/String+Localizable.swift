@@ -14,6 +14,7 @@ extension String {
     //start-of-generated-keys//
     static let CANCEL = "CANCEL".localize()
     static let CHOOSE_SOURCE_TITLE = "CHOOSE_SOURCE_TITLE".localize()
+    static let CONVERTING = "CONVERTING".localize()
     static let DOWNLOADER_CONNECTION_WAITING = "DOWNLOADER_CONNECTION_WAITING".localize()
     static let DOWNLOADER_ERROR_NO_DEST = "DOWNLOADER_ERROR_NO_DEST".localize()
     static let DOWNLOADER_MOVING_FILE = "DOWNLOADER_MOVING_FILE".localize()
