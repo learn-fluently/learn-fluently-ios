@@ -117,24 +117,44 @@ class SourceConfigViewModel {
         }
     }
 
-    func handleDownloadedArchive(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+    func createExtractor(sourceInfo: SourceInfo) -> Single<SourceInfo> {
         return .create(subscribe: { [weak self] event -> Disposable in
-            guard let `self` = self, let sourceInfoDestinationURL = sourceInfo.destinationURL else {
+            guard let self = self, let sourceInfoDestinationURL = sourceInfo.destinationURL else {
                 return Disposables.create {}
             }
-            self.fileRepository.decompressArchiveFile(sourceURL: sourceInfoDestinationURL) { [weak self] filesUrls in
+            self.progressMessageBehaviorRelay.accept(.init(title: .EXTRACTING))
+            self.fileRepository.decompressArchiveFile(sourceURL: sourceInfoDestinationURL) { [weak self] error, filesUrls, extractedDirPath in
+                if let error = error {
+                    event(.error(error))
+                    return
+                }
                 try? self?.fileRepository.removeItem(at: sourceInfoDestinationURL)
                 guard !filesUrls.isEmpty else {
                     event(.error(Errors.Download.archive(.FAILED_TO_GET_CONTENTS_OF_ZIP_FILE)))
                     return
                 }
                 var sourceInfo = sourceInfo
+                sourceInfo.destinationURL = extractedDirPath
                 sourceInfo.extractedFiles = filesUrls
                 event(.success(sourceInfo))
             }
 
             return Disposables.create {}
         })
+    }
+
+    func selectItemFromExtractedDir(sourceInfo: SourceInfo, selectedURL: URL) throws -> SourceInfo {
+        guard let destinationURL = sourceInfo.destinationURL else {
+            return sourceInfo
+        }
+        let newDesc = getDestinationURL(sourceInfo: sourceInfo)
+        try? fileRepository.removeItem(at: newDesc)
+        try fileRepository.moveItem(at: selectedURL, to: newDesc)
+        try fileRepository.removeItem(at: destinationURL)
+        var sourceInfo = sourceInfo
+        sourceInfo.destinationURL = newDesc
+        sourceInfo.sourceURL = selectedURL
+        return sourceInfo
     }
 
     // MARK: Private functions

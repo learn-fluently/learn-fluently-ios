@@ -83,7 +83,6 @@
 		AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift.swift; sourceTree = "<group>"; };
 		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		AB51F6AA2244BA9B00C40A7D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileVLCKit.framework; path = Pods/MobileVLCKit/MobileVLCKit.framework; sourceTree = "<group>"; };
 		AB51F6AF2244BD8F00C40A7D /* LearnLanguages-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LearnLanguages-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAVPlayerViewController.swift; sourceTree = "<group>"; };
 		AB522AAC21CF2951002421B8 /* Learn Fluently.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Learn Fluently.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,7 +132,6 @@
 		ABFE60242210D751001267C8 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
 		ABFED1A12221CA3000F23313 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		ABFED1A32222A34500F23313 /* YoutubeSourceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSourceService.swift; sourceTree = "<group>"; };
-		B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnLanguages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF7BFD5B0DCD7F975383589 /* Pods-LearnLanguages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnLanguages.release.xcconfig"; path = "Pods/Target Support Files/Pods-LearnLanguages/Pods-LearnLanguages.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -375,11 +373,9 @@
 		F2122A1D99995FA08A88DCF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AB51F6AC2244BAEA00C40A7D /* MobileVLCKit.framework */,
 				AB51F6AA2244BA9B00C40A7D /* libc++.tbd */,
 				AB30C6B821D4619100A2024D /* SafariServices.framework */,
 				AB522AE121D304DC002421B8 /* AVFoundation.framework */,
-				B902DA18F60F5A8FA9500F68 /* Pods_LearnLanguages.framework */,
 				52873E87B896DF22BA93D002 /* Pods_Learn_Fluently.framework */,
 			);
 			name = Frameworks;

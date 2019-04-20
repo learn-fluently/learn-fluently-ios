@@ -19,7 +19,7 @@ class FileRepository {
 
         case videoFile
         case subtitleFile
-        case archiveDecompressedDir
+        case temporaryArchiveDecompressedDir
         case temporaryFileForDownload
         case temporaryFileForConvert
     }
@@ -31,12 +31,15 @@ class FileRepository {
 
     private let baseURL: URL
 
+    private let queue: DispatchQueue
+
 
     // MARK: Life cycle
 
     init() {
         // swiftlint:disable:next force_try
-        baseURL = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        baseURL = try! fileManager.url(for: .developerDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        self.queue = DispatchQueue(label: String(describing: type(of: self).self), qos: .background)
     }
 
     // MARK: Functions
@@ -49,16 +52,16 @@ class FileRepository {
             url.appendPathComponent("video.mp4")
 
         case .subtitleFile:
-            url.appendPathComponent("subtitle.txt")
+            url.appendPathComponent("subtitle.json")
 
-        case .archiveDecompressedDir:
-            url.appendPathComponent("archiveDecompressedDir")
+        case .temporaryArchiveDecompressedDir:
+            url.appendPathComponent("tempArchiveDecompressedDir" + String(Int.random(in: 0..<Int(RAND_MAX))))
 
         case .temporaryFileForDownload:
-            url.appendPathComponent("temporaryFileForDownload" + String(Int.random(in: 0..<Int(RAND_MAX))))
+            url.appendPathComponent("tempFileForDownload" + String(Int.random(in: 0..<Int(RAND_MAX))))
 
         case .temporaryFileForConvert:
-            url.appendPathComponent("temporaryFileForConvert" + String(Int.random(in: 0..<Int(RAND_MAX))))
+            url.appendPathComponent("tempFileForConvert" + String(Int.random(in: 0..<Int(RAND_MAX))))
         }
 
         return url
@@ -85,13 +88,18 @@ class FileRepository {
         try fileManager.copyItem(at: source, to: dest)
     }
 
-    func decompressArchiveFile(sourceURL: URL, completion: ([URL]) -> Void) {
-        let destPath = getPathURL(for: .archiveDecompressedDir)
-        try? fileManager.removeItem(at: destPath)
-        try? fileManager.createDirectory(at: destPath, withIntermediateDirectories: false, attributes: nil)
-        try? fileManager.unzipItem(at: sourceURL, to: destPath)
-        let urls = try? fileManager.contentsOfDirectory(at: destPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
-        completion(urls ?? [])
+    func decompressArchiveFile(sourceURL: URL, completion: @escaping (Error?, [URL], URL?) -> Void) {
+        let destPath = getPathURL(for: .temporaryArchiveDecompressedDir)
+        self.queue.async { [weak self] in
+            do {
+                try self?.fileManager.createDirectory(at: destPath, withIntermediateDirectories: false, attributes: nil)
+                try self?.fileManager.unzipItem(at: sourceURL, to: destPath)
+                let urls = try self?.fileManager.contentsOfDirectory(at: destPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants]) ?? []
+                completion(nil, urls, destPath)
+            } catch {
+                completion(error, [], nil)
+            }
+        }
     }
 
 }

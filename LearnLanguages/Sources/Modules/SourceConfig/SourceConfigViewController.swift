@@ -25,7 +25,6 @@ protocol SourceConfigViewControllerDelegate: AnyObject {
 
 class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
-
     // MARK: Properties
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -92,46 +91,22 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private func startPickingSource(sourceInfo: SourceInfo) {
         createSelectingPicker(sourceInfo: sourceInfo)
             .flatMap(weak: self) {
-                switch $1.picker {
-                case .documentPicker?:
-                    return $0.createFilePicker(sourceInfo: $1)
-
-                case .browser?:
-                    return $0.createWebBrowserPicker(sourceInfo: $1)
-
-                case .directLink?:
-                    return $0.createDirectLinkGetter(sourceInfo: $1)
-
-                case .youtube?:
-                    return $0.createYoutubeLinkGetter(sourceInfo: $1)
-                             .flatMap(weak: self) {
-                                $0.viewModel.createYoutubeInfoGetter(sourceInfo: $1)
-                             }
-                             .flatMap(weak: self) {
-                                $0.createYoutubeOptionChooser(sourceInfo: $1)
-                             }
-
-                case .auto?:
-                    return .just($1)
-
-                case .none:
-                    return .never()
-                }
+                $0.createPicker(sourceInfo: $1)
             }
-            .do(onSuccess: {
-                if !$0.isSupported {
-                    throw Errors.Source.unsupported("")//TODO:
-                }
-            })
             .flatMap(weak: self) {
                 $0.viewModel.createDownloaderIfNeeded(sourceInfo: $1)
             }
             .flatMap(weak: self) {
                 $0.viewModel.createSaver(sourceInfo: $1)
             }
-//            .flatMap(weak: self) {
-//                $0.viewModel.createExtractorIfNeeded(sourceInfo: $1)
-//            }
+            .flatMap(weak: self) {
+                $0.createExtractorIfNeeded(sourceInfo: $1)
+            }
+            .do(onSuccess: {
+                if !$0.isSupported {
+                    throw Errors.Source.unsupported("this source is not supported")//TODO:
+                }
+            })
             .flatMap(weak: self) {
                 $0.viewModel.createConverterIfNeeded(sourceInfo: $1)
             }
@@ -152,6 +127,57 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             .observeOn(MainScheduler.instance)
             .subscribe()
             .disposed(by: disposeBag)
+    }
+
+    private func createPicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        switch sourceInfo.picker {
+        case .documentPicker?:
+            return createFilePicker(sourceInfo: sourceInfo)
+
+        case .browser?:
+            return createWebBrowserPicker(sourceInfo: sourceInfo)
+
+        case .directLink?:
+            return createDirectLinkGetter(sourceInfo: sourceInfo)
+
+        case .youtube?:
+            return createYoutubeLinkGetter(sourceInfo: sourceInfo)
+                .flatMap(weak: self) {
+                    $0.viewModel.createYoutubeInfoGetter(sourceInfo: $1)
+                }
+                .flatMap(weak: self) {
+                    $0.createYoutubeOptionChooser(sourceInfo: $1)
+                }
+
+        case .auto?:
+            return .just(sourceInfo)
+
+        case .none:
+            return .never()
+        }
+    }
+
+    private func createExtractorIfNeeded(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        guard sourceInfo.isArchive else {
+            return .just(sourceInfo)
+        }
+        return viewModel.createExtractor(sourceInfo: sourceInfo)
+            .flatMap { sourceInfo in
+                .create { [weak self] event in
+                    self?.showChooseOneURL(urls: sourceInfo.extractedFiles) { url in
+                        do {
+                            let sourceInfo = try self?.viewModel.selectItemFromExtractedDir(
+                                sourceInfo: sourceInfo,
+                                selectedURL: url
+                                ) ?? sourceInfo
+                            event(.success(sourceInfo))
+                        } catch {
+                            event(.error(error))
+                        }
+                    }
+                    return Disposables.create {}
+                }
+            }
     }
 
     private func createYoutubeOptionChooser(sourceInfo: SourceInfo) -> Single<SourceInfo> {
@@ -201,7 +227,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             }
             self.presentActionSheet(
                 title: "",
-                message: .CHOOSE_SOURCE_TITLE,
+                message: .CHOOSE_ONE_OPTION,
                 actions: self.viewModel.sourcePickerOptions) { selected in
                     guard let selected = selected else {
                         return
@@ -307,6 +333,18 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             }
             return Disposables.create {}
         })
+    }
+
+    private func showChooseOneURL(urls: [URL], completion: ((URL) -> Void)? = nil) {
+        let alert = UIAlertController(style: .actionSheet, title: "", message: .CHOOSE_ONE_OPTION)
+        urls.forEach { url in
+            alert.addAction(title: url.lastPathComponent) { _ in
+                completion?(url)
+            }
+        }
+        dismissProgressDialog { [weak self] in
+            self?.present(alert, animated: true)
+        }
     }
 
     private func showVideoAndSubtitleDialogs(videoInfo: Youtube.VideoInfo) -> Single<[SourceInfo.`Type`: URL]> {

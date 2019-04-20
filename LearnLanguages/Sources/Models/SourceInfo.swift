@@ -104,13 +104,12 @@ struct SourceInfo {
         var isSupported = false
         if type == .video {
             if mimeType?.type == .video ||
-                sourceURL?.pathExtension.lowercased() == "mkv" {
+                sourceURL?.pathExtension.lowercased() == "mkv" ||
+                sourceURL?.pathExtension.lowercased() == "mp4" {
                 isSupported = true
             }
         } else if type == .subtitle {
-            if isArchive {
-                isSupported = true
-            } else if mimeType?.type == .text ||
+            if mimeType?.type == .text ||
                 sourceURL?.pathExtension.lowercased() == "srt" {
                 isSupported = true
             }

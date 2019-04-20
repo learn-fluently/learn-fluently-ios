@@ -67,7 +67,8 @@ class SourceConverterService {
                     if self?.fileRepository.fileExists(at: destVideoUrl) == true {
                         var sourceInfo = sourceInfo
                         sourceInfo.destinationURL = url
-                        try self?.fileRepository.removeItem(at: srcVideoUrl)
+                        try? self?.fileRepository.removeItem(at: srcVideoUrl)
+                        try? self?.fileRepository.removeItem(at: url)
                         try self?.fileRepository.moveItem(at: destVideoUrl, to: url)
                         event(.success(sourceInfo))
                     } else {

@@ -13,7 +13,7 @@ extension String {
     // swiftlint:disable identifier_name
     //start-of-generated-keys//
     static let CANCEL = "CANCEL".localize()
-    static let CHOOSE_SOURCE_TITLE = "CHOOSE_SOURCE_TITLE".localize()
+    static let CHOOSE_ONE_OPTION = "CHOOSE_ONE_OPTION".localize()
     static let CONVERTING = "CONVERTING".localize()
     static let DOWNLOADER_CONNECTION_WAITING = "DOWNLOADER_CONNECTION_WAITING".localize()
     static let DOWNLOADER_ERROR_NO_DEST = "DOWNLOADER_ERROR_NO_DEST".localize()
@@ -26,6 +26,7 @@ extension String {
     static let ENTER_SOURCE_NAME = "ENTER_SOURCE_NAME".localize()
     static let ENTER_YOUTUBE_LINK = "ENTER_YOUTUBE_LINK".localize()
     static let ERROR = "ERROR".localize()
+    static let EXTRACTING = "EXTRACTING".localize()
     static let FAILED_TO_GET_CONTENTS_OF_ZIP_FILE = "FAILED_TO_GET_CONTENTS_OF_ZIP_FILE".localize()
     static let FAILED_TO_GET_YOUTUBE_LINKS = "FAILED_TO_GET_YOUTUBE_LINKS".localize()
     static let MENU_ITEM_GOOGLE_IMAGES = "MENU_ITEM_GOOGLE_IMAGES".localize()

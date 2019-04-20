@@ -20,7 +20,7 @@
 "SOURCE_OPTION_BROWSER" = "Browser";
 "SOURCE_OPTION_DOCUMENT" = "Document picker";
 
-"CHOOSE_SOURCE_TITLE" = "Choose one option";
+"CHOOSE_ONE_OPTION" = "Choose one option";
 
 "DOWNLOADER_RESUMING" = "resuming file download...";
 "DOWNLOADER_RETRYING" = "retrying file download...";
@@ -29,6 +29,7 @@
 "DOWNLOADER_CONNECTION_WAITING" = "Waiting for connection to be restored";
 "DOWNLOADING" = "Downloading";
 "CONVERTING" = "Converting";
+"EXTRACTING" = "Extracting";
 
 "SOURCE_FILE_TITLE" = "Source file";
 "SOURCE_FILE_DESC" = "It can be a video or audio file";
