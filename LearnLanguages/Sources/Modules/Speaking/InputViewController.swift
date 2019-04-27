@@ -201,10 +201,11 @@ class InputViewController: BaseViewController {
         } else {
             var ranges: [NSRange] = []
             let origirnalWords = currentSubtitle!
+                .replacingOccurrences(of: "\n", with: " ")
                 .components(separatedBy: " ")
                 .map { normalizeTextForComparesion($0) }
 
-            let inputWords = input.components(separatedBy: " ")
+            let inputWords = input.replacingOccurrences(of: "\n", with: " ").components(separatedBy: " ")
             var location = 0
             if let first = inputWords.first {
                 if let range = input.range(of: first) {

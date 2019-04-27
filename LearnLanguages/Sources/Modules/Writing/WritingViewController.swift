@@ -159,7 +159,9 @@ class WritingViewController: InputViewController, NibBasedViewController {
 extension WritingViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
+        let selectedRange = textView.selectedTextRange
         textView.attributedText = textView.text.set(style: Style.subtitleTextStyle)
+        textView.selectedTextRange = selectedRange
     }
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
