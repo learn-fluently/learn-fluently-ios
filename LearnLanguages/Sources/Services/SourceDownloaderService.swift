@@ -66,7 +66,7 @@ class SourceDownloaderService {
                     if event.type == .progress, let data = event.progress {
                         progressText = "\(data.progress) %"
                         downloadMessage = "\(progressText)\n\(String.DOWNLOAD_SPEED): \(data.speed)KB/s"
-                    } else if let message = event.messsage {
+                    } else if let message = event.message {
                         downloadMessage = "\(progressText)\n\(message)"
                     }
                     if let message = downloadMessage {

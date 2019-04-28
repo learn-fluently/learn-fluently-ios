@@ -11,7 +11,7 @@ import SnapKit
 
 class DarkCrossButton: UIButton {
 
-    // MARK: Life Cyle
+    // MARK: Life cycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)

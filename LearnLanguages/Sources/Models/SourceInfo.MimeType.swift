@@ -18,7 +18,7 @@ extension SourceInfo {
         let rawValue: String
 
 
-        // MARK: Life cyle
+        // MARK: Life cycle
 
         init(rawValue: String) {
             self.rawValue = rawValue

@@ -29,7 +29,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var contentViewBottomConstraint: NSLayoutConstraint!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
 
     init(delegate: InputViewControllerDelegate) {
         super.init(nibName: type(of: self).nibName, bundle: nil)

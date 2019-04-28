@@ -32,7 +32,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var recordButton: UIButton!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
 
     init(delegate: InputViewControllerDelegate) {
         super.init(nibName: type(of: self).nibName, bundle: nil)

@@ -32,14 +32,14 @@ struct DownloadUpdateEvent {
 
     static func with(progress: ProgressData) -> DownloadUpdateEvent {
         return DownloadUpdateEvent(type: .progress,
-                                   messsage: nil,
+                                   message: nil,
                                    error: nil,
                                    progress: progress)
     }
 
     static func with(info: String) -> DownloadUpdateEvent {
         return DownloadUpdateEvent(type: .info,
-                                   messsage: info,
+                                   message: info,
                                    error: nil,
                                    progress: nil)
     }
@@ -48,7 +48,7 @@ struct DownloadUpdateEvent {
     // MARK: Properties
 
     let type: Type
-    let messsage: String?
+    let message: String?
     let error: Error?
     let progress: ProgressData?
 

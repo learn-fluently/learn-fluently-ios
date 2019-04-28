@@ -19,7 +19,7 @@ class AppCoordinator: Coordinator {
     private var currentActivity: Activity?
 
 
-    // MARK: Lifecycle
+    // MARK: Life cycle
 
     init(window: UIWindow) {
         self.window = window

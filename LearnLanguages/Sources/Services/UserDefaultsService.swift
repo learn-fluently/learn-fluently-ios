@@ -48,7 +48,7 @@ class UserDefaultsService {
     private var behaviorRelays: [Key: Any] = [:]
     private let disposeBag = DisposeBag()
 
-    // MARK: Lifecycle
+    // MARK: Life cycle
 
     init() {
         self.jsonEncoder = JSONEncoder()

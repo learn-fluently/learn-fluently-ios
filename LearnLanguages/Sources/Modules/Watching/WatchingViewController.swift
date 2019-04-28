@@ -245,7 +245,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
         let subtitleText = subtitleRepository?.getSubtitleForTime(currentValue)
-        if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
+        if subtitleText == nil && playingConfig.keepSubtitleAlways == true {
             return
         }
         guard !UIMenuController.shared.isMenuVisible else {

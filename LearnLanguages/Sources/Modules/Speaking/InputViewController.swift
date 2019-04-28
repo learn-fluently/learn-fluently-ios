@@ -58,7 +58,7 @@ class InputViewController: BaseViewController {
     @IBOutlet private weak var replayButton: UIButton!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
 
     public override func viewDidLoad() {
         super.viewDidLoad()

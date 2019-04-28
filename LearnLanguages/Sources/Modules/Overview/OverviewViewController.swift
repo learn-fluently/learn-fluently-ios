@@ -55,7 +55,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     }
 
 
-    // MARK: Event handeling
+    // MARK: Event handlers
 
     @IBAction private func watchingButtonTouched() {
         delegate?.onWatchingButtonTouched()
@@ -71,7 +71,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
 
     @IBAction private func switchLanguageButtonTouched() {
         let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
-            .map {
+                .map {
                 .init(identifier: $0.identifier,
                       title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
             }

@@ -30,7 +30,7 @@ class LLTextView: UITextView {
     var customMenuItems: [UIMenuItem] = []
 
 
-    // MARK: Life Cycle
+    // MARK: Life cycle
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
