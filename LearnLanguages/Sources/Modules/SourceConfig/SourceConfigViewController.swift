@@ -16,9 +16,9 @@ import RLBAlertsPickers
 
 protocol SourceConfigViewControllerDelegate: AnyObject {
 
-    func onPlayButtonTouched()
+    func onPlayButtonTouched(viewController: SourceConfigViewController)
 
-    func onCloseButtonTouched()
+    func onCloseButtonTouched(viewController: SourceConfigViewController)
 
 }
 
@@ -36,9 +36,6 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
 
     let viewModel: SourceConfigViewModel
     private weak var delegate: SourceConfigViewControllerDelegate?
-
-
-    // MARK: Outlets
 
     @IBOutlet private weak var startButton: UIButton!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -70,11 +67,11 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     // MARK: Event handeling
 
     @IBAction private func closeButtonTouched() {
-        delegate?.onCloseButtonTouched()
+        delegate?.onCloseButtonTouched(viewController: self)
     }
 
     @IBAction private func playButtonTouched() {
-        delegate?.onPlayButtonTouched()
+        delegate?.onPlayButtonTouched(viewController: self)
     }
 
     @IBAction private func chooseVideoSourceButtonTouched() {
@@ -104,7 +101,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             }
             .do(onSuccess: {
                 if !$0.isSupported {
-                    throw Errors.Source.unsupported("this source is not supported")//TODO:
+                    throw Errors.Source.unsupported(.ERROR_SOURCE_NOT_SUPPORTED)
                 }
             })
             .flatMap(weak: self) {
@@ -164,32 +161,17 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         return viewModel.createExtractor(sourceInfo: sourceInfo)
             .flatMap { sourceInfo in
                 .create { [weak self] event in
-                    self?.showChooseOneURL(urls: sourceInfo.extractedFiles) { url in
+                    self?.showChooseOneURL(urls: sourceInfo.extractedFiles) { [weak self] url in
                         do {
-                            let sourceInfo = try self?.viewModel.selectItemFromExtractedDir(
-                                sourceInfo: sourceInfo,
-                                selectedURL: url
-                                ) ?? sourceInfo
+                            let sourceInfo = try self?.viewModel.selectItemFromExtractedDir(sourceInfo: sourceInfo, selectedURL: url) ?? sourceInfo
                             event(.success(sourceInfo))
                         } catch {
                             event(.error(error))
                         }
                     }
-                    return Disposables.create {}
+                    return Disposables.create()
                 }
             }
-    }
-
-    private func createYoutubeOptionChooser(sourceInfo: SourceInfo) -> Single<SourceInfo> {
-        guard let youtubeVideoInfo = sourceInfo.youtubeVideoInfo else {
-            return .just(sourceInfo)
-        }
-        return showVideoAndSubtitleDialogs(videoInfo: youtubeVideoInfo).map {
-            var sourceInfo = sourceInfo
-            sourceInfo.youtubeSelectedUrls = $0
-            sourceInfo.sourceURL = $0[sourceInfo.type]
-            return sourceInfo
-        }
     }
 
     private func createAskAndSetSourceName(sourceInfo: SourceInfo) -> Single<SourceInfo> {
@@ -213,7 +195,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
                     event(.success(sourceInfo))
                 }
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 
@@ -223,12 +205,9 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         }
         return .create { [weak self] event -> Disposable in
             guard let self = self else {
-                return Disposables.create {}
+                return Disposables.create()
             }
-            self.presentActionSheet(
-                title: "",
-                message: .CHOOSE_ONE_OPTION,
-                actions: self.viewModel.sourcePickerOptions) { selected in
+            self.presentActionSheet(title: "", message: .CHOOSE_ONE_OPTION, actions: self.viewModel.sourcePickerOptions) { selected in
                     guard let selected = selected else {
                         return
                     }
@@ -236,29 +215,24 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
                     sourceInfo.picker = selected.identifier
                     event(.success(sourceInfo))
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 
     private func createFilePicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
-        return RxImportDocumentPickerViewController()
-            .createPresenter(viewController: self)
-            .map {
-                var sourceInfo = sourceInfo
-                sourceInfo.sourceURL = $0
-                return sourceInfo
-            }
+        return RxImportDocumentPickerViewController().createPresenter(viewController: self).map {
+            var sourceInfo = sourceInfo
+            sourceInfo.sourceURL = $0
+            return sourceInfo
+        }
     }
 
     private func createWebBrowserPicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
-        return RxSourceWebBrowserViewController(viewController: self)
-            .createPresenter(sourceInfo: sourceInfo)
+        return RxSourceWebBrowserViewController(viewController: self).createPresenter(sourceInfo: sourceInfo)
     }
 
     private func createDirectLinkGetter(sourceInfo: SourceInfo) -> Single<SourceInfo> {
-        return self.getSourceInfoLinkByInputDialog(title: sourceInfo.typeName,
-                                                   desc: .SOURCE_OPTION_DIRECT_LINK,
-                                                   sourceInfo: sourceInfo)
+        return self.getSourceInfoLinkByInputDialog(title: sourceInfo.typeName, desc: .SOURCE_OPTION_DIRECT_LINK, sourceInfo: sourceInfo)
     }
 
     private func createYoutubeLinkGetter(sourceInfo: SourceInfo) -> Single<SourceInfo> {
@@ -325,13 +299,12 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private func getLinkByInputDialog(title: String, desc: String = "") -> Single<URL> {
         return .create(subscribe: { [weak self] event -> Disposable in
             self?.presentInput(title: title, message: desc) { inputLink in
-                guard let link = inputLink,
-                    let url = URL(string: link) else {
+                guard let link = inputLink, let url = URL(string: link) else {
                         return
                 }
                 event(.success(url))
             }
-            return Disposables.create {}
+            return Disposables.create()
         })
     }
 
@@ -347,6 +320,23 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
         }
     }
 
+}
+
+
+extension SourceConfigViewController {
+
+    private func createYoutubeOptionChooser(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+        guard let youtubeVideoInfo = sourceInfo.youtubeVideoInfo else {
+            return .just(sourceInfo)
+        }
+        return showVideoAndSubtitleDialogs(videoInfo: youtubeVideoInfo).map {
+            var sourceInfo = sourceInfo
+            sourceInfo.youtubeSelectedUrls = $0
+            sourceInfo.sourceURL = $0[sourceInfo.type]
+            return sourceInfo
+        }
+    }
+
     private func showVideoAndSubtitleDialogs(videoInfo: Youtube.VideoInfo) -> Single<[SourceInfo.`Type`: URL]> {
         let shouldShowChooseSubtitle = !videoInfo.captionURLs.isEmpty
         return .create { [weak self] event -> Disposable in
@@ -359,7 +349,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
                     event(.success([.video: videoUrl]))
                 }
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 

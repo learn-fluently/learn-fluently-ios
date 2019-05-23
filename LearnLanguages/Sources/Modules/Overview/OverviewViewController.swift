@@ -74,7 +74,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
                 .map {
                 .init(identifier: $0.identifier,
                       title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
-            }
+                }
             .sorted { actionA, actionB in
                 actionA.title < actionB.title
             }

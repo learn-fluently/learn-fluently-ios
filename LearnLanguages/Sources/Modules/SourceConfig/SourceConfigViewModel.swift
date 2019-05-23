@@ -13,9 +13,28 @@ import RxCocoa
 
 class SourceConfigViewModel {
 
+    // MARK: Constants
+
+    static var watching: SourceConfigViewModel {
+        return .init(activityType: .watching,
+                     pageInfo: .init(title: .SECTION_WATCHING_TITLE, description: .SECTION_WATCHING_DESC))
+    }
+
+    static var speaking: SourceConfigViewModel {
+        return .init(activityType: .speaking,
+                     pageInfo: .init(title: .SECTION_SPEAKING_TITLE, description: .SECTION_SPEAKING_DESC))
+    }
+
+    static var writing: SourceConfigViewModel {
+        return .init(activityType: .writing,
+                     pageInfo: .init(title: .SECTION_WRITING_TITLE, description: .SECTION_WRITING_DESC))
+    }
+
+
     // MARK: Properties
 
     let pageInfo: TitleDesc
+    let activityType: ActivityType
 
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
@@ -46,7 +65,8 @@ class SourceConfigViewModel {
 
     // MARK: Life cycle
 
-    init(pageInfo: TitleDesc) {
+    init(activityType: ActivityType, pageInfo: TitleDesc) {
+        self.activityType = activityType
         self.pageInfo = pageInfo
         self.sourceConverterService = SourceConverterService(fileRepository: fileRepository)
         self.sourceDownloaderService = SourceDownloaderService(fileRepository: fileRepository)
@@ -91,7 +111,7 @@ class SourceConfigViewModel {
     func createSaver(sourceInfo: SourceInfo) -> Single<SourceInfo> {
         return .create { [weak self] event in
             guard let self = self else {
-                return Disposables.create {}
+                return Disposables.create()
             }
             do {
                 let sourceInfo = try self.saveSource(sourceInfo: sourceInfo)
@@ -99,7 +119,7 @@ class SourceConfigViewModel {
             } catch {
                 event(.error(error))
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 
@@ -120,7 +140,7 @@ class SourceConfigViewModel {
     func createExtractor(sourceInfo: SourceInfo) -> Single<SourceInfo> {
         return .create(subscribe: { [weak self] event -> Disposable in
             guard let self = self, let sourceInfoDestinationURL = sourceInfo.destinationURL else {
-                return Disposables.create {}
+                return Disposables.create()
             }
             self.progressMessageBehaviorRelay.accept(.init(title: .EXTRACTING))
             self.fileRepository.decompressArchiveFile(sourceURL: sourceInfoDestinationURL) { [weak self] error, filesUrls, extractedDirPath in
@@ -139,7 +159,7 @@ class SourceConfigViewModel {
                 event(.success(sourceInfo))
             }
 
-            return Disposables.create {}
+            return Disposables.create()
         })
     }
 
@@ -156,6 +176,7 @@ class SourceConfigViewModel {
         sourceInfo.sourceURL = selectedURL
         return sourceInfo
     }
+
 
     // MARK: Private functions
 

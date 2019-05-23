@@ -45,7 +45,7 @@ class RxSourceWebBrowserViewController: WebBrowserViewController {
                 popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
             }
             self.viewController.present(alert, animated: true, completion: nil)
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 

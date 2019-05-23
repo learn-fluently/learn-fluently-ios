@@ -54,7 +54,7 @@ class YoutubeSourceService {
                 )
                 event(.success(videoInfo))
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 

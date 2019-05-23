@@ -16,8 +16,6 @@ class AppCoordinator: Coordinator {
 
     let navigationController: UINavigationController
 
-    private var currentActivity: Activity?
-
 
     // MARK: Life cycle
 
@@ -44,34 +42,14 @@ class AppCoordinator: Coordinator {
         return navigationController
     }
 
-    private func showSourceConfigViewController(activity: Activity) {
-        currentActivity = activity
-
-        let title: String
-        switch activity {
-        case .watching: title = "Watching/Listening"
-        case .speaking: title = "Speaking"
-        case .writing: title = "Writing"
-        }
-
-        let subtitle: String
-        switch activity {
-        case .watching: subtitle = "Check translates\nlearn new words"
-        case .speaking: subtitle = "Pronunciation training\nSentence structure"
-        case .writing: subtitle = "Listening training\ndictation training"
-        }
-
-        let viewModel = SourceConfigViewModel(pageInfo: .init(title: title, description: subtitle))
+    private func showSourceConfigViewController(viewModel: SourceConfigViewModel) {
         let viewController = SourceConfigViewController(viewModel: viewModel, delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func openActivityCorrespondingViewController() {
-        guard let currentActivity = currentActivity else {
-            return
-        }
+    private func openActivityCorrespondingViewController(viewModel: SourceConfigViewModel) {
         let viewController: UIViewController
-        switch currentActivity {
+        switch viewModel.activityType {
         case .watching: viewController = WatchingViewController(delegate: self)
         case .speaking: viewController = SpeakingViewController(delegate: self)
         case .writing: viewController = WritingViewController(delegate: self)
@@ -85,15 +63,15 @@ class AppCoordinator: Coordinator {
 extension AppCoordinator: OverviewViewControllerDelegate {
 
     func onWatchingButtonTouched() {
-        showSourceConfigViewController(activity: .watching)
+        showSourceConfigViewController(viewModel: .watching)
     }
 
     func onSpeakingButtonTouched() {
-        showSourceConfigViewController(activity: .speaking)
+        showSourceConfigViewController(viewModel: .speaking)
     }
 
     func onWritingButtonTouched() {
-        showSourceConfigViewController(activity: .writing)
+        showSourceConfigViewController(viewModel: .writing)
     }
 
 }
@@ -101,11 +79,11 @@ extension AppCoordinator: OverviewViewControllerDelegate {
 
 extension AppCoordinator: SourceConfigViewControllerDelegate {
 
-    func onPlayButtonTouched() {
-        openActivityCorrespondingViewController()
+    func onPlayButtonTouched(viewController: SourceConfigViewController) {
+        openActivityCorrespondingViewController(viewModel: viewController.viewModel)
     }
 
-    func onCloseButtonTouched() {
+    func onCloseButtonTouched(viewController: SourceConfigViewController) {
         navigationController.popViewController(animated: true)
     }
 
@@ -125,22 +103,6 @@ extension AppCoordinator: InputViewControllerDelegate {
 
     func onCloseButtonTouched(inputViewControllerDelegate: InputViewController) {
         navigationController.popViewController(animated: true)
-    }
-
-}
-
-
-extension AppCoordinator {
-
-    // MARK: Constants
-
-    private enum Activity {
-
-        // MARK: Cases
-
-        case watching
-        case writing
-        case speaking
     }
 
 }

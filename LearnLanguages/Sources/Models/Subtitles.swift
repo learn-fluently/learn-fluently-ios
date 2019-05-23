@@ -9,7 +9,7 @@
 import Foundation
 import SWXMLHash
 
-struct Subtitle {
+struct Subtitles {
 
     // MARK: Constants
 

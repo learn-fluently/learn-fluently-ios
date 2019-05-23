@@ -15,15 +15,23 @@
 "MENU_ITEM_GOOGLE_SEARCH" = "Google";
 "MENU_ITEM_SPEECH" = "Speech";
 
+"SECTION_WATCHING_TITLE" = "Watching/Listening";
+"SECTION_WATCHING_DESC" = "Check Translation\nLearn New Vocabulary";
+"SECTION_SPEAKING_TITLE" = "Speaking";
+"SECTION_SPEAKING_DESC" = "Pronunciation Training\nSentences Structure";
+"SECTION_WRITING_TITLE" = "Writing";
+"SECTION_WRITING_DESC" = "Listening Training\nDictation Training";
+
 "SOURCE_OPTION_YOUTUBE" = "Youtube";
 "SOURCE_OPTION_DIRECT_LINK" = "Direct link";
 "SOURCE_OPTION_BROWSER" = "Browser";
 "SOURCE_OPTION_DOCUMENT" = "Document picker";
+"ERROR_SOURCE_NOT_SUPPORTED" = "This source is not supported";
 
 "CHOOSE_ONE_OPTION" = "Choose one option";
 
-"DOWNLOADER_RESUMING" = "resuming file download...";
-"DOWNLOADER_RETRYING" = "retrying file download...";
+"DOWNLOADER_RESUMING" = "Resuming file download...";
+"DOWNLOADER_RETRYING" = "Retrying file download...";
 "DOWNLOADER_ERROR_NO_DEST" = "No destination path to copy the downloaded file";
 "DOWNLOADER_MOVING_FILE" = "Moving downloaded file";
 "DOWNLOADER_CONNECTION_WAITING" = "Waiting for connection to be restored";
@@ -33,8 +41,8 @@
 
 "SOURCE_FILE_TITLE" = "Source file";
 "SOURCE_FILE_DESC" = "It can be a video or audio file";
-"SUBTITLE_FILE_TITLE" = "Subtitle";
-"SUBTITLE_FILE_DESC" = "The subtitle file for the source";
+"SUBTITLE_FILE_TITLE" = "Subtitles";
+"SUBTITLE_FILE_DESC" = "The subtitles file for the source";
 "DOWNLOAD_SPEED" = "speed";
 "DOWNLOAD_SUCCESSFUL" = "Successfully downloaded";
 "ENTER_SOURCE_NAME" = "Enter source name";

@@ -50,7 +50,7 @@ class RxImportDocumentPickerViewController: UIDocumentPickerViewController {
                 popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
             }
             viewController.present(self, animated: true, completion: nil)
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 

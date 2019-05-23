@@ -23,7 +23,7 @@ class SubtitleRepository {
 
     private var url: URL
 
-    private var subtitle: Subtitle!
+    private var subtitle: Subtitles!
 
     private var lastSubtitleCloseEndTime: Double?
 
@@ -32,7 +32,7 @@ class SubtitleRepository {
 
     init(url: URL) {
         self.url = url
-        self.subtitle = Subtitle(itemsFileUrl: url)
+        self.subtitle = Subtitles(itemsFileUrl: url)
     }
 
 

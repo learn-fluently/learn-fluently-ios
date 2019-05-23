@@ -1,10 +1,10 @@
 platform :ios, '11.0'
 
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
 target 'Learn Fluently' do
   use_frameworks!
-  
-  # ignore all warnings from all pods
-  inhibit_all_warnings!
 
   pod 'SnapKit', '~> 4.2.0'
   pod 'SwiftRichString'

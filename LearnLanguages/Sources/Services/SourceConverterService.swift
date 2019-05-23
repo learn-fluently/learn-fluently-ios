@@ -46,7 +46,7 @@ class SourceConverterService {
         }
         return .create { [weak self] event -> Disposable in
             guard let self = self else {
-                return Disposables.create {}
+                return Disposables.create()
             }
             var srcVideoUrl = url
             if srcVideoUrl.pathExtension != "mkv" {
@@ -78,7 +78,7 @@ class SourceConverterService {
                     event(.error(error))
                 }
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 
@@ -88,12 +88,12 @@ class SourceConverterService {
         }
         return .create { [weak self] event -> Disposable in
             guard let self = self else {
-                return Disposables.create {}
+                return Disposables.create()
             }
             let newURL = self.getNewPathURL()
 
             self.queue.async { [weak self] in
-                let subtitle = Subtitle(fileUrl: url)
+                let subtitle = Subtitles(fileUrl: url)
                 guard let data = subtitle.encodeToData() else {
                     event(.error(Errors.Download.convert("error on convert subtitle"))) //TODO:
                     return
@@ -109,7 +109,7 @@ class SourceConverterService {
                     event(.error(error))
                 }
             }
-            return Disposables.create {}
+            return Disposables.create()
         }
     }
 

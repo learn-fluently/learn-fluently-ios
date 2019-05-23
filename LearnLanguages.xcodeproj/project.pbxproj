@@ -27,12 +27,13 @@
 		AB522AD921D03DC9002421B8 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */; };
 		AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
 		AB522AE221D304DC002421B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
-		AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitle.swift */; };
+		AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitles.swift */; };
 		AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
 		AB5FB76022613CB50081B273 /* SourceDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5FB75F22613CB50081B273 /* SourceDownloaderService.swift */; };
 		AB86CAB5225D1E0C00C15B1B /* SourceConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */; };
 		AB86CAB7225D1EBE00C15B1B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */; };
 		AB86CAB9225D21AB00C15B1B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB8225D21AB00C15B1B /* Coordinator.swift */; };
+		AB87CD222297348500237825 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB87CD212297348500237825 /* ActivityType.swift */; };
 		ABAC2413224923BF001A226E /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAC2412224923BF001A226E /* Errors.swift */; };
 		ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */; };
 		ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
@@ -94,12 +95,13 @@
 		AB522AD421D03DC9002421B8 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibBasedViewController.swift; sourceTree = "<group>"; };
 		AB522AE121D304DC002421B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		AB522AE821D311D4002421B8 /* Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
+		AB522AE821D311D4002421B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
 		AB522AEA21D3124D002421B8 /* SubtitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleItem.swift; sourceTree = "<group>"; };
 		AB5FB75F22613CB50081B273 /* SourceDownloaderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceDownloaderService.swift; sourceTree = "<group>"; };
 		AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceConfigViewModel.swift; sourceTree = "<group>"; };
 		AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		AB86CAB8225D21AB00C15B1B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		AB87CD212297348500237825 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
 		ABAC2412224923BF001A226E /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = ../Utilities/Errors.swift; sourceTree = "<group>"; };
 		ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerService.swift; sourceTree = "<group>"; };
 		ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloaderService.swift; sourceTree = "<group>"; };
@@ -304,13 +306,14 @@
 			isa = PBXGroup;
 			children = (
 				AB522AEA21D3124D002421B8 /* SubtitleItem.swift */,
-				AB522AE821D311D4002421B8 /* Subtitle.swift */,
+				AB522AE821D311D4002421B8 /* Subtitles.swift */,
 				AB21104D2267AD5600ED521D /* SourceInfo.swift */,
 				AB21104F2267ADA200ED521D /* SourceInfo.MimeType.swift */,
 				AB2110512268E8C700ED521D /* DownloadUpdateEvent.swift */,
 				AB167DEB226A55B9009A8C67 /* Youtube.swift */,
 				ABAC2412224923BF001A226E /* Errors.swift */,
 				ABC09044226B367E002EB827 /* TitleDesc.swift */,
+				AB87CD212297348500237825 /* ActivityType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			files = (
 				AB522AEB21D3124D002421B8 /* SubtitleItem.swift in Sources */,
 				AB0995A021F9092C00867890 /* OverviewViewController.swift in Sources */,
+				AB87CD222297348500237825 /* ActivityType.swift in Sources */,
 				AB21105622691A3A00ED521D /* Rx+Utilities.swift in Sources */,
 				ABFE60252210D751001267C8 /* FileRepository.swift in Sources */,
 				ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */,
@@ -592,7 +596,7 @@
 				ABAF5C082218555E0079C5C7 /* SpeechRecognizerService.swift in Sources */,
 				AB86CAB7225D1EBE00C15B1B /* AppCoordinator.swift in Sources */,
 				ABFED1A42222A34500F23313 /* YoutubeSourceService.swift in Sources */,
-				AB522AE921D311D4002421B8 /* Subtitle.swift in Sources */,
+				AB522AE921D311D4002421B8 /* Subtitles.swift in Sources */,
 				ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */,
 				ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */,
 				ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */,

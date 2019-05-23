@@ -89,6 +89,7 @@ struct SourceInfo {
         return sourceInfo
     }
 
+
     // MARK: Private functions
 
     private func getSouldConvert() -> Bool {
