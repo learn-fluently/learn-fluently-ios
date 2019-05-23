@@ -1,6 +1,6 @@
 //
 //  String+Utilities.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/22/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -27,5 +27,9 @@ extension String {
 
     var asURL: URL? {
         return URL(string: self)
+    }
+
+    func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
     }
 }

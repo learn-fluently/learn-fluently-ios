@@ -1,6 +1,6 @@
 //
 //  Errors.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 3/25/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -17,4 +17,10 @@ struct Errors {
         case convert(String)
     }
 
+    enum Source: Error {
+
+        // MARK: Cases
+
+        case unsupported(String)
+    }
 }

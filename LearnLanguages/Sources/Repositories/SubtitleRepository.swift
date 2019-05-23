@@ -1,6 +1,6 @@
 //
 //  SubtitleRepository.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/9/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -23,7 +23,7 @@ class SubtitleRepository {
 
     private var url: URL
 
-    private var subtitle: Subtitle!
+    private var subtitle: Subtitles!
 
     private var lastSubtitleCloseEndTime: Double?
 
@@ -32,7 +32,7 @@ class SubtitleRepository {
 
     init(url: URL) {
         self.url = url
-        self.subtitle = Subtitle(fileUrl: url)
+        self.subtitle = Subtitles(itemsFileUrl: url)
     }
 
 

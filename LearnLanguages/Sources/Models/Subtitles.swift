@@ -1,6 +1,6 @@
 //
 //  Subtitles.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 12/26/18.
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
@@ -9,7 +9,7 @@
 import Foundation
 import SWXMLHash
 
-struct Subtitle {
+struct Subtitles {
 
     // MARK: Constants
 
@@ -26,8 +26,15 @@ struct Subtitle {
 
     // MARK: Life cycle
 
-    public init(fileUrl: URL) {
+    init(itemsFileUrl: URL) {
+        guard let fileContent = try? Data(contentsOf: itemsFileUrl),
+            let items = try? JSONDecoder().decode([SubtitleItem].self, from: fileContent) else {
+            return
+        }
+        self.items = items
+    }
 
+    init(fileUrl: URL) {
         do {
             let fileContent = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
             do {
@@ -42,6 +49,13 @@ struct Subtitle {
         } catch {
             debugPrint(error)
         }
+    }
+
+
+    // MARK: Public functions
+
+    func encodeToData() -> Data? {
+        return try? JSONEncoder().encode(items)
     }
 
 

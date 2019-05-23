@@ -1,6 +1,6 @@
 //
 //  UserDefaultsService.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/16/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -27,14 +27,12 @@ class UserDefaultsService {
 
     // MARK: Public properties
 
-    var subtitleSourceName: String? {
-        set { set(key: .subtitleSourceName, value: newValue) }
-        get { return get(key: .subtitleSourceName) }
+    var subtitleSourceName: BehaviorRelay<String?> {
+        return getBehaviorRelayForKey(.subtitleSourceName)
     }
 
-    var videoSourceName: String? {
-        set { set(key: .videoSourceName, value: newValue) }
-        get { return get(key: .videoSourceName) }
+    var videoSourceName: BehaviorRelay<String?> {
+        return getBehaviorRelayForKey(.videoSourceName)
     }
 
     var learingLanguageCode: String {
@@ -50,7 +48,7 @@ class UserDefaultsService {
     private var behaviorRelays: [Key: Any] = [:]
     private let disposeBag = DisposeBag()
 
-    // MARK: Lifecycle
+    // MARK: Life cycle
 
     init() {
         self.jsonEncoder = JSONEncoder()

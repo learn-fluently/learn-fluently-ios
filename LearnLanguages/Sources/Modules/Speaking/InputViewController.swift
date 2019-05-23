@@ -1,6 +1,6 @@
 //
 //  InputViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 3/2/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -11,6 +11,13 @@ import AVFoundation
 import AVKit
 import RxSwift
 import SwiftRichString
+
+protocol InputViewControllerDelegate: AnyObject {
+
+    func onCloseButtonTouched(inputViewControllerDelegate: InputViewController)
+
+}
+
 
 class InputViewController: BaseViewController {
 
@@ -24,6 +31,8 @@ class InputViewController: BaseViewController {
         set { playerController.showsControls = newValue }
         get { return playerController.showsControls }
     }
+
+    weak var delegate: InputViewControllerDelegate?
 
     internal var disposeBag = DisposeBag()
 
@@ -49,7 +58,7 @@ class InputViewController: BaseViewController {
     @IBOutlet private weak var replayButton: UIButton!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +67,6 @@ class InputViewController: BaseViewController {
         addPlayerViewController()
         subscribeToPlayerTime()
         adjustResultViewIfNeeded()
-        configureSubtitleRepositoryAndThenPlay()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -121,6 +129,12 @@ class InputViewController: BaseViewController {
         playerController.togglePlaying()
     }
 
+    internal func configureSubtitleRepositoryAndThenPlay() {
+        configureSubtitleRepositoryAsync { [weak self] in
+            self?.playerController.play()
+        }
+    }
+
     internal func showHint() {
         playerController.pause()
         let style = Style.subtitleTextStyle
@@ -151,16 +165,17 @@ class InputViewController: BaseViewController {
     internal func adjustResultViewIfNeeded(input: String? = nil) {
         let currentSubtitleLength = currentSubtitle?.lengthOfBytes(using: .utf8) ?? 0
 
-        if input?.lengthOfBytes(using: .utf8) ?? 0 < 1 ||
-            currentSubtitleLength < 1 ||
-            playerController.isPlaying ||
-            isInputBusy {
-            correctPercentageLabel.isHidden = true
-            return
+        guard let input = input,
+            input.lengthOfBytes(using: .utf8) > 0,
+            currentSubtitleLength > 0,
+            !playerController.isPlaying,
+            !isInputBusy else {
+                correctPercentageLabel.isHidden = true
+                return
         }
 
         let originalText = normalizeTextForComparesion(currentSubtitle!)
-        let inputText = normalizeTextForComparesion(input!)
+        let inputText = normalizeTextForComparesion(input)
 
         let editDifference = originalText.levenshtein(inputText)
         let beingCorrectRate = Double(currentSubtitleLength - editDifference) / Double(currentSubtitleLength)
@@ -186,20 +201,20 @@ class InputViewController: BaseViewController {
         } else {
             var ranges: [NSRange] = []
             let origirnalWords = currentSubtitle!
+                .replacingOccurrences(of: "\n", with: " ")
                 .components(separatedBy: " ")
                 .map { normalizeTextForComparesion($0) }
 
-            let inputWords = input!.components(separatedBy: " ")
+            let inputWords = input.replacingOccurrences(of: "\n", with: " ").components(separatedBy: " ")
             var location = 0
             if let first = inputWords.first {
-                location = input!.range(of: first)?.nsRange.location ?? 0
+                if let range = input.range(of: first) {
+                    location = input.nsRange(from: range).location
+                }
             }
             inputWords.forEach {
-                if $0.lengthOfBytes(using: .utf8) > 1,
-                    !origirnalWords.contains(normalizeTextForComparesion($0)) {
-                    ranges.append(
-                        NSRange(location: location, length: $0.lengthOfBytes(using: .utf8))
-                    )
+                if $0.lengthOfBytes(using: .utf8) > 1, !origirnalWords.contains(normalizeTextForComparesion($0)) {
+                    ranges.append(NSRange(location: location, length: $0.lengthOfBytes(using: .utf8)))
                 }
                 location += $0.lengthOfBytes(using: .utf8) + 1
             }
@@ -248,14 +263,6 @@ class InputViewController: BaseViewController {
         self.playerController = playerController
     }
 
-    private func configureSubtitleRepositoryAndThenPlay() {
-        view.isUserInteractionEnabled = false
-        configureSubtitleRepositoryAsync { [weak self] in
-            self?.view.isUserInteractionEnabled = true
-            self?.playerController.play()
-        }
-    }
-
     private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {
         let url = fileRepository.getPathURL(for: .subtitleFile)
         Completable
@@ -295,6 +302,6 @@ extension InputViewController: PlayerViewControllerDelegate {
     }
 
     func onCloseButtonTouched(playerViewController: PlayerViewController) {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched(inputViewControllerDelegate: self)
     }
 }

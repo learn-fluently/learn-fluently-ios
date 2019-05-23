@@ -1,6 +1,6 @@
 //
 //  DarkCrossButton.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 1/25/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -11,7 +11,7 @@ import SnapKit
 
 class DarkCrossButton: UIButton {
 
-    // MARK: Life Cyle
+    // MARK: Life cycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)

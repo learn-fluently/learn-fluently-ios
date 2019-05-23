@@ -1,6 +1,6 @@
 //
 //  WatchingViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 12/23/18.
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
@@ -11,6 +11,13 @@ import AVKit
 import SafariServices
 import SwiftRichString
 import RxSwift
+
+protocol WatchingViewControllerDelegate: AnyObject {
+
+    func onCloseButtonTouched(watchingViewController: WatchingViewController)
+
+}
+
 
 class WatchingViewController: BaseViewController, NibBasedViewController {
 
@@ -31,6 +38,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     private var subtitleRepository: SubtitleRepository!
     private var fileRepository: FileRepository!
     private var disposeBag = DisposeBag()
+    private weak var delegate: WatchingViewControllerDelegate?
     private var textViewSelectedTextRange: NSRange? = nil {
         didSet {
             setTextViewSelectedTextRange()
@@ -46,6 +54,15 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
 
     // MARK: Life Cycle
+
+    init(delegate: WatchingViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,7 +245,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
         let subtitleText = subtitleRepository?.getSubtitleForTime(currentValue)
-        if subtitleText == nil && playingConfig.keepSubtitleAllways == true {
+        if subtitleText == nil && playingConfig.keepSubtitleAlways == true {
             return
         }
         guard !UIMenuController.shared.isMenuVisible else {
@@ -313,7 +330,7 @@ extension WatchingViewController: PlayerViewControllerDelegate {
     }
 
     func onCloseButtonTouched(playerViewController: PlayerViewController) {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched(watchingViewController: self)
     }
 }
 
@@ -323,7 +340,7 @@ extension WatchingViewController: LLTextViewMenuDelegate {
     // MARK: Functions
 
     func onTranslateMenuItemSelected(_ textView: UITextView) {
-        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=fa&text=" + urlEncode(getSelectedText()) )
+        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=" + urlEncode(getSelectedText()) )
     }
 
     func onImageMenuItemSelected(_ textView: UITextView) {

@@ -1,6 +1,6 @@
 //
 //  OverviewViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 1/23/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -8,6 +8,18 @@
 
 import Foundation
 import UIKit
+import Speech
+
+protocol OverviewViewControllerDelegate: AnyObject {
+
+    func onWatchingButtonTouched()
+
+    func onSpeakingButtonTouched()
+
+    func onWritingButtonTouched()
+
+}
+
 
 class OverviewViewController: BaseViewController, NibBasedViewController {
 
@@ -23,8 +35,19 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
         return (Locale.current as NSLocale)
     }
 
+    private weak var delegate: OverviewViewControllerDelegate?
+
 
     // MARK: Life cycle
+
+    init(delegate: OverviewViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,38 +55,31 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     }
 
 
-    // MARK: Event handeling
+    // MARK: Event handlers
 
-    @IBAction private func whatchingButtonTouched() {
-        show(SourceConfigViewController(title: "Watching/Listening",
-                                        subtitle: "Check translates\nlearn new words",
-                                        type: .watching),
-             sender: nil)
+    @IBAction private func watchingButtonTouched() {
+        delegate?.onWatchingButtonTouched()
     }
 
     @IBAction private func speakingButtonTouched() {
-        show(SourceConfigViewController(title: "Speaking",
-                                        subtitle: "Pronunciation training\nSentence structure",
-                                        type: .speaking),
-             sender: nil)
+        delegate?.onSpeakingButtonTouched()
     }
 
     @IBAction private func writingButtonTouched() {
-        show(SourceConfigViewController(title: "Writing",
-                                        subtitle: "Listening training\ndictation training",
-                                        type: .writing),
-             sender: nil)
+        delegate?.onWritingButtonTouched()
     }
 
     @IBAction private func switchLanguageButtonTouched() {
+        let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
+                .map {
+                .init(identifier: $0.identifier,
+                      title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
+                }
+            .sorted { actionA, actionB in
+                actionA.title < actionB.title
+            }
 
-        let actions: [ActionData<String>] = [
-            ActionData(identifier: "en-US", title: locale.displayName(forKey: .identifier, value: "en-US") ?? ""),
-            ActionData(identifier: "en-UK", title: locale.displayName(forKey: .identifier, value: "en-UK") ?? ""),
-            ActionData(identifier: "nl-NL", title: locale.displayName(forKey: .identifier, value: "nl-NL") ?? "")
-        ]
-
-        presentActionSheet(title: "", message: "Choose language", actions: actions) { [weak self] selected in
+        presentActionSheet(title: "", message: "Choose a language", actions: actions) { [weak self] selected in
             if let languageCode = selected?.identifier {
                 UserDefaultsService.shared.learingLanguageCode = languageCode
                 self?.reloadLearningLanguageTitle()

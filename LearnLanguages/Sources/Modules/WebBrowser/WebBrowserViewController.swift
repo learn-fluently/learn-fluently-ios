@@ -1,6 +1,6 @@
 //
 //  WebBrowserViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/22/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -12,9 +12,12 @@ import SnapKit
 
 protocol WebBrowserViewControllerDelegate: AnyObject {
 
-    func getDownloadHandlerBlock(mimeType: String, url: URL) -> (() -> Void)?
+    func onCloseButtonTouched(controller: WebBrowserViewController)
+
+    func onNewResponse(controller: WebBrowserViewController, mimeType: String, url: URL)
 
 }
+
 
 class WebBrowserViewController: BaseViewController, NibBasedViewController {
 
@@ -25,7 +28,6 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     weak var delegate: WebBrowserViewControllerDelegate?
 
     private var parentView: UIView
-    private var isDismissing: Bool = false
 
     @IBOutlet private weak var topView: UIView!
     @IBOutlet private weak var webView: WKWebView!
@@ -69,22 +71,11 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
         inputTextField.becomeFirstResponder()
     }
 
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        if !isDismissing {
-            isDismissing = true
-            super.dismiss(animated: flag) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    completion?()
-                }
-            }
-        }
-    }
-
 
     // MARK: Event handlers
 
     @IBAction private func onCloseButtonTouched() {
-        dismiss(animated: true, completion: nil)
+        delegate?.onCloseButtonTouched(controller: self)
     }
 
 
@@ -102,6 +93,7 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
             }
         }
     }
+
     private func configureInputTextField() {
         inputTextField.keyboardType = .webSearch
         inputTextField.delegate = self
@@ -207,23 +199,11 @@ extension WebBrowserViewController: WKNavigationDelegate {
         setLoading(false)
     }
 
-    /*
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url {
-            if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: "", url: url) {
-                dismiss(animated: true, completion: downloadHandler)
-            }
-        }
-        decisionHandler(.allow)
-    }*/
-
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         if let mimeType = navigationResponse.response.mimeType,
             let url = navigationResponse.response.url {
-            if let downloadHandler = delegate?.getDownloadHandlerBlock(mimeType: mimeType, url: url) {
-                saveCookies(navigationResponse: navigationResponse)
-                dismiss(animated: true, completion: downloadHandler)
-            }
+            delegate?.onNewResponse(controller: self, mimeType: mimeType, url: url)
+            saveCookies(navigationResponse: navigationResponse)
         }
 
         decisionHandler(.allow)
@@ -235,7 +215,7 @@ extension WebBrowserViewController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        if !isDismissing {
+        if delegate != nil {
             WebBrowserViewController.lastURL = webView.url
         }
     }

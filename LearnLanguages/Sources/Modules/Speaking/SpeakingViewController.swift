@@ -1,6 +1,6 @@
 //
 //  SpeakingViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 2/3/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -32,7 +32,16 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var recordButton: UIButton!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
+
+    init(delegate: InputViewControllerDelegate) {
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+        self.delegate = delegate
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +57,9 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
             self?.recordButton.isHidden = !isAuthorized
             if let error = errorDescription {
                 self?.showAlert(error)
+            }
+            if isAuthorized {
+                self?.configureSubtitleRepositoryAndThenPlay()
             }
         }
     }

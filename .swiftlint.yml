@@ -7,7 +7,6 @@ opt_in_rules:
   - private_outlet
   - prefixed_toplevel_constant
   - overridden_super_call
-  - nesting
   - file_header
   - weak_delegate
   - trailing_semicolon
@@ -55,7 +54,7 @@ file_header:
   required_pattern: |
                     \/\/
                     \/\/  .*?\.swift
-                    \/\/  (LearnLanguages.*?|Unit Tests)
+                    \/\/  (Learn Fluently.*?|Unit Tests)
                     \/\/
                     \/\/  (Created by .*? on .*?)
                     \/\/  Copyright © \d{4} Amir Khorsandi\. All rights reserved\.

@@ -1,6 +1,6 @@
 //
 //  WritingViewController.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 3/2/19.
 //  Copyright © 2019 Amir Khorsandi. All rights reserved.
@@ -29,7 +29,16 @@ class WritingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var contentViewBottomConstraint: NSLayoutConstraint!
 
 
-    // MARK: Lifecyle
+    // MARK: Life cycle
+
+    init(delegate: InputViewControllerDelegate) {
+        super.init(nibName: type(of: self).nibName, bundle: nil)
+        self.delegate = delegate
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +50,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        configureSubtitleRepositoryAndThenPlay()
         inputTextView.becomeFirstResponder()
     }
 
@@ -149,7 +159,9 @@ class WritingViewController: InputViewController, NibBasedViewController {
 extension WritingViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
+        let selectedRange = textView.selectedTextRange
         textView.attributedText = textView.text.set(style: Style.subtitleTextStyle)
+        textView.selectedTextRange = selectedRange
     }
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -19,21 +15,32 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.0.1</string>
+	<string>0.0.5</string>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>7</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Usage description for camera - this app will never request this permission</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Usage description for contacts - this app will never request this permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Usage description for location - this app will never request this permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app will use microphone to record your voice and the recognize it</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Usage description for library - this app will never request this permission</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>This app will use speech recognition for listen to your voice and copare it with original text</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

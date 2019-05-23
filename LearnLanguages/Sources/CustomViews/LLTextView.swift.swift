@@ -1,6 +1,6 @@
 //
 //  LLTextView.swift
-//  LearnLanguages
+//  Learn Fluently
 //
 //  Created by Amir Khorsandi on 12/27/18.
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
@@ -30,7 +30,7 @@ class LLTextView: UITextView {
     var customMenuItems: [UIMenuItem] = []
 
 
-    // MARK: Life Cycle
+    // MARK: Life cycle
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
