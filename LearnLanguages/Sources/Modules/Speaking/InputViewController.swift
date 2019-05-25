@@ -47,9 +47,6 @@ class InputViewController: BaseViewController {
     private var fileRepository: FileRepository!
     private var currentSubtitle: String?
 
-
-    // MARK: Outlets
-
     @IBOutlet private weak var hintLabel: UILabel!
     @IBOutlet private weak var playerContainerView: UIView!
     @IBOutlet private weak var playPauseButton: UIButton!
@@ -199,31 +196,36 @@ class InputViewController: BaseViewController {
             }
         // finding wrong words ranges
         } else {
-            var ranges: [NSRange] = []
-            let origirnalWords = currentSubtitle!
-                .replacingOccurrences(of: "\n", with: " ")
-                .components(separatedBy: " ")
-                .map { normalizeTextForComparesion($0) }
-
-            let inputWords = input.replacingOccurrences(of: "\n", with: " ").components(separatedBy: " ")
-            var location = 0
-            if let first = inputWords.first {
-                if let range = input.range(of: first) {
-                    location = input.nsRange(from: range).location
-                }
-            }
-            inputWords.forEach {
-                if $0.lengthOfBytes(using: .utf8) > 1, !origirnalWords.contains(normalizeTextForComparesion($0)) {
-                    ranges.append(NSRange(location: location, length: $0.lengthOfBytes(using: .utf8)))
-                }
-                location += $0.lengthOfBytes(using: .utf8) + 1
-            }
+            let ranges: [NSRange] = getWrongWordRanges(origirnalText: currentSubtitle!, inputText: input)
             inputWrongWordRanges(ranges)
         }
     }
 
 
     // MARK: Private  functions
+
+    private func getWrongWordRanges(origirnalText: String, inputText: String) -> [NSRange] {
+        var ranges: [NSRange] = []
+        let origirnalWords = origirnalText
+            .replacingOccurrences(of: "\n", with: " ")
+            .components(separatedBy: " ")
+            .map { normalizeTextForComparesion($0) }
+
+        let inputWords = inputText.replacingOccurrences(of: "\n", with: " ").components(separatedBy: " ")
+        var location = 0
+        if let first = inputWords.first {
+            if let range = inputText.range(of: first) {
+                location = inputText.nsRange(from: range).location
+            }
+        }
+        inputWords.forEach {
+            if $0.lengthOfBytes(using: .utf8) > 1, !origirnalWords.contains(normalizeTextForComparesion($0)) {
+                ranges.append(NSRange(location: location, length: $0.lengthOfBytes(using: .utf8)))
+            }
+            location += $0.lengthOfBytes(using: .utf8) + 1
+        }
+        return ranges
+    }
 
     private func normalizeTextForComparesion(_ text: String) -> String {
         let filteredCharacters = text.lowercased().filter {

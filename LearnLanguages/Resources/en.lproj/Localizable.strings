@@ -27,6 +27,8 @@
 "SOURCE_OPTION_BROWSER" = "Browser";
 "SOURCE_OPTION_DOCUMENT" = "Document picker";
 "ERROR_SOURCE_NOT_SUPPORTED" = "This source is not supported";
+"ERROR_CONVERT_SOURCE" = "Failed to convert source";
+"ERROR_CONVERT_SUBTITLES" = "Failed to convert subtitles";
 
 "CHOOSE_ONE_OPTION" = "Choose one option";
 
@@ -57,3 +59,6 @@
 "YOUTUBE_QUALITY_CHOOSE" = "Choose an option for quality";
 "YOUTUBE_SUBTITLE_CHOOSE" = "Choose an option for subtitle";
 "YOUTUBE_SUBTITLE_AUTO_GENERATED" = "Auto generated";
+
+"START_SPEAKING_HINT" = "[Start speaking ...]";
+"ERROR_RECOGNATION_NOT_AVAILABLE" = "Recognition Not Available";

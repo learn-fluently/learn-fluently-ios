@@ -25,9 +25,6 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
         return speechRecognizer.isRecording
     }
 
-
-    // MARK: Outlets
-
     @IBOutlet private weak var textLabelView: UILabel!
     @IBOutlet private weak var recordButton: UIButton!
 
@@ -174,13 +171,13 @@ extension SpeakingViewController: SFSpeechRecognizerDelegate, SpeechRecognizerRe
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if !available {
             recordButton.isHidden = true
-            showAlert("Recognition Not Available")
+            showAlert(.ERROR_RECOGNATION_NOT_AVAILABLE)
         }
     }
 
     func onRecordingStateChanged(isRecording: Bool) {
         if isRecording {
-            updateTextLabelView("[Start speaking ...]")
+            updateTextLabelView(.START_SPEAKING_HINT)
         } else if speechRecognizer.bestTranscription == nil {
             updateTextLabelView(nil)
         }

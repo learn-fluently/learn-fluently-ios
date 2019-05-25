@@ -22,8 +22,6 @@ class WritingViewController: InputViewController, NibBasedViewController {
         return 97
     }
 
-    // MARK: Outlets
-
     @IBOutlet private weak var inputTextView: UITextView!
     @IBOutlet private weak var doneButton: UIButton!
     @IBOutlet private weak var contentViewBottomConstraint: NSLayoutConstraint!

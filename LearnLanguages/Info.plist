@@ -28,15 +28,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Usage description for camera - this app will never request this permission</string>
+	<string>Camera - this app will never request this permission</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Usage description for contacts - this app will never request this permission</string>
+	<string>Contacts - this app will never request this permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Usage description for location - this app will never request this permission</string>
+	<string>Location - this app will never request this permission</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app will use microphone to record your voice and the recognize it</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Usage description for library - this app will never request this permission</string>
+	<string>Phoyo Library - this app will never request this permission</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>This app will use speech recognition for listen to your voice and copare it with original text</string>
 	<key>UIFileSharingEnabled</key>

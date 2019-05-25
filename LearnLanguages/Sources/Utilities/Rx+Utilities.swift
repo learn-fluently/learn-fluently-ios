@@ -8,12 +8,12 @@
 
 import RxSwift
 
-extension PrimitiveSequenceType where TraitType == SingleTrait {
+extension PrimitiveSequenceType where Trait == SingleTrait {
 
     // MARK: Functions
 
     func flatMap<T: AnyObject, R>(weak param: T?,
-                                  _ selector: @escaping (T, ElementType) throws ->
+                                  _ selector: @escaping (T, Element) throws ->
         PrimitiveSequence<SingleTrait, R>) -> PrimitiveSequence<SingleTrait, R> {
 
         return flatMap { [weak param] element in

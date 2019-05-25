@@ -14,12 +14,12 @@ extension UIViewController {
 
     func presentOKMessage(title: String, message: String) {
         let controller = createController(title: title, message: message)
-        present(controller, animated: true)
+        presentInMainThread(controller, animated: true)
     }
 
     func presentMessage(title: String = "", message: String = "") -> UIAlertController {
         let controller = createController(title: title, message: message, actions: [])
-        present(controller, animated: true)
+        presentInMainThread(controller, animated: true)
         return controller
     }
 
@@ -38,7 +38,7 @@ extension UIViewController {
         controller.addTextField { textField in
             textField.text = defaultValue
         }
-        present(controller, animated: true)
+        presentInMainThread(controller, animated: true)
     }
 
     func presentActionSheet<Type: Hashable>(title: String,
@@ -63,7 +63,7 @@ extension UIViewController {
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
             popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
         }
-        present(controller, animated: true)
+        presentInMainThread(controller, animated: true)
     }
 
 
@@ -91,6 +91,12 @@ extension UIViewController {
         }
 
         return controller
+    }
+
+    private func presentInMainThread(_ controller: UIViewController, animated: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.present(controller, animated: animated)
+        }
     }
 
 }

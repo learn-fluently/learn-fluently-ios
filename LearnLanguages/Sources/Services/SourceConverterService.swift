@@ -72,7 +72,7 @@ class SourceConverterService {
                         try self?.fileRepository.moveItem(at: destVideoUrl, to: url)
                         event(.success(sourceInfo))
                     } else {
-                        throw Errors.Download.convert("failed to convert")//TODO:
+                        throw Errors.Download.convert(.ERROR_CONVERT_SOURCE)
                     }
                 } catch {
                     event(.error(error))
@@ -95,7 +95,7 @@ class SourceConverterService {
             self.queue.async { [weak self] in
                 let subtitle = Subtitles(fileUrl: url)
                 guard let data = subtitle.encodeToData() else {
-                    event(.error(Errors.Download.convert("error on convert subtitle"))) //TODO:
+                    event(.error(Errors.Download.convert(.ERROR_CONVERT_SUBTITLES)))
                     return
                 }
                 do {

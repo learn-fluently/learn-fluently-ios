@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -56,7 +56,6 @@
 		ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */; };
 		ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */; };
 		ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60132210AE1A001267C8 /* WatchingViewController.swift */; };
-		ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60142210AE1A001267C8 /* PlayingConfig.swift */; };
 		ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60152210AE1A001267C8 /* WatchingViewController.xib */; };
 		ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */; };
 		ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */; };
@@ -124,7 +123,6 @@
 		ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Appearance.swift"; sourceTree = "<group>"; };
 		ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Levenshtein.swift"; sourceTree = "<group>"; };
 		ABFE60132210AE1A001267C8 /* WatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchingViewController.swift; sourceTree = "<group>"; };
-		ABFE60142210AE1A001267C8 /* PlayingConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingConfig.swift; sourceTree = "<group>"; };
 		ABFE60152210AE1A001267C8 /* WatchingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WatchingViewController.xib; sourceTree = "<group>"; };
 		ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakingViewController.swift; sourceTree = "<group>"; };
 		ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeakingViewController.xib; sourceTree = "<group>"; };
@@ -336,7 +334,6 @@
 			isa = PBXGroup;
 			children = (
 				ABFE60132210AE1A001267C8 /* WatchingViewController.swift */,
-				ABFE60142210AE1A001267C8 /* PlayingConfig.swift */,
 				ABFE60152210AE1A001267C8 /* WatchingViewController.xib */,
 			);
 			path = Watching;
@@ -528,27 +525,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/RLBAlertsPickers/RLBAlertsPickers.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
-				"${BUILT_PRODUCTS_DIR}/XCDYouTubeKit/XCDYouTubeKit.framework",
-				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RLBAlertsPickers.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCDYouTubeKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -570,7 +552,6 @@
 				ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */,
 				ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */,
 				AB2110542268F8D000ED521D /* RxDocumentPickerViewController.swift in Sources */,
-				ABFE601A2210AE1A001267C8 /* PlayingConfig.swift in Sources */,
 				ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */,
 				ABC09043226B2CFF002EB827 /* RxSourceWebBrowserViewController.swift in Sources */,
 				AB167DF0226A7491009A8C67 /* SourceConverterService.swift in Sources */,

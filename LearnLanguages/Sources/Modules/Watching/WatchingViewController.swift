@@ -23,8 +23,6 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Properties
 
-    let playingConfig = PlayingConfig()
-
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -32,6 +30,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Private properties
 
+    private let keepSubtitleAlways: Bool = true
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var paningStartPoint: CGPoint?
     private var playerController: PlayerViewController!
@@ -44,9 +43,6 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
             setTextViewSelectedTextRange()
         }
     }
-
-
-    // MARK: Outlets
 
     @IBOutlet private weak var textView: LLTextView!
     @IBOutlet private weak var playerContainerView: UIView!
@@ -245,7 +241,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
         let subtitleText = subtitleRepository?.getSubtitleForTime(currentValue)
-        if subtitleText == nil && playingConfig.keepSubtitleAlways == true {
+        if subtitleText == nil, keepSubtitleAlways == true {
             return
         }
         guard !UIMenuController.shared.isMenuVisible else {

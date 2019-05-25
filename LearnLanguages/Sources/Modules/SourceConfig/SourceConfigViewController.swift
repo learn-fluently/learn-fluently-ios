@@ -280,19 +280,21 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func present(_ error: Error) {
-        dismissProgressDialog {  [weak self] in
+        dismissProgressDialog { [weak self] in
             self?.presentOKMessage(title: .ERROR, message: error.localizedDescription)
         }
     }
 
     private func dismissProgressDialog(completion: (() -> Void)? = nil) {
-        if let progressViewController = progressViewController {
-            progressViewController.dismiss(animated: true) {
+        DispatchQueue.main.async { [weak self] in
+            if let progressViewController = self?.progressViewController {
+                progressViewController.dismiss(animated: true) {
+                    completion?()
+                    self?.progressViewController = nil
+                }
+            } else {
                 completion?()
-                self.progressViewController = nil
             }
-        } else {
-            completion?()
         }
     }
 
