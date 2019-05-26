@@ -6,7 +6,7 @@
       name = "New Group">
    </Group>
    <FileRef
-      location = "group:LearnLanguages.xcodeproj">
+      location = "group:LearnFluently.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

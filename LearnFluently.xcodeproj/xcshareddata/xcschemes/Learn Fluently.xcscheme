@@ -17,7 +17,7 @@
                BlueprintIdentifier = "AB522AAB21CF2951002421B8"
                BuildableName = "Learn Fluently.app"
                BlueprintName = "Learn Fluently"
-               ReferencedContainer = "container:LearnLanguages.xcodeproj">
+               ReferencedContainer = "container:LearnFluently.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
             BlueprintIdentifier = "AB522AAB21CF2951002421B8"
             BuildableName = "Learn Fluently.app"
             BlueprintName = "Learn Fluently"
-            ReferencedContainer = "container:LearnLanguages.xcodeproj">
+            ReferencedContainer = "container:LearnFluently.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
