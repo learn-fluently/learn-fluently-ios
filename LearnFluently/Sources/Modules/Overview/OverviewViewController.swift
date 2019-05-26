@@ -69,6 +69,10 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
         delegate?.onWritingButtonTouched()
     }
 
+    @IBAction private func answeringButtonTouched() {
+        showAlert(.ANSWERING_UNDER_CONSTRUCTION, error: false)
+    }
+
     @IBAction private func switchLanguageButtonTouched() {
         let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
                 .map {

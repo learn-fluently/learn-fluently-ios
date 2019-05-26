@@ -12,6 +12,7 @@ extension String {
 
     // swiftlint:disable identifier_name
     //start-of-generated-keys//
+    static let ANSWERING_UNDER_CONSTRUCTION = "ANSWERING_UNDER_CONSTRUCTION".localize()
     static let CANCEL = "CANCEL".localize()
     static let CHOOSE_ONE_OPTION = "CHOOSE_ONE_OPTION".localize()
     static let CONVERTING = "CONVERTING".localize()

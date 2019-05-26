@@ -21,6 +21,7 @@
 "SECTION_SPEAKING_DESC" = "Pronunciation Training\nSentences Structure";
 "SECTION_WRITING_TITLE" = "Writing";
 "SECTION_WRITING_DESC" = "Listening Training\nDictation Training";
+"ANSWERING_UNDER_CONSTRUCTION" = "this section in under construction";
 
 "SOURCE_OPTION_YOUTUBE" = "Youtube";
 "SOURCE_OPTION_DIRECT_LINK" = "Direct link";
