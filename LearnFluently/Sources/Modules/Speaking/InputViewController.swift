@@ -136,7 +136,7 @@ class InputViewController: BaseViewController {
         playerController.pause()
         let style = Style.subtitleTextStyle
         style.color = view.tintColor
-        hintLabel.attributedText = (currentSubtitle ?? "").set(style: style)
+        hintLabel.setText(currentSubtitle ?? "", style: style)
         hintLabel.isHidden = false
     }
 
@@ -186,7 +186,7 @@ class InputViewController: BaseViewController {
         }
         let style = Style.beCorrectPercentage(color: color)
         let beingCorrectPercentage = Int(beingCorrectRate * 100)
-        correctPercentageLabel.attributedText = (String(format: "%d", beingCorrectPercentage) + "%").set(style: style)
+        correctPercentageLabel.setText(.init(format: "%d", beingCorrectPercentage) + "%", style: style)
 
         // auto play
         if beingCorrectPercentage >= autoGoToTheNextWithPercentage {

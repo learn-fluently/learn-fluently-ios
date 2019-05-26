@@ -250,18 +250,18 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     private func configureViews() {
-        titleLabel.attributedText = viewModel.pageInfo.title.set(style: Style.pageTitleTextStyle)
-        subtitleLabel.attributedText = viewModel.pageInfo.description.set(style: Style.pageSubtitleTextStyle)
+        titleLabel.setText(viewModel.pageInfo.title, style: .pageTitleTextStyle)
+        subtitleLabel.setText(viewModel.pageInfo.description, style: .pageSubtitleTextStyle)
 
         viewModel.videoFileDescriptionObservable
-            .subscribe(onNext: { [weak self] value in
-                self?.videoFileDescriptionLabel.attributedText = value.set(style: Style.itemDescriptionTextStyle)
+            .subscribe(onNext: { [weak self] in
+                self?.videoFileDescriptionLabel.setText($0, style: .itemDescriptionTextStyle)
             })
             .disposed(by: disposeBag)
 
         viewModel.subtitleFileDescriptionObservable
-            .subscribe(onNext: { [weak self] value in
-                self?.subtitleFileDescriptionLabel.attributedText = value.set(style: Style.itemDescriptionTextStyle)
+            .subscribe(onNext: { [weak self] in
+                self?.subtitleFileDescriptionLabel.setText($0, style: .itemDescriptionTextStyle)
             })
             .disposed(by: disposeBag)
 

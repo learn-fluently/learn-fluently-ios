@@ -14,6 +14,7 @@ extension String {
     //start-of-generated-keys//
     static let ANSWERING_UNDER_CONSTRUCTION = "ANSWERING_UNDER_CONSTRUCTION".localize()
     static let CANCEL = "CANCEL".localize()
+    static let CHOOSE_A_LANGUAGE = "CHOOSE_A_LANGUAGE".localize()
     static let CHOOSE_ONE_OPTION = "CHOOSE_ONE_OPTION".localize()
     static let CONVERTING = "CONVERTING".localize()
     static let DOWNLOADER_CONNECTION_WAITING = "DOWNLOADER_CONNECTION_WAITING".localize()
@@ -39,6 +40,9 @@ extension String {
     static let MENU_ITEM_SPEECH = "MENU_ITEM_SPEECH".localize()
     static let MENU_ITEM_TRANSLATE = "MENU_ITEM_TRANSLATE".localize()
     static let OK = "OK".localize()
+    static let OVERVIEW_TITLE_PREFIX = "OVERVIEW_TITLE_PREFIX".localize()
+    static let SECTION_ANSWERING_DESC = "SECTION_ANSWERING_DESC".localize()
+    static let SECTION_ANSWERING_TITLE = "SECTION_ANSWERING_TITLE".localize()
     static let SECTION_SPEAKING_DESC = "SECTION_SPEAKING_DESC".localize()
     static let SECTION_SPEAKING_TITLE = "SECTION_SPEAKING_TITLE".localize()
     static let SECTION_WATCHING_DESC = "SECTION_WATCHING_DESC".localize()

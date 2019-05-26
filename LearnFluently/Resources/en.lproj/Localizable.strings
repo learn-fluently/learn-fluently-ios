@@ -15,12 +15,16 @@
 "MENU_ITEM_GOOGLE_SEARCH" = "Google";
 "MENU_ITEM_SPEECH" = "Speech";
 
+"CHOOSE_A_LANGUAGE" = "Choose a language";
+"OVERVIEW_TITLE_PREFIX" = "You are learning \n";
 "SECTION_WATCHING_TITLE" = "Watching/Listening";
 "SECTION_WATCHING_DESC" = "Check Translation\nLearn New Vocabulary";
 "SECTION_SPEAKING_TITLE" = "Speaking";
 "SECTION_SPEAKING_DESC" = "Pronunciation Training\nSentences Structure";
 "SECTION_WRITING_TITLE" = "Writing";
 "SECTION_WRITING_DESC" = "Listening Training\nDictation Training";
+"SECTION_ANSWERING_TITLE" = "Answering";
+"SECTION_ANSWERING_DESC" = "Making Sentences\nReal World Speaking";
 "ANSWERING_UNDER_CONSTRUCTION" = "this section in under construction";
 
 "SOURCE_OPTION_YOUTUBE" = "Youtube";

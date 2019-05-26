@@ -110,7 +110,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
         let text = inputTextView.text ?? ""
         let wrongWordStyle = Style.subtitleTextStyle
         wrongWordStyle.color = UIColor.red
-        let attributedText = text.set(style: Style.subtitleTextStyle)
+        let attributedText = AttributedString.makeMutable(string: text, style: .subtitleTextStyle)
         ranges.forEach {
             attributedText.set(style: wrongWordStyle, range: $0)
         }
@@ -158,7 +158,7 @@ extension WritingViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         let selectedRange = textView.selectedTextRange
-        textView.attributedText = textView.text.set(style: Style.subtitleTextStyle)
+        textView.setText(textView.text, style: .subtitleTextStyle)
         textView.selectedTextRange = selectedRange
     }
 

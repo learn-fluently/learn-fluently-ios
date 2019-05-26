@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Speech
+import SwiftRichString
 
 protocol OverviewViewControllerDelegate: AnyObject {
 
@@ -30,12 +31,20 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     }
 
     @IBOutlet private weak var learningLanguageTitle: UILabel!
+    @IBOutlet private weak var watchingTitleLabel: UILabel!
+    @IBOutlet private weak var watchingDescLabel: UILabel!
+    @IBOutlet private weak var speakingTitleLabel: UILabel!
+    @IBOutlet private weak var speakingDescLabel: UILabel!
+    @IBOutlet private weak var writingTitleLabel: UILabel!
+    @IBOutlet private weak var writingDescLabel: UILabel!
+    @IBOutlet private weak var answeringTitleLabel: UILabel!
+    @IBOutlet private weak var answeringDescLabel: UILabel!
+
+    private weak var delegate: OverviewViewControllerDelegate?
 
     private var locale: NSLocale {
         return (Locale.current as NSLocale)
     }
-
-    private weak var delegate: OverviewViewControllerDelegate?
 
 
     // MARK: Life cycle
@@ -52,6 +61,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadLearningLanguageTitle()
+        configureLabels()
     }
 
 
@@ -76,29 +86,42 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     @IBAction private func switchLanguageButtonTouched() {
         let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
                 .map {
-                .init(identifier: $0.identifier,
-                      title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
+                    .init(identifier: $0.identifier,
+                          title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
                 }
-            .sorted { actionA, actionB in
-                actionA.title < actionB.title
-            }
+                .sorted { actionA, actionB in
+                    actionA.title < actionB.title
+                }
 
-        presentActionSheet(title: "", message: "Choose a language", actions: actions) { [weak self] selected in
+        presentActionSheet(title: "", message: .CHOOSE_A_LANGUAGE, actions: actions) { [weak self] selected in
             if let languageCode = selected?.identifier {
                 UserDefaultsService.shared.learingLanguageCode = languageCode
                 self?.reloadLearningLanguageTitle()
             }
         }
-
     }
 
 
     // MARK: Private functions
 
+    private func configureLabels() {
+        watchingTitleLabel.setText(.SECTION_WATCHING_TITLE, style: .overviewSectionTitle)
+        watchingDescLabel.setText(.SECTION_WATCHING_DESC, style: .overviewSectionDescription)
+
+        speakingTitleLabel.setText(.SECTION_SPEAKING_TITLE, style: .overviewSectionTitle)
+        speakingDescLabel.setText(.SECTION_SPEAKING_DESC, style: .overviewSectionDescription)
+
+        writingTitleLabel.setText(.SECTION_WRITING_TITLE, style: .overviewSectionTitle)
+        writingDescLabel.setText(.SECTION_WRITING_DESC, style: .overviewSectionDescription)
+
+        answeringTitleLabel.setText(.SECTION_ANSWERING_TITLE, style: .overviewSectionTitle)
+        answeringDescLabel.setText(.SECTION_ANSWERING_DESC, style: .overviewSectionDescription)
+    }
+
     private func reloadLearningLanguageTitle() {
         let code = UserDefaultsService.shared.learingLanguageCode
         let name = (Locale.current as NSLocale).displayName(forKey: .identifier, value: code) ?? ""
-        learningLanguageTitle.text = "You are learning \n" + name
+        learningLanguageTitle.setText(.OVERVIEW_TITLE_PREFIX + name, style: .pageTitleTextStyle)
     }
 
 }

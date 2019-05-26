@@ -46,13 +46,15 @@
 		ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68209222ADA6F00AD5645 /* InputViewController.swift */; };
 		ABD73BAC21FBA2D8004B2FB9 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
 		ABD73BB121FBC3FF004B2FB9 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
+		ABE8407A229AC99700616763 /* AttributedText+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE84079229AC99600616763 /* AttributedText+Style.swift */; };
+		ABE8407C229ACCD600616763 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE8407B229ACCD600616763 /* UIKit+Appearance.swift */; };
 		ABF2F3262220AA0F0023698D /* WebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */; };
 		ABF2F3282220AA180023698D /* WebBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABF2F3272220AA180023698D /* WebBrowserViewController.xib */; };
 		ABF2F32A2220AE390023698D /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3292220AE390023698D /* String+Utilities.swift */; };
 		ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */; };
 		ABFE6008220F1AC2001267C8 /* SubtitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */; };
 		ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
-		ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */; };
+		ABFE600D220F9271001267C8 /* Style+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* Style+Appearance.swift */; };
 		ABFE600F220FBCCC001267C8 /* String+Levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */; };
 		ABFE60192210AE1A001267C8 /* WatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60132210AE1A001267C8 /* WatchingViewController.swift */; };
 		ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60152210AE1A001267C8 /* WatchingViewController.xib */; };
@@ -112,13 +114,15 @@
 		ABD68209222ADA6F00AD5645 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkCrossButton.swift; sourceTree = "<group>"; };
 		ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Utilities.swift"; sourceTree = "<group>"; };
+		ABE84079229AC99600616763 /* AttributedText+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedText+Style.swift"; sourceTree = "<group>"; };
+		ABE8407B229ACCD600616763 /* UIKit+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Appearance.swift"; sourceTree = "<group>"; };
 		ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserViewController.swift; sourceTree = "<group>"; };
 		ABF2F3272220AA180023698D /* WebBrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebBrowserViewController.xib; sourceTree = "<group>"; };
 		ABF2F3292220AE390023698D /* String+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utilities.swift"; sourceTree = "<group>"; };
 		ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertController.swift"; sourceTree = "<group>"; };
 		ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleRepository.swift; sourceTree = "<group>"; };
 		ABFE6009220F1D12001267C8 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Appearance.swift"; sourceTree = "<group>"; };
+		ABFE600C220F9271001267C8 /* Style+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style+Appearance.swift"; sourceTree = "<group>"; };
 		ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Levenshtein.swift"; sourceTree = "<group>"; };
 		ABFE60132210AE1A001267C8 /* WatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchingViewController.swift; sourceTree = "<group>"; };
 		ABFE60152210AE1A001267C8 /* WatchingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WatchingViewController.xib; sourceTree = "<group>"; };
@@ -264,7 +268,7 @@
 		ABD73BAF21FBC3E7004B2FB9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				ABFE600C220F9271001267C8 /* UIKit+Appearance.swift */,
+				ABFE600C220F9271001267C8 /* Style+Appearance.swift */,
 				ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */,
 				ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */,
 				ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */,
@@ -274,6 +278,8 @@
 				AB86CAB8225D21AB00C15B1B /* Coordinator.swift */,
 				AB2110532268F8D000ED521D /* RxDocumentPickerViewController.swift */,
 				AB21105522691A3A00ED521D /* Rx+Utilities.swift */,
+				ABE84079229AC99600616763 /* AttributedText+Style.swift */,
+				ABE8407B229ACCD600616763 /* UIKit+Appearance.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 				ABD6820A222ADA6F00AD5645 /* InputViewController.swift in Sources */,
 				ABFE601C2210AE1A001267C8 /* SpeakingViewController.swift in Sources */,
 				AB2110542268F8D000ED521D /* RxDocumentPickerViewController.swift in Sources */,
+				ABE8407C229ACCD600616763 /* UIKit+Appearance.swift in Sources */,
 				ABFE6004220F033F001267C8 /* UIViewController+AlertController.swift in Sources */,
 				ABC09043226B2CFF002EB827 /* RxSourceWebBrowserViewController.swift in Sources */,
 				AB167DF0226A7491009A8C67 /* SourceConverterService.swift in Sources */,
@@ -562,7 +569,7 @@
 				AB30C6B721D45B5200A2024D /* LLTextView.swift.swift in Sources */,
 				ABFE60202210B051001267C8 /* SourceConfigViewController.swift in Sources */,
 				AB86CAB9225D21AB00C15B1B /* Coordinator.swift in Sources */,
-				ABFE600D220F9271001267C8 /* UIKit+Appearance.swift in Sources */,
+				ABFE600D220F9271001267C8 /* Style+Appearance.swift in Sources */,
 				AB51F6B42244DE1000C40A7D /* LAVPlayerViewController.swift in Sources */,
 				ABAF5C0A22186B580079C5C7 /* FileDownloaderService.swift in Sources */,
 				AB522ADE21D03EB6002421B8 /* NibBasedViewController.swift in Sources */,
@@ -581,6 +588,7 @@
 				AB86CAB5225D1E0C00C15B1B /* SourceConfigViewModel.swift in Sources */,
 				AB2110522268E8C700ED521D /* DownloadUpdateEvent.swift in Sources */,
 				ABFE600A220F1D12001267C8 /* PlayerViewController.swift in Sources */,
+				ABE8407A229AC99700616763 /* AttributedText+Style.swift in Sources */,
 				ABAF5C33221954AD0079C5C7 /* Reachability.swift in Sources */,
 				AB167DEC226A55B9009A8C67 /* Youtube.swift in Sources */,
 				ABAF5C302218C9FD0079C5C7 /* String+Localizable.swift in Sources */,

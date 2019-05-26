@@ -247,15 +247,11 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         guard !UIMenuController.shared.isMenuVisible else {
             return
         }
-        setSubtitleText(subtitleText ?? "")
-    }
-
-    private func setSubtitleText(_ text: String) {
-        textView.attributedText = text.set(style: Style.selectableSubtitleTextStyle)
+        textView.setText(subtitleText ?? "", style: .selectableSubtitleTextStyle)
     }
 
     private func setTextViewSelectedTextRange() {
-        var attributedText = textView.text.set(style: Style.selectableSubtitleTextStyle)
+        var attributedText = AttributedString.makeMutable(string: textView.text, style: .selectableSubtitleTextStyle)
         if let selectedRange = textViewSelectedTextRange {
             textView.selectedRange = selectedRange
             attributedText = attributedText.set(style: Style.selectableSubtitleSelectedTextStyle,

@@ -157,7 +157,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
     }
 
     private func updateTextLabelView(_ text: String?) {
-        textLabelView.attributedText = (text ?? "").set(style: Style.subtitleTextStyle)
+        textLabelView.setText(text ?? "", style: .subtitleTextStyle)
     }
 
 }
