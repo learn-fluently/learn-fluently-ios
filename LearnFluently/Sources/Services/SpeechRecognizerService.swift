@@ -54,7 +54,7 @@ class SpeechRecognizerService: SFSpeechRecognizer {
     private var bestTranscriptionBehaviorRelay = BehaviorRelay<String?>(value: nil)
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     override init?(locale: Locale) {
         super.init(locale: locale)

@@ -17,7 +17,7 @@ class SourceConverterService {
     private let queue: DispatchQueue
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(fileRepository: FileRepository) {
         self.fileRepository = fileRepository

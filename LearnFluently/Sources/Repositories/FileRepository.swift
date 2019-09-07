@@ -34,7 +34,7 @@ class FileRepository {
     private let queue: DispatchQueue
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init() {
         // swiftlint:disable:next force_try

@@ -30,7 +30,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
 
 extension ObservableType {
 
-    public func compactMap<R>() -> RxSwift.Observable<R> {
+    func compactMap<R>() -> RxSwift.Observable<R> {
         //swiftlint:disable force_cast
         return filter { $0 is R }.map { $0 as! R }
     }

@@ -6,15 +6,13 @@
 //  Copyright © 2018 Amir Khorsandi. All rights reserved.
 //
 
-import AVFoundation
-import AVKit
-import SafariServices
 import SwiftRichString
 import RxSwift
 
 protocol WatchingViewControllerDelegate: AnyObject {
 
     func onCloseButtonTouched(watchingViewController: WatchingViewController)
+    func onOpenWebURLRequest(url: URL)
 
 }
 
@@ -30,12 +28,10 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     // MARK: Private properties
 
+    private let viewModel: WatchingViewModel
     private let keepSubtitleAlways: Bool = true
-    private let speechSynthesizer = AVSpeechSynthesizer()
     private var paningStartPoint: CGPoint?
     private var playerController: PlayerViewController!
-    private var subtitleRepository: SubtitleRepository!
-    private var fileRepository: FileRepository!
     private var disposeBag = DisposeBag()
     private weak var delegate: WatchingViewControllerDelegate?
     private var textViewSelectedTextRange: NSRange? = nil {
@@ -49,10 +45,11 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     @IBOutlet private weak var playPauseButton: UIButton!
 
 
-    // MARK: Life Cycle
+    // MARK: Lifecycle
 
-    init(delegate: WatchingViewControllerDelegate) {
+    init(viewModel: WatchingViewModel, delegate: WatchingViewControllerDelegate) {
         self.delegate = delegate
+        self.viewModel = viewModel
         super.init(nibName: type(of: self).nibName, bundle: nil)
     }
 
@@ -62,7 +59,6 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fileRepository = FileRepository()
         addPlayerViewController()
         subscribeToPlayerTime()
         configureTextView()
@@ -240,7 +236,7 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
     }
 
     private func adjustSubtitleByPlayerTime(currentValue: Double) {
-        let subtitleText = subtitleRepository?.getSubtitleForTime(currentValue)
+        let subtitleText = viewModel.getSubtitleForTime(currentValue)
         if subtitleText == nil, keepSubtitleAlways == true {
             return
         }
@@ -270,35 +266,15 @@ class WatchingViewController: BaseViewController, NibBasedViewController {
         }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
-        playerController.url = fileRepository.getPathURL(for: .videoFile)
+        playerController.url = viewModel.getSourcePathURL()
     }
 
     private func configureSubtitleRepositoryAndThenPlay() {
         view.isUserInteractionEnabled = false
-        configureSubtitleRepositoryAsync { [weak self] in
-            self?.view.isUserInteractionEnabled = true
-            self?.playerController.play()
-        }
-    }
-
-    private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {
-        let url = fileRepository.getPathURL(for: .subtitleFile)
-        Completable
-            .create { [weak self] event -> Disposable in
-                let queue = DispatchQueue(
-                    label: String(describing: WatchingViewController.self),
-                    qos: .background
-                )
-                queue.async {
-                    self?.subtitleRepository = SubtitleRepository(url: url)
-                    event(.completed)
-                }
-                return Disposables.create()
-            }
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onCompleted: {
-                completion()
+        viewModel.initSubtitleRepository()
+            .subscribe(onCompleted: { [weak self] in
+                self?.view.isUserInteractionEnabled = true
+                self?.playerController.play()
             })
             .disposed(by: disposeBag)
     }
@@ -332,33 +308,29 @@ extension WatchingViewController: LLTextViewMenuDelegate {
     // MARK: Functions
 
     func onTranslateMenuItemSelected(_ textView: UITextView) {
-        openWebView(url: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=" + urlEncode(getSelectedText()) )
+        openWebView(urlString: "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=" + (getSelectedText().urlEncoded ?? "") )
     }
 
     func onImageMenuItemSelected(_ textView: UITextView) {
-        openWebView(url: "https://www.google.com/search?tbm=isch&q=" + urlEncode(getSelectedText()) )
+        openWebView(urlString: "https://www.google.com/search?tbm=isch&q=" + (getSelectedText().urlEncoded ?? "") )
     }
 
     func onGoogleMenuItemSelected(_ textView: UITextView) {
-        openWebView(url: "https://www.google.com/search?q=" + urlEncode(getSelectedText()) )
+        openWebView(urlString: "https://www.google.com/search?q=" + (getSelectedText().urlEncoded ?? "") )
     }
 
     func onSpeechMenuItemSelected(_ textView: UITextView) {
-        let utterance = AVSpeechUtterance(string: getSelectedText())
-        utterance.voice = AVSpeechSynthesisVoice(language: UserDefaultsService.shared.learingLanguageCode)
-        speechSynthesizer.speak(utterance)
+        viewModel.speechText(getSelectedText())
         textViewSelectedTextRange = nil
     }
 
 
     // MARK: Private functions
 
-    private func urlEncode(_ originalString: String) -> String {
-        return originalString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-    }
-
-    private func openWebView(url: String) {
-        let webView = SFSafariViewController(url: URL(string: url)!)
-        present(webView, animated: true)
+    private func openWebView(urlString: String) {
+        guard let url = urlString.asURL else {
+            return
+        }
+        delegate?.onOpenWebURLRequest(url: url)
     }
 }

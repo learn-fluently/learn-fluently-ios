@@ -26,7 +26,7 @@ class RxImportDocumentPickerViewController: UIDocumentPickerViewController {
     private var presenterEvent: Single<URL>.SingleObserver?
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init() {
         super.init(documentTypes: allowedUTIs, in: .import)

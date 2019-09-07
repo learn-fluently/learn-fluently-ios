@@ -32,7 +32,7 @@ class SourceDownloaderService {
     private let progressMessageBehaviorRelay = BehaviorRelay<ProgressMessage?>( value: nil)
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(fileRepository: FileRepository) {
         self.fileRepository = fileRepository

@@ -8,8 +8,8 @@
 
 import Foundation
 import UIKit
-import Speech
 import SwiftRichString
+import RxSwift
 
 protocol OverviewViewControllerDelegate: AnyObject {
 
@@ -41,15 +41,14 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     @IBOutlet private weak var answeringDescLabel: UILabel!
 
     private weak var delegate: OverviewViewControllerDelegate?
-
-    private var locale: NSLocale {
-        return (Locale.current as NSLocale)
-    }
+    private let viewModel: OverviewViewModel
+    private let disposeBag = DisposeBag()
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
-    init(delegate: OverviewViewControllerDelegate) {
+    init(viewModel: OverviewViewModel, delegate: OverviewViewControllerDelegate) {
+        self.viewModel = viewModel
         self.delegate = delegate
         super.init(nibName: type(of: self).nibName, bundle: nil)
     }
@@ -60,7 +59,7 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadLearningLanguageTitle()
+        subscribeToLearingLanguageName()
         configureLabels()
     }
 
@@ -84,19 +83,9 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
     }
 
     @IBAction private func switchLanguageButtonTouched() {
-        let actions: [UIAlertAction.ActionData<String>] = SFSpeechRecognizer.supportedLocales()
-                .map {
-                    .init(identifier: $0.identifier,
-                          title: locale.displayName(forKey: .identifier, value: $0.identifier) ?? "")
-                }
-                .sorted { actionA, actionB in
-                    actionA.title < actionB.title
-                }
-
-        presentActionSheet(title: "", message: .CHOOSE_A_LANGUAGE, actions: actions) { [weak self] selected in
+        presentActionSheet(title: "", message: .CHOOSE_A_LANGUAGE, actions: viewModel.supportedLanguagesActions) { [weak self] selected in
             if let languageCode = selected?.identifier {
-                UserDefaultsService.shared.learingLanguageCode = languageCode
-                self?.reloadLearningLanguageTitle()
+                self?.viewModel.onLearningLanguageSelected(code: languageCode)
             }
         }
     }
@@ -118,10 +107,12 @@ class OverviewViewController: BaseViewController, NibBasedViewController {
         answeringDescLabel.setText(.SECTION_ANSWERING_DESC, style: .overviewSectionDescription)
     }
 
-    private func reloadLearningLanguageTitle() {
-        let code = UserDefaultsService.shared.learingLanguageCode
-        let name = (Locale.current as NSLocale).displayName(forKey: .identifier, value: code) ?? ""
-        learningLanguageTitle.setText(.OVERVIEW_TITLE_PREFIX + name, style: .pageTitleTextStyle)
+    private func subscribeToLearingLanguageName() {
+        viewModel.learingLanguageName
+            .subscribe(onNext: { [weak self] in
+                self?.learningLanguageTitle.setText(.OVERVIEW_TITLE_PREFIX + $0, style: .pageTitleTextStyle)
+            })
+            .disposed(by: disposeBag)
     }
 
 }

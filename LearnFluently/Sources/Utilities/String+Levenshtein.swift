@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
 
-    public func levenshtein(_ other: String) -> Int {
+    func levenshtein(_ other: String) -> Int {
         let sCount = self.count
         let oCount = other.count
 

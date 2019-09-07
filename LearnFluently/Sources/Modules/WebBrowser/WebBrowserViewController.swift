@@ -35,7 +35,7 @@ class WebBrowserViewController: BaseViewController, NibBasedViewController {
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(parentView: UIView) {
         self.parentView = parentView

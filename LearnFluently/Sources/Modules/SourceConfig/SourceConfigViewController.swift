@@ -46,7 +46,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     @IBOutlet private weak var subtitleFileDescriptionLabel: UILabel!
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not available")

@@ -27,7 +27,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var contentViewBottomConstraint: NSLayoutConstraint!
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(delegate: InputViewControllerDelegate) {
         super.init(nibName: type(of: self).nibName, bundle: nil)
@@ -46,7 +46,7 @@ class WritingViewController: InputViewController, NibBasedViewController {
         addKeyboardFrameNotificationObserver()
     }
 
-    override public func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         configureSubtitleRepositoryAndThenPlay()
         inputTextView.becomeFirstResponder()

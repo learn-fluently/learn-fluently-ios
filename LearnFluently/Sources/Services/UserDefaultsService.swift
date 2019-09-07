@@ -35,8 +35,12 @@ class UserDefaultsService {
         return getBehaviorRelayForKey(.videoSourceName)
     }
 
+    var learingLanguageCodeObservable: Observable<String> {
+        return getBehaviorRelayForKey(.learingLanguageCode).map({ $0 ?? self.learingLanguageCode })
+    }
+
     var learingLanguageCode: String {
-        set { set(key: .learingLanguageCode, value: newValue) }
+        set { getBehaviorRelayForKey(.learingLanguageCode).accept(newValue) }
         get { return get(key: .learingLanguageCode) ?? "en-US" }
     }
 
@@ -48,7 +52,8 @@ class UserDefaultsService {
     private var behaviorRelays: [Key: Any] = [:]
     private let disposeBag = DisposeBag()
 
-    // MARK: Life cycle
+
+    // MARK: Lifecycle
 
     init() {
         self.jsonEncoder = JSONEncoder()
