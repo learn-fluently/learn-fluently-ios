@@ -19,7 +19,7 @@ struct TitleDesc {
     static let empty = TitleDesc(title: "", description: "")
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(title: String = "", description: String = "") {
         self.title = title

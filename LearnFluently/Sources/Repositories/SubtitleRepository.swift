@@ -18,6 +18,24 @@ class SubtitleRepository {
         static let subtitleCloseThreshold: Double = 0.01
     }
 
+    // MARK: Static functions
+
+    static func initAsync(url: URL) -> Single<SubtitleRepository> {
+        return Single
+            .create { event -> Disposable in
+                let queue = DispatchQueue(
+                    label: String(describing: SubtitleRepository.self),
+                    qos: .background
+                )
+                queue.async {
+                    event(.success(SubtitleRepository(url: url)))
+                }
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+    }
+
 
     // MARK: Properties
 
@@ -28,7 +46,7 @@ class SubtitleRepository {
     private var lastSubtitleCloseEndTime: Double?
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(url: URL) {
         self.url = url

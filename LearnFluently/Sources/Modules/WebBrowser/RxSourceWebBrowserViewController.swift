@@ -18,7 +18,7 @@ class RxSourceWebBrowserViewController: WebBrowserViewController {
     private let viewController: UIViewController
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(viewController: UIViewController) {
         self.viewController = viewController

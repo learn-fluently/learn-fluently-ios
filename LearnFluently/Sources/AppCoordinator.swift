@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class AppCoordinator: Coordinator {
 
@@ -16,11 +17,14 @@ class AppCoordinator: Coordinator {
 
     let navigationController: UINavigationController
 
+    let fileRepository: FileRepository
 
-    // MARK: Life cycle
+
+    // MARK: Lifecycle
 
     init(window: UIWindow) {
         self.window = window
+        fileRepository = FileRepository()
         navigationController = UINavigationController()
         navigationController.isNavigationBarHidden = true
     }
@@ -37,7 +41,7 @@ class AppCoordinator: Coordinator {
     // MARK: Private functions
 
     private func instantiateInitialViewController() -> UIViewController {
-        let viewController = OverviewViewController(delegate: self)
+        let viewController = OverviewViewController(viewModel: OverviewViewModel(), delegate: self)
         navigationController.setViewControllers([viewController], animated: false)
         return navigationController
     }
@@ -50,7 +54,9 @@ class AppCoordinator: Coordinator {
     private func openActivityCorrespondingViewController(viewModel: SourceConfigViewModel) {
         let viewController: UIViewController
         switch viewModel.activityType {
-        case .watching: viewController = WatchingViewController(delegate: self)
+        case .watching:
+            let viewModel = WatchingViewModel(fileRepository: fileRepository)
+            viewController = WatchingViewController(viewModel: viewModel, delegate: self)
         case .speaking: viewController = SpeakingViewController(delegate: self)
         case .writing: viewController = WritingViewController(delegate: self)
         }
@@ -94,6 +100,11 @@ extension AppCoordinator: WatchingViewControllerDelegate {
 
     func onCloseButtonTouched(watchingViewController: WatchingViewController) {
         navigationController.popViewController(animated: true)
+    }
+
+    func onOpenWebURLRequest(url: URL) {
+        let webView = SFSafariViewController(url: url)
+        navigationController.present(webView, animated: true)
     }
 
 }

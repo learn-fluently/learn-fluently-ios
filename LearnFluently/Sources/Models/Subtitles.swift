@@ -24,7 +24,7 @@ struct Subtitles {
     private(set) var items: [SubtitleItem] = []
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(itemsFileUrl: URL) {
         guard let fileContent = try? Data(contentsOf: itemsFileUrl),

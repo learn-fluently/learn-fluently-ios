@@ -29,6 +29,10 @@ extension String {
         return URL(string: self)
     }
 
+    var urlEncoded: String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+    }
+
     func nsRange(from range: Range<Index>) -> NSRange {
         return NSRange(range, in: self)
     }

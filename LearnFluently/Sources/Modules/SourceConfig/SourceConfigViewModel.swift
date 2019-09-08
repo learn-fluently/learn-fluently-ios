@@ -64,7 +64,7 @@ class SourceConfigViewModel {
     private let disposeBag = DisposeBag()
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(activityType: ActivityType, pageInfo: TitleDesc) {
         self.activityType = activityType

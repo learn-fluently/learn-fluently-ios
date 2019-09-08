@@ -24,7 +24,7 @@ class FileDownloader: NSObject {
     private var currentTask: URLSessionDownloadTask?
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     override init() {
         super.init()

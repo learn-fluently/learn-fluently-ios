@@ -51,7 +51,7 @@ class LAVPlayerViewController: AVPlayerViewController, PlayerViewController {
     private var keyValueObservations: [NSKeyValueObservation] = []
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

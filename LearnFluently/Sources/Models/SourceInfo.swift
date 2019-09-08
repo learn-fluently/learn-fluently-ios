@@ -69,7 +69,7 @@ struct SourceInfo {
     }
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(type: Type) {
         self.type = type

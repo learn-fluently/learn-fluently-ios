@@ -29,7 +29,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
     @IBOutlet private weak var recordButton: UIButton!
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     init(delegate: InputViewControllerDelegate) {
         super.init(nibName: type(of: self).nibName, bundle: nil)
@@ -48,7 +48,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
         adjustResultViewIfNeeded()
     }
 
-    override public func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         speechRecognizer.requestAuthorization { [weak self] isAuthorized, errorDescription in
             self?.recordButton.isHidden = !isAuthorized

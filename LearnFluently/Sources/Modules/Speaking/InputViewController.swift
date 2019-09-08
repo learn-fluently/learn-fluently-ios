@@ -55,7 +55,7 @@ class InputViewController: BaseViewController {
     @IBOutlet private weak var replayButton: UIButton!
 
 
-    // MARK: Life cycle
+    // MARK: Lifecycle
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,11 +75,11 @@ class InputViewController: BaseViewController {
     // MARK: Input events
 
     internal func onInputAllowedChanged(isAllowed: Bool) {
-        fatalError("Should implemented in child classes")
+        fatalError("Should be implemented in child view controllers")
     }
 
     internal func onReadyToGetNewInput() {
-        fatalError("Should implemented in child classes")
+        fatalError("Should be implemented in child view controllers")
     }
 
     internal func inputWrongWordRanges(_ ranges: [NSRange]) {
