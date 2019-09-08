@@ -14,12 +14,12 @@ import SwiftRichString
 
 protocol InputViewControllerDelegate: AnyObject {
 
-    func onCloseButtonTouched(inputViewControllerDelegate: InputViewController)
+    func onCloseButtonTouched(inputViewControllerDelegate: BaseViewController)
 
 }
 
 
-class InputViewController: BaseViewController {
+class InputViewController<ViewModel: InputViewModel>: BaseViewController {
 
     // MARK: Properties
 
@@ -36,6 +36,8 @@ class InputViewController: BaseViewController {
 
     internal var disposeBag = DisposeBag()
 
+    internal let viewModel: ViewModel
+
     private(set) var autoGoToTheNextWithPercentage: Int = 90
 
     private(set) var autoGoToTheNextDelay: Double = 2
@@ -43,8 +45,6 @@ class InputViewController: BaseViewController {
     private(set) var isInputBusy: Bool = false
 
     private var playerController: PlayerViewController!
-    private var subtitleRepository: SubtitleRepository!
-    private var fileRepository: FileRepository!
     private var currentSubtitle: String?
 
     @IBOutlet private weak var hintLabel: UILabel!
@@ -57,9 +57,18 @@ class InputViewController: BaseViewController {
 
     // MARK: Lifecycle
 
+    init(viewModel: ViewModel, delegate: InputViewControllerDelegate, nibName: String) {
+        self.delegate = delegate
+        self.viewModel = viewModel
+        super.init(nibName: nibName, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not available")
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-        fileRepository = FileRepository()
 
         addPlayerViewController()
         subscribeToPlayerTime()
@@ -94,12 +103,12 @@ class InputViewController: BaseViewController {
     }
 
     @IBAction private func skipNextButtonTouched() {
-        let time = subtitleRepository.getStartOfNextSubtitle(currentTime: playerController.playerTime)
+        let time = viewModel.getStartOfNextSubtitle(currentTime: playerController.playerTime)
         seek(to: time)
     }
 
     @IBAction private func skipPrevButtonTouched() {
-        let time = subtitleRepository.getStartOfPrevSubtitle(currentTime: playerController.playerTime)
+        let time = viewModel.getStartOfPrevSubtitle(currentTime: playerController.playerTime)
         seek(to: time)
     }
 
@@ -127,9 +136,13 @@ class InputViewController: BaseViewController {
     }
 
     internal func configureSubtitleRepositoryAndThenPlay() {
-        configureSubtitleRepositoryAsync { [weak self] in
-            self?.playerController.play()
-        }
+        view.isUserInteractionEnabled = false
+        viewModel.initSubtitleRepository()
+            .subscribe(onCompleted: { [weak self] in
+                self?.view.isUserInteractionEnabled = true
+                self?.playerController.play()
+            })
+            .disposed(by: disposeBag)
     }
 
     internal func showHint() {
@@ -146,15 +159,18 @@ class InputViewController: BaseViewController {
 
     internal func replay() {
         guard !playerController.isPlaying,
-            let time = subtitleRepository.getStartOfCurrentSubtitle() else {
+            let time = viewModel.getStartOfCurrentSubtitle() else {
                 return
         }
-        subtitleRepository.cleanLastStop()
+        viewModel.cleanLastStop()
         playerController.seek(to: time)
         playerController.play()
     }
 
-    internal func seek(to time: Double) {
+    internal func seek(to time: Double?) {
+        guard let time = time else {
+            return
+        }
         playerController.seek(to: time)
         playerController.play()
     }
@@ -247,7 +263,7 @@ class InputViewController: BaseViewController {
     }
 
     private func adjustCurrentSubtitle(currentValue: Double) {
-        if let subtitle = subtitleRepository?.getSubtitleForTime(currentValue) {
+        if let subtitle = viewModel.getSubtitleForTime(currentValue) {
             self.currentSubtitle = subtitle
         }
     }
@@ -261,29 +277,13 @@ class InputViewController: BaseViewController {
         }
         playerContainerView.insertSubview(videoView, at: 0)
         playerController.didMove(toParent: self)
-        playerController.url = fileRepository.getPathURL(for: .videoFile)
+        playerController.url = viewModel.getSourcePathURL()
         self.playerController = playerController
-    }
-
-    private func configureSubtitleRepositoryAsync(completion: @escaping () -> Void) {
-        let url = fileRepository.getPathURL(for: .subtitleFile)
-        Completable
-            .create { [weak self] event -> Disposable in
-                self?.subtitleRepository = SubtitleRepository(url: url)
-                event(.completed)
-                return Disposables.create()
-            }
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onCompleted: {
-                completion()
-            })
-            .disposed(by: disposeBag)
     }
 
     private func pausePlayerAndStartRecordingIfNeeded(currentValue: Double) {
         if  playerController.isPlaying,
-            subtitleRepository.isTimeCloseToEndOfSubtitle(currentValue) {
+            viewModel.isTimeCloseToEndOfSubtitle(currentValue) {
             playerController.pause()
             onReadyToGetNewInput()
         }

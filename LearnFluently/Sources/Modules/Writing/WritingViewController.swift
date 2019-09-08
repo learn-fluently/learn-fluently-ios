@@ -13,7 +13,7 @@ import Speech
 import RxSwift
 import SwiftRichString
 
-class WritingViewController: InputViewController, NibBasedViewController {
+class WritingViewController: InputViewController<WritingViewModel>, NibBasedViewController {
 
     // MARK: Properties
 
@@ -29,9 +29,8 @@ class WritingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Lifecycle
 
-    init(delegate: InputViewControllerDelegate) {
-        super.init(nibName: type(of: self).nibName, bundle: nil)
-        self.delegate = delegate
+    init(viewModel: WritingViewModel, delegate: InputViewControllerDelegate) {
+        super.init(viewModel: viewModel, delegate: delegate, nibName: type(of: self).nibName)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -86,7 +85,10 @@ class WritingViewController: InputViewController, NibBasedViewController {
         cleanInputTextView()
     }
 
-    internal override func seek(to time: Double) {
+    internal override func seek(to time: Double?) {
+        guard let time = time else {
+            return
+        }
         super.seek(to: time)
         cleanInputTextView()
     }
