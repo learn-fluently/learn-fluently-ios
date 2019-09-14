@@ -37,11 +37,14 @@ class RxSourceWebBrowserViewController: WebBrowserViewController {
             self.presenterEvent = event
             self.sourceInfo = sourceInfo
             let alert = UIAlertController(style: .actionSheet)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            }
             self.delegate = self
             alert.set(vc: self)
             if let popoverController = alert.popoverPresentationController {
                 popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
                 popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
             }
             self.viewController.present(alert, animated: true, completion: nil)

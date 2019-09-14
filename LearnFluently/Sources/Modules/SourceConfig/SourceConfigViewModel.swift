@@ -36,12 +36,20 @@ class SourceConfigViewModel {
     let pageInfo: TitleDesc
     let activityType: ActivityType
 
+    #if TARGET_DEVELOPMENT
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
         .init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
         .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
         .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
     ]
+    #else
+    let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
+        .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
+        .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
+        .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
+    ]
+    #endif
 
     var videoFileDescriptionObservable: Observable<String> {
         return UserDefaultsService.shared.videoSourceName.map { $0 ?? .SOURCE_FILE_DESC }

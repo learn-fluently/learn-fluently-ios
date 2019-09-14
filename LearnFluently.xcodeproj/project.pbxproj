@@ -7,6 +7,66 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2936F8A0232D3ADC00D934E6 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
+		2936F8A1232D3ADC00D934E6 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09959F21F9092C00867890 /* OverviewViewController.swift */; };
+		2936F8A2232D3ADC00D934E6 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB87CD212297348500237825 /* ActivityType.swift */; };
+		2936F8A3232D3ADC00D934E6 /* Rx+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21105522691A3A00ED521D /* Rx+Utilities.swift */; };
+		2936F8A4232D3ADC00D934E6 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60242210D751001267C8 /* FileRepository.swift */; };
+		2936F8A5232D3ADC00D934E6 /* OverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2947E0712324518C00E3C278 /* OverviewViewModel.swift */; };
+		2936F8A6232D3ADC00D934E6 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68209222ADA6F00AD5645 /* InputViewController.swift */; };
+		2936F8A7232D3ADC00D934E6 /* SpeakingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60172210AE1A001267C8 /* SpeakingViewController.swift */; };
+		2936F8A8232D3ADC00D934E6 /* RxDocumentPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2110532268F8D000ED521D /* RxDocumentPickerViewController.swift */; };
+		2936F8A9232D3ADC00D934E6 /* UIKit+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE8407B229ACCD600616763 /* UIKit+Appearance.swift */; };
+		2936F8AA232D3ADC00D934E6 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6003220F033F001267C8 /* UIViewController+AlertController.swift */; };
+		2936F8AB232D3ADC00D934E6 /* RxSourceWebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC09042226B2CFF002EB827 /* RxSourceWebBrowserViewController.swift */; };
+		2936F8AC232D3ADC00D934E6 /* SourceConverterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB167DEF226A7491009A8C67 /* SourceConverterService.swift */; };
+		2936F8AD232D3ADC00D934E6 /* WatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE60132210AE1A001267C8 /* WatchingViewController.swift */; };
+		2936F8AE232D3ADC00D934E6 /* TitleDesc.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC09044226B367E002EB827 /* TitleDesc.swift */; };
+		2936F8AF232D3ADC00D934E6 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD68205222AA8EB00AD5645 /* WritingViewController.swift */; };
+		2936F8B0232D3ADC00D934E6 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFED1A12221CA3000F23313 /* UserDefaultsService.swift */; };
+		2936F8B1232D3ADC00D934E6 /* SourceInfo.MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21104F2267ADA200ED521D /* SourceInfo.MimeType.swift */; };
+		2936F8B2232D3ADC00D934E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
+		2936F8B3232D3ADC00D934E6 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
+		2936F8B4232D3ADC00D934E6 /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
+		2936F8B5232D3ADC00D934E6 /* SourceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */; };
+		2936F8B6232D3ADC00D934E6 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB8225D21AB00C15B1B /* Coordinator.swift */; };
+		2936F8B7232D3ADC00D934E6 /* Style+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* Style+Appearance.swift */; };
+		2936F8B8232D3ADC00D934E6 /* LAVPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */; };
+		2936F8B9232D3ADC00D934E6 /* FileDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C0922186B580079C5C7 /* FileDownloaderService.swift */; };
+		2936F8BA232D3ADC00D934E6 /* NibBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522ADD21D03EB6002421B8 /* NibBasedViewController.swift */; };
+		2936F8BB232D3ADC00D934E6 /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3292220AE390023698D /* String+Utilities.swift */; };
+		2936F8BC232D3ADC00D934E6 /* WebBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2F3252220AA0F0023698D /* WebBrowserViewController.swift */; };
+		2936F8BD232D3ADC00D934E6 /* SourceDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5FB75F22613CB50081B273 /* SourceDownloaderService.swift */; };
+		2936F8BE232D3ADC00D934E6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AD221D03DC9002421B8 /* BaseViewController.swift */; };
+		2936F8BF232D3ADC00D934E6 /* SpeechRecognizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C072218555E0079C5C7 /* SpeechRecognizerService.swift */; };
+		2936F8C0232D3ADC00D934E6 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */; };
+		2936F8C1232D3ADC00D934E6 /* YoutubeSourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFED1A32222A34500F23313 /* YoutubeSourceService.swift */; };
+		2936F8C2232D3ADC00D934E6 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AE821D311D4002421B8 /* Subtitles.swift */; };
+		2936F8C3232D3ADC00D934E6 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BB021FBC3FF004B2FB9 /* AVPlayer+Utilities.swift */; };
+		2936F8C4232D3ADC00D934E6 /* SubtitleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6007220F1AC2001267C8 /* SubtitleRepository.swift */; };
+		2936F8C5232D3ADC00D934E6 /* String+Levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600E220FBCCC001267C8 /* String+Levenshtein.swift */; };
+		2936F8C6232D3ADC00D934E6 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAC2412224923BF001A226E /* Errors.swift */; };
+		2936F8C7232D3ADC00D934E6 /* SourceConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB4225D1E0C00C15B1B /* SourceConfigViewModel.swift */; };
+		2936F8C8232D3ADC00D934E6 /* DownloadUpdateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2110512268E8C700ED521D /* DownloadUpdateEvent.swift */; };
+		2936F8C9232D3ADC00D934E6 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE6009220F1D12001267C8 /* PlayerViewController.swift */; };
+		2936F8CA232D3ADC00D934E6 /* AttributedText+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE84079229AC99600616763 /* AttributedText+Style.swift */; };
+		2936F8CB232D3ADC00D934E6 /* WatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2947E06A23238CBA00E3C278 /* WatchingViewModel.swift */; };
+		2936F8CC232D3ADC00D934E6 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C32221954AD0079C5C7 /* Reachability.swift */; };
+		2936F8CD232D3ADC00D934E6 /* Youtube.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB167DEB226A55B9009A8C67 /* Youtube.swift */; };
+		2936F8CE232D3ADC00D934E6 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAF5C2F2218C9FD0079C5C7 /* String+Localizable.swift */; };
+		2936F8CF232D3ADC00D934E6 /* SourceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21104D2267AD5600ED521D /* SourceInfo.swift */; };
+		2936F8D1232D3ADC00D934E6 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB30C6B821D4619100A2024D /* SafariServices.framework */; };
+		2936F8D2232D3ADC00D934E6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB522AE121D304DC002421B8 /* AVFoundation.framework */; };
+		2936F8D3232D3ADC00D934E6 /* Pods_Learn_Fluently.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52873E87B896DF22BA93D002 /* Pods_Learn_Fluently.framework */; };
+		2936F8D5232D3ADC00D934E6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABAF5C0F22189BE40079C5C7 /* Localizable.strings */; };
+		2936F8D6232D3ADC00D934E6 /* SpeakingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60182210AE1A001267C8 /* SpeakingViewController.xib */; };
+		2936F8D7232D3ADC00D934E6 /* WritingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABD68207222AA90100AD5645 /* WritingViewController.xib */; };
+		2936F8D8232D3ADC00D934E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC321D03612002421B8 /* Assets.xcassets */; };
+		2936F8D9232D3ADC00D934E6 /* WatchingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60152210AE1A001267C8 /* WatchingViewController.xib */; };
+		2936F8DA232D3ADC00D934E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB522AC221D03612002421B8 /* LaunchScreen.storyboard */; };
+		2936F8DB232D3ADC00D934E6 /* OverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0995A121F9094000867890 /* OverviewViewController.xib */; };
+		2936F8DC232D3ADC00D934E6 /* WebBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABF2F3272220AA180023698D /* WebBrowserViewController.xib */; };
+		2936F8DD232D3ADC00D934E6 /* SourceConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFE60212210B05E001267C8 /* SourceConfigViewController.xib */; };
 		2947E06B23238CBA00E3C278 /* WatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2947E06A23238CBA00E3C278 /* WatchingViewModel.swift */; };
 		2947E0722324518C00E3C278 /* OverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2947E0712324518C00E3C278 /* OverviewViewModel.swift */; };
 		398148EE6406A128B0916521 /* Pods_Learn_Fluently.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52873E87B896DF22BA93D002 /* Pods_Learn_Fluently.framework */; };
@@ -72,6 +132,7 @@
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnFluently.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnFluently.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnFluently/Pods-LearnFluently.debug.xcconfig"; sourceTree = "<group>"; };
 		186A1633DDFDA532D084D5D6 /* Pods-Learn Fluently.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learn Fluently.release.xcconfig"; path = "Pods/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently.release.xcconfig"; sourceTree = "<group>"; };
+		2936F8E2232D3ADC00D934E6 /* LF Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LF Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2947E06A23238CBA00E3C278 /* WatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingViewModel.swift; sourceTree = "<group>"; };
 		2947E0712324518C00E3C278 /* OverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewModel.swift; sourceTree = "<group>"; };
 		2C7F02D4471517114228B8B9 /* Pods-Learn Fluently.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learn Fluently.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently.debug.xcconfig"; sourceTree = "<group>"; };
@@ -88,7 +149,7 @@
 		AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLTextView.swift.swift; sourceTree = "<group>"; };
 		AB30C6B821D4619100A2024D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		AB51F6AA2244BA9B00C40A7D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		AB51F6AF2244BD8F00C40A7D /* LearnFluently-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LearnFluently-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		AB51F6AF2244BD8F00C40A7D /* LearnFluently-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LearnFluently-Bridging-Header.h"; path = "LearnFluently/Sources/LearnFluently-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		AB51F6B32244DE1000C40A7D /* LAVPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAVPlayerViewController.swift; sourceTree = "<group>"; };
 		AB522AAC21CF2951002421B8 /* Learn Fluently.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Learn Fluently.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB522ABB21CF2953002421B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -142,6 +203,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2936F8D0232D3ADC00D934E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2936F8D1232D3ADC00D934E6 /* SafariServices.framework in Frameworks */,
+				2936F8D2232D3ADC00D934E6 /* AVFoundation.framework in Frameworks */,
+				2936F8D3232D3ADC00D934E6 /* Pods_Learn_Fluently.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB522AA921CF2951002421B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -188,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				AB522AAC21CF2951002421B8 /* Learn Fluently.app */,
+				2936F8E2232D3ADC00D934E6 /* LF Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,7 +267,6 @@
 		AB522AAE21CF2951002421B8 /* LearnFluently */ = {
 			isa = PBXGroup;
 			children = (
-				AB51F6AF2244BD8F00C40A7D /* LearnFluently-Bridging-Header.h */,
 				ABFE60232210CC68001267C8 /* LearnFluently.entitlements */,
 				AB522ABB21CF2953002421B8 /* Info.plist */,
 				AB522AC121D03612002421B8 /* Resources */,
@@ -217,6 +288,7 @@
 		AB522AC421D03612002421B8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				AB51F6AF2244BD8F00C40A7D /* LearnFluently-Bridging-Header.h */,
 				AB86CAB6225D1EBE00C15B1B /* AppCoordinator.swift */,
 				AB522AC621D03612002421B8 /* AppDelegate.swift */,
 				ABAF5C062218554B0079C5C7 /* Services */,
@@ -393,6 +465,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2936F89B232D3ADC00D934E6 /* LF Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2936F8DF232D3ADC00D934E6 /* Build configuration list for PBXNativeTarget "LF Dev" */;
+			buildPhases = (
+				2936F89C232D3ADC00D934E6 /* [CP] Check Pods Manifest.lock */,
+				2936F89D232D3ADC00D934E6 /* String+Localizable */,
+				2936F89E232D3ADC00D934E6 /* SwiftLint */,
+				2936F89F232D3ADC00D934E6 /* Sources */,
+				2936F8D0232D3ADC00D934E6 /* Frameworks */,
+				2936F8D4232D3ADC00D934E6 /* Resources */,
+				2936F8DE232D3ADC00D934E6 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LF Dev";
+			productName = LearnFluently;
+			productReference = 2936F8E2232D3ADC00D934E6 /* LF Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 		AB522AAB21CF2951002421B8 /* Learn Fluently */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB522ABE21CF2953002421B8 /* Build configuration list for PBXNativeTarget "Learn Fluently" */;
@@ -448,12 +541,29 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				2936F89B232D3ADC00D934E6 /* LF Dev */,
 				AB522AAB21CF2951002421B8 /* Learn Fluently */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2936F8D4232D3ADC00D934E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2936F8D5232D3ADC00D934E6 /* Localizable.strings in Resources */,
+				2936F8D6232D3ADC00D934E6 /* SpeakingViewController.xib in Resources */,
+				2936F8D7232D3ADC00D934E6 /* WritingViewController.xib in Resources */,
+				2936F8D8232D3ADC00D934E6 /* Assets.xcassets in Resources */,
+				2936F8D9232D3ADC00D934E6 /* WatchingViewController.xib in Resources */,
+				2936F8DA232D3ADC00D934E6 /* LaunchScreen.storyboard in Resources */,
+				2936F8DB232D3ADC00D934E6 /* OverviewViewController.xib in Resources */,
+				2936F8DC232D3ADC00D934E6 /* WebBrowserViewController.xib in Resources */,
+				2936F8DD232D3ADC00D934E6 /* SourceConfigViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB522AAA21CF2951002421B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,6 +583,79 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2936F89C232D3ADC00D934E6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Learn Fluently-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2936F89D232D3ADC00D934E6 /* String+Localizable */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/LearnFluently/Resources/en.lproj/Localizable.strings",
+			);
+			name = "String+Localizable";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/LearnFluently/Sources/Utilities/String+Localizable.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/LocalizableTools\" \"${SCRIPT_INPUT_FILE_0}\" \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+		2936F89E232D3ADC00D934E6 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}\"/SwiftLint/swiftlint autocorrect --config \"${SRCROOT}/.swiftlint_autocorrect.yml\";\n\"${PODS_ROOT}\"/SwiftLint/swiftlint --config \"${SRCROOT}/.swiftlint.yml\";\n";
+		};
+		2936F8DE232D3ADC00D934E6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4BE4939F973922A6579222E2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -549,6 +732,61 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2936F89F232D3ADC00D934E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2936F8A0232D3ADC00D934E6 /* SubtitleItem.swift in Sources */,
+				2936F8A1232D3ADC00D934E6 /* OverviewViewController.swift in Sources */,
+				2936F8A2232D3ADC00D934E6 /* ActivityType.swift in Sources */,
+				2936F8A3232D3ADC00D934E6 /* Rx+Utilities.swift in Sources */,
+				2936F8A4232D3ADC00D934E6 /* FileRepository.swift in Sources */,
+				2936F8A5232D3ADC00D934E6 /* OverviewViewModel.swift in Sources */,
+				2936F8A6232D3ADC00D934E6 /* InputViewController.swift in Sources */,
+				2936F8A7232D3ADC00D934E6 /* SpeakingViewController.swift in Sources */,
+				2936F8A8232D3ADC00D934E6 /* RxDocumentPickerViewController.swift in Sources */,
+				2936F8A9232D3ADC00D934E6 /* UIKit+Appearance.swift in Sources */,
+				2936F8AA232D3ADC00D934E6 /* UIViewController+AlertController.swift in Sources */,
+				2936F8AB232D3ADC00D934E6 /* RxSourceWebBrowserViewController.swift in Sources */,
+				2936F8AC232D3ADC00D934E6 /* SourceConverterService.swift in Sources */,
+				2936F8AD232D3ADC00D934E6 /* WatchingViewController.swift in Sources */,
+				2936F8AE232D3ADC00D934E6 /* TitleDesc.swift in Sources */,
+				2936F8AF232D3ADC00D934E6 /* WritingViewController.swift in Sources */,
+				2936F8B0232D3ADC00D934E6 /* UserDefaultsService.swift in Sources */,
+				2936F8B1232D3ADC00D934E6 /* SourceInfo.MimeType.swift in Sources */,
+				2936F8B2232D3ADC00D934E6 /* AppDelegate.swift in Sources */,
+				2936F8B3232D3ADC00D934E6 /* DarkCrossButton.swift in Sources */,
+				2936F8B4232D3ADC00D934E6 /* LLTextView.swift.swift in Sources */,
+				2936F8B5232D3ADC00D934E6 /* SourceConfigViewController.swift in Sources */,
+				2936F8B6232D3ADC00D934E6 /* Coordinator.swift in Sources */,
+				2936F8B7232D3ADC00D934E6 /* Style+Appearance.swift in Sources */,
+				2936F8B8232D3ADC00D934E6 /* LAVPlayerViewController.swift in Sources */,
+				2936F8B9232D3ADC00D934E6 /* FileDownloaderService.swift in Sources */,
+				2936F8BA232D3ADC00D934E6 /* NibBasedViewController.swift in Sources */,
+				2936F8BB232D3ADC00D934E6 /* String+Utilities.swift in Sources */,
+				2936F8BC232D3ADC00D934E6 /* WebBrowserViewController.swift in Sources */,
+				2936F8BD232D3ADC00D934E6 /* SourceDownloaderService.swift in Sources */,
+				2936F8BE232D3ADC00D934E6 /* BaseViewController.swift in Sources */,
+				2936F8BF232D3ADC00D934E6 /* SpeechRecognizerService.swift in Sources */,
+				2936F8C0232D3ADC00D934E6 /* AppCoordinator.swift in Sources */,
+				2936F8C1232D3ADC00D934E6 /* YoutubeSourceService.swift in Sources */,
+				2936F8C2232D3ADC00D934E6 /* Subtitles.swift in Sources */,
+				2936F8C3232D3ADC00D934E6 /* AVPlayer+Utilities.swift in Sources */,
+				2936F8C4232D3ADC00D934E6 /* SubtitleRepository.swift in Sources */,
+				2936F8C5232D3ADC00D934E6 /* String+Levenshtein.swift in Sources */,
+				2936F8C6232D3ADC00D934E6 /* Errors.swift in Sources */,
+				2936F8C7232D3ADC00D934E6 /* SourceConfigViewModel.swift in Sources */,
+				2936F8C8232D3ADC00D934E6 /* DownloadUpdateEvent.swift in Sources */,
+				2936F8C9232D3ADC00D934E6 /* PlayerViewController.swift in Sources */,
+				2936F8CA232D3ADC00D934E6 /* AttributedText+Style.swift in Sources */,
+				2936F8CB232D3ADC00D934E6 /* WatchingViewModel.swift in Sources */,
+				2936F8CC232D3ADC00D934E6 /* Reachability.swift in Sources */,
+				2936F8CD232D3ADC00D934E6 /* Youtube.swift in Sources */,
+				2936F8CE232D3ADC00D934E6 /* String+Localizable.swift in Sources */,
+				2936F8CF232D3ADC00D934E6 /* SourceInfo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB522AA821CF2951002421B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -618,6 +856,210 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2936F8E0232D3ADC00D934E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C7F02D4471517114228B8B9 /* Pods-Learn Fluently.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnFluently/LearnFluently.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = LearnFluently/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RLBAlertsPickers/RLBAlertsPickers.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa/RxCocoa.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxRelay/RxRelay.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxSwift/RxSwift.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SWXMLHash/SWXMLHash.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftRichString/SwiftRichString.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/XCDYouTubeKit/XCDYouTubeKit.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZIPFoundation/ZIPFoundation.framework/Headers\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RLBAlertsPickers\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxRelay\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RxSwift\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SWXMLHash\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftRichString\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/XCDYouTubeKit\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZIPFoundation\"",
+					"-iframework",
+					"\"${PODS_ROOT}/mobile-ffmpeg-min\"",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"bz2\"",
+					"-l\"c++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"RLBAlertsPickers\"",
+					"-framework",
+					"\"RxCocoa\"",
+					"-framework",
+					"\"RxRelay\"",
+					"-framework",
+					"\"RxSwift\"",
+					"-framework",
+					"\"SWXMLHash\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SwiftRichString\"",
+					"-framework",
+					"\"VideoToolbox\"",
+					"-framework",
+					"\"XCDYouTubeKit\"",
+					"-framework",
+					"\"ZIPFoundation\"",
+					"-framework",
+					"\"libavcodec\"",
+					"-framework",
+					"\"libavdevice\"",
+					"-framework",
+					"\"libavfilter\"",
+					"-framework",
+					"\"libavformat\"",
+					"-framework",
+					"\"libavutil\"",
+					"-framework",
+					"\"libswresample\"",
+					"-framework",
+					"\"libswscale\"",
+					"-framework",
+					"\"mobileffmpeg\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.learnfluently.dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "learn Fluently Dev";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "TARGET_DEVELOPMENT $(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently/Sources/LearnFluently-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2936F8E1232D3ADC00D934E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 186A1633DDFDA532D084D5D6 /* Pods-Learn Fluently.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LearnFluently/LearnFluently.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4J5W7CJ2ZV;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = LearnFluently/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"bz2\"",
+					"-l\"c++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"RLBAlertsPickers\"",
+					"-framework",
+					"\"RxCocoa\"",
+					"-framework",
+					"\"RxRelay\"",
+					"-framework",
+					"\"RxSwift\"",
+					"-framework",
+					"\"SWXMLHash\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SwiftRichString\"",
+					"-framework",
+					"\"VideoToolbox\"",
+					"-framework",
+					"\"XCDYouTubeKit\"",
+					"-framework",
+					"\"ZIPFoundation\"",
+					"-framework",
+					"\"libavcodec\"",
+					"-framework",
+					"\"libavdevice\"",
+					"-framework",
+					"\"libavfilter\"",
+					"-framework",
+					"\"libavformat\"",
+					"-framework",
+					"\"libavutil\"",
+					"-framework",
+					"\"libswresample\"",
+					"-framework",
+					"\"libswscale\"",
+					"-framework",
+					"\"mobileffmpeg\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.learnfluently.dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Learn Fluently App Store";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) TARGET_DEVELOPMENT";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently/Sources/LearnFluently-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		AB522ABC21CF2953002421B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -849,7 +1291,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.learnfluently.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "learn Fluently Dev";
-				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently/Sources/LearnFluently-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -930,7 +1372,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.learnfluently.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Learn Fluently App Store";
-				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "LearnFluently/Sources/LearnFluently-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -939,6 +1381,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2936F8DF232D3ADC00D934E6 /* Build configuration list for PBXNativeTarget "LF Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2936F8E0232D3ADC00D934E6 /* Debug */,
+				2936F8E1232D3ADC00D934E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AB522AA721CF2951002421B8 /* Build configuration list for PBXProject "LearnFluently" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
