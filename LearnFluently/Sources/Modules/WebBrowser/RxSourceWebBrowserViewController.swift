@@ -38,7 +38,7 @@ class RxSourceWebBrowserViewController: WebBrowserViewController {
             self.sourceInfo = sourceInfo
             let alert = UIAlertController(style: .actionSheet)
             if UIDevice.current.userInterfaceIdiom == .pad {
-                self.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.2)
             }
             self.delegate = self
             alert.set(vc: self)
