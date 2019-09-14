@@ -39,11 +39,11 @@ class SourceConfigViewModel {
     #if TARGET_DEVELOPMENT
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
-        // Apple doesn't allow apps to download videos from youtube.
-        //.init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
+        .init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
         .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
         .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
     ]
+    // Apple doesn't allow apps to download videos from youtube.
     #else
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
