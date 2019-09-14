@@ -12,18 +12,19 @@ import AVFoundation
 import AVKit
 import Speech
 import RxSwift
+import RxCocoa
 import SwiftRichString
 
-class SpeakingViewController: InputViewController, NibBasedViewController {
+class SpeakingViewController: InputViewController<SpeakingViewModel>, NibBasedViewController {
 
     // MARK: Properties
 
-    private let speechRecognizer = SpeechRecognizerService(locale: Locale(identifier: UserDefaultsService.shared.learingLanguageCode))!
-    private var autoStartRecordingForNext = true
-
     override var isInputBusy: Bool {
-        return speechRecognizer.isRecording
+        return viewModel.isRecording
     }
+
+    private var autoStartRecordingForNext = true
+    private var isInputAllowed = false
 
     @IBOutlet private weak var textLabelView: UILabel!
     @IBOutlet private weak var recordButton: UIButton!
@@ -31,9 +32,8 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Lifecycle
 
-    init(delegate: InputViewControllerDelegate) {
-        super.init(nibName: type(of: self).nibName, bundle: nil)
-        self.delegate = delegate
+    init(viewModel: SpeakingViewModel, delegate: InputViewControllerDelegate) {
+        super.init(viewModel: viewModel, delegate: delegate, nibName: type(of: self).nibName)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -42,30 +42,38 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureSpeechRecognizerService()
-        configureRecordButton()
-        adjustResultViewIfNeeded()
+        viewModel.configureSpeechRecognizerService { [weak self] error in
+            self?.showAlert(error)
+        }
+        subsribeToDescTextObservables()
+        subsribeToisRecordingObservable()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        speechRecognizer.requestAuthorization { [weak self] isAuthorized, errorDescription in
-            self?.recordButton.isHidden = !isAuthorized
-            if let error = errorDescription {
-                self?.showAlert(error)
-            }
-            if isAuthorized {
-                self?.configureSubtitleRepositoryAndThenPlay()
-            }
-        }
+        viewModel.requestAuthorization()
+            .subscribe(
+                onSuccess: { [weak self] isAuthorized in
+                    self?.recordButton.isHidden = !isAuthorized
+                    if isAuthorized {
+                        self?.configureSubtitleRepositoryAndThenPlay()
+                    }
+                },
+                onError: { [weak self] error in
+                    self?.showAlert(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 
 
     // MARK: - Event handlers
 
     @IBAction private func recordButtonTouched() {
-        if speechRecognizer.isRecording {
+        if !isInputAllowed {
+            return
+        }
+        if viewModel.isRecording {
             stopRecording()
         } else {
             startRecordingIfPossible()
@@ -97,7 +105,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
         stopRecordingIfNeeded(shouldKeepResult: false)
     }
 
-    internal override func seek(to time: Double) {
+    internal override func seek(to time: Double?) {
         super.seek(to: time)
         stopRecordingIfNeeded(shouldKeepResult: false)
     }
@@ -111,7 +119,7 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
     }
 
     internal override func onInputAllowedChanged(isAllowed: Bool) {
-        recordButton.isEnabled = isAllowed
+        isInputAllowed = isAllowed
         if !isAllowed {
             textLabelView.text = ""
         }
@@ -120,71 +128,46 @@ class SpeakingViewController: InputViewController, NibBasedViewController {
 
     // MARK: Private functions
 
-    private func configureRecordButton() {
-        // Disable the record buttons until authorization has been granted.
-        recordButton.isEnabled = false
+    private func subsribeToDescTextObservables() {
+        viewModel.descriptionTextObservable
+            .subscribe(onNext: { [weak self] text in
+                self?.textLabelView.setText(text, style: .subtitleTextStyle)
+            })
+            .disposed(by: disposeBag)
     }
 
-    private func configureSpeechRecognizerService() {
-        speechRecognizer.delegate = self
-        speechRecognizer.recordingDelegate = self
-        speechRecognizer.bestTranscriptionObservable
-            .subscribe(onNext: { [weak self] value in
-                self?.updateTextLabelView(value)
+    private func subsribeToisRecordingObservable() {
+        viewModel.isRecordingObservable
+            .subscribe(onNext: { [weak self] isRecording in
+                guard let self = self else {
+                    return
+                }
+                self.adjustResultViewIfNeeded(input: self.viewModel.bestTranscription)
+                self.showsPlaybackControls = !isRecording
+                self.recordButton.setImage(isRecording ? #imageLiteral(resourceName: "Recording") : #imageLiteral(resourceName: "Record"), for: .normal)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
     }
 
     private func startRecordingIfPossible() {
-        guard recordButton.isEnabled else {
+        guard viewModel.isRecordingPossible else {
             return
         }
         do {
-            try speechRecognizer.startRecognition()
+            try viewModel.startRecognition()
         } catch {
             showAlert("Recording Not Available")
         }
     }
 
     private func stopRecordingIfNeeded(shouldKeepResult: Bool = true) {
-        if speechRecognizer.isRecording {
+        if viewModel.isRecording {
             stopRecording(shouldKeepResult: shouldKeepResult)
         }
     }
 
     private func stopRecording(shouldKeepResult: Bool = true) {
-        speechRecognizer.stopRecognitionTaskIfNeeded(cancel: !shouldKeepResult)
-    }
-
-    private func updateTextLabelView(_ text: String?) {
-        textLabelView.setText(text ?? "", style: .subtitleTextStyle)
-    }
-
-}
-
-
-extension SpeakingViewController: SFSpeechRecognizerDelegate, SpeechRecognizerRecordingDelegate {
-
-
-    // MARK: Functions
-
-    func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
-        if !available {
-            recordButton.isHidden = true
-            showAlert(.ERROR_RECOGNATION_NOT_AVAILABLE)
-        }
-    }
-
-    func onRecordingStateChanged(isRecording: Bool) {
-        if isRecording {
-            updateTextLabelView(.START_SPEAKING_HINT)
-        } else if speechRecognizer.bestTranscription == nil {
-            updateTextLabelView(nil)
-        }
-
-        adjustResultViewIfNeeded(input: speechRecognizer.bestTranscription)
-        showsPlaybackControls = !isRecording
-        recordButton.setImage(isRecording ? #imageLiteral(resourceName: "Recording") : #imageLiteral(resourceName: "Record"), for: .normal)
+        viewModel.stopRecognitionTaskIfNeeded(keepResult: shouldKeepResult)
     }
 
 }

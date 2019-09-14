@@ -57,8 +57,14 @@ class AppCoordinator: Coordinator {
         case .watching:
             let viewModel = WatchingViewModel(fileRepository: fileRepository)
             viewController = WatchingViewController(viewModel: viewModel, delegate: self)
-        case .speaking: viewController = SpeakingViewController(delegate: self)
-        case .writing: viewController = WritingViewController(delegate: self)
+
+        case .speaking:
+            let viewModel = SpeakingViewModel(fileRepository: fileRepository)
+            viewController = SpeakingViewController(viewModel: viewModel, delegate: self)
+
+        case .writing:
+            let viewModel = WritingViewModel(fileRepository: fileRepository)
+            viewController = WritingViewController(viewModel: viewModel, delegate: self)
         }
         navigationController.pushViewController(viewController, animated: true)
     }
@@ -112,7 +118,7 @@ extension AppCoordinator: WatchingViewControllerDelegate {
 
 extension AppCoordinator: InputViewControllerDelegate {
 
-    func onCloseButtonTouched(inputViewControllerDelegate: InputViewController) {
+    func onCloseButtonTouched(inputViewControllerDelegate: BaseViewController) {
         navigationController.popViewController(animated: true)
     }
 
