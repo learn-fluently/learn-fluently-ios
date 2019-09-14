@@ -14,7 +14,7 @@ target 'Learn Fluently' do
   pod 'RLBAlertsPickers', :git => 'https://github.com/loicgriffie/Alerts-Pickers.git', :branch => 'master'
   pod 'ZIPFoundation', '~> 0.9'
   pod 'XCDYouTubeKit', :git => 'https://github.com/0xced/XCDYouTubeKit.git', :branch => 'master'
-  pod 'SWXMLHash', '~> 4.7.0'
+  pod 'SWXMLHash', '~> 4.9.0'
   pod 'mobile-ffmpeg-min', '~> 4.2'
 end
 
