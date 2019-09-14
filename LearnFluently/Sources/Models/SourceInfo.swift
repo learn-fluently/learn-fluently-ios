@@ -27,6 +27,7 @@ struct SourceInfo {
         case browser
         case directLink
         case documentPicker
+        case sample
         case auto
     }
 

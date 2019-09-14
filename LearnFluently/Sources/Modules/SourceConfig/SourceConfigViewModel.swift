@@ -38,6 +38,7 @@ class SourceConfigViewModel {
 
     #if TARGET_DEVELOPMENT
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
+        .init(identifier: .sample, title: .SOURCE_OPTION_SAMPLE),
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
         .init(identifier: .youtube, title: .SOURCE_OPTION_YOUTUBE),
         .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
@@ -46,6 +47,7 @@ class SourceConfigViewModel {
     // Apple doesn't allow apps to download videos from youtube.
     #else
     let sourcePickerOptions: [UIAlertAction.ActionData<SourceInfo.Picker>] = [
+        .init(identifier: .sample, title: .SOURCE_OPTION_SAMPLE),
         .init(identifier: .browser, title: .SOURCE_OPTION_BROWSER),
         .init(identifier: .directLink, title: .SOURCE_OPTION_DIRECT_LINK),
         .init(identifier: .documentPicker, title: .SOURCE_OPTION_DOCUMENT)
@@ -62,6 +64,11 @@ class SourceConfigViewModel {
 
     var progressMessageObservable: Observable<TitleDesc> {
         return progressMessageBehaviorRelay.asObservable()
+    }
+
+    var canPlay: Bool {
+        return fileRepository.fileExists(at: fileRepository.getPathURL(for: .videoFile)) &&
+        fileRepository.fileExists(at: fileRepository.getPathURL(for: .subtitleFile))
     }
 
     private let progressMessageBehaviorRelay = BehaviorRelay<TitleDesc>(value: .empty)
@@ -136,7 +143,7 @@ class SourceConfigViewModel {
         guard let selectedName = sourceInfo.selectedName else {
             return
         }
-        if sourceInfo.picker == .youtube {
+        if sourceInfo.picker == .youtube || sourceInfo.picker == .sample {
             UserDefaultsService.shared.videoSourceName.accept(selectedName)
             UserDefaultsService.shared.subtitleSourceName.accept(selectedName)
         } else if sourceInfo.type == .video {
@@ -184,6 +191,19 @@ class SourceConfigViewModel {
         sourceInfo.destinationURL = newDesc
         sourceInfo.sourceURL = selectedURL
         return sourceInfo
+    }
+
+    func loadSampleFiles() throws {
+        try fileRepository.replaceItem(at: fileRepository.getPathURL(for: .videoFile),
+                                       with: Bundle.main.url(forResource: "sample", withExtension: "mp4")!)
+        try fileRepository.replaceItem(at: fileRepository.getPathURL(for: .subtitleFile),
+                                       with: Bundle.main.url(forResource: "subtitle", withExtension: "json")!)
+        var sourceInfo = SourceInfo(type: .subtitle)
+        sourceInfo.selectedName = "sample subtitle"
+        updateSourceFileDescriptions(sourceInfo: sourceInfo)
+        sourceInfo = SourceInfo(type: .video)
+        sourceInfo.selectedName = "sample video"
+        updateSourceFileDescriptions(sourceInfo: sourceInfo)
     }
 
 

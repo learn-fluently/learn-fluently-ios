@@ -71,7 +71,11 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     }
 
     @IBAction private func playButtonTouched() {
-        delegate?.onPlayButtonTouched(viewController: self)
+        if viewModel.canPlay {
+            delegate?.onPlayButtonTouched(viewController: self)
+        } else {
+            showAlert(.PLEASE_MAKE_SURE_SOURCE_SELECTED)
+        }
     }
 
     @IBAction private func chooseVideoSourceButtonTouched() {
@@ -88,7 +92,7 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
     private func startPickingSource(sourceInfo: SourceInfo) {
         createSelectingPicker(sourceInfo: sourceInfo)
             .flatMap(weak: self) {
-                $0.createPicker(sourceInfo: $1)
+                try $0.createPicker(sourceInfo: $1)
             }
             .flatMap(weak: self) {
                 $0.viewModel.createDownloaderIfNeeded(sourceInfo: $1)
@@ -126,8 +130,12 @@ class SourceConfigViewController: BaseViewController, NibBasedViewController {
             .disposed(by: disposeBag)
     }
 
-    private func createPicker(sourceInfo: SourceInfo) -> Single<SourceInfo> {
+    private func createPicker(sourceInfo: SourceInfo) throws -> Single<SourceInfo> {
         switch sourceInfo.picker {
+        case .sample?:
+            try viewModel.loadSampleFiles()
+            return .never()
+
         case .documentPicker?:
             return createFilePicker(sourceInfo: sourceInfo)
 

@@ -27,6 +27,7 @@
 "SECTION_ANSWERING_DESC" = "Making Sentences\nReal World Speaking";
 "ANSWERING_UNDER_CONSTRUCTION" = "this section in under construction";
 
+"SOURCE_OPTION_SAMPLE" = "Use a sample file";
 "SOURCE_OPTION_YOUTUBE" = "Youtube";
 "SOURCE_OPTION_DIRECT_LINK" = "Direct link";
 "SOURCE_OPTION_BROWSER" = "Browser";
@@ -67,3 +68,4 @@
 
 "START_SPEAKING_HINT" = "[Start speaking ...]";
 "ERROR_RECOGNATION_NOT_AVAILABLE" = "Recognition Not Available";
+"PLEASE_MAKE_SURE_SOURCE_SELECTED" = "Please select the source file and the subtitle file correctly.";

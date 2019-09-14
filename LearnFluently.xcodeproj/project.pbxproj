@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29117A37232D82030038E140 /* subtitle.json in Resources */ = {isa = PBXBuildFile; fileRef = 29117A35232D82030038E140 /* subtitle.json */; };
+		29117A38232D82030038E140 /* subtitle.json in Resources */ = {isa = PBXBuildFile; fileRef = 29117A35232D82030038E140 /* subtitle.json */; };
+		29117A39232D82030038E140 /* sample.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 29117A36232D82030038E140 /* sample.mp4 */; };
+		29117A3A232D82030038E140 /* sample.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 29117A36232D82030038E140 /* sample.mp4 */; };
 		2936F8A0232D3ADC00D934E6 /* SubtitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AEA21D3124D002421B8 /* SubtitleItem.swift */; };
 		2936F8A1232D3ADC00D934E6 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09959F21F9092C00867890 /* OverviewViewController.swift */; };
 		2936F8A2232D3ADC00D934E6 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB87CD212297348500237825 /* ActivityType.swift */; };
@@ -27,7 +31,7 @@
 		2936F8B1232D3ADC00D934E6 /* SourceInfo.MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21104F2267ADA200ED521D /* SourceInfo.MimeType.swift */; };
 		2936F8B2232D3ADC00D934E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB522AC621D03612002421B8 /* AppDelegate.swift */; };
 		2936F8B3232D3ADC00D934E6 /* DarkCrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD73BAB21FBA2D8004B2FB9 /* DarkCrossButton.swift */; };
-		2936F8B4232D3ADC00D934E6 /* LLTextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30C6B621D45B5200A2024D /* LLTextView.swift.swift */; };
+		2936F8B4232D3ADC00D934E6 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2936F8B5232D3ADC00D934E6 /* SourceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE601F2210B051001267C8 /* SourceConfigViewController.swift */; };
 		2936F8B6232D3ADC00D934E6 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB86CAB8225D21AB00C15B1B /* Coordinator.swift */; };
 		2936F8B7232D3ADC00D934E6 /* Style+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE600C220F9271001267C8 /* Style+Appearance.swift */; };
@@ -135,6 +139,8 @@
 /* Begin PBXFileReference section */
 		0978C0E2B5A6224A2E25AE37 /* Pods-LearnFluently.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnFluently.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnFluently/Pods-LearnFluently.debug.xcconfig"; sourceTree = "<group>"; };
 		186A1633DDFDA532D084D5D6 /* Pods-Learn Fluently.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learn Fluently.release.xcconfig"; path = "Pods/Target Support Files/Pods-Learn Fluently/Pods-Learn Fluently.release.xcconfig"; sourceTree = "<group>"; };
+		29117A35232D82030038E140 /* subtitle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subtitle.json; sourceTree = "<group>"; };
+		29117A36232D82030038E140 /* sample.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.mp4; sourceTree = "<group>"; };
 		2936F8E2232D3ADC00D934E6 /* LF Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LF Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2947E06A23238CBA00E3C278 /* WatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingViewModel.swift; sourceTree = "<group>"; };
 		2947E0712324518C00E3C278 /* OverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewModel.swift; sourceTree = "<group>"; };
@@ -232,6 +238,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29117A34232D82030038E140 /* sample */ = {
+			isa = PBXGroup;
+			children = (
+				29117A35232D82030038E140 /* subtitle.json */,
+				29117A36232D82030038E140 /* sample.mp4 */,
+			);
+			path = sample;
+			sourceTree = "<group>";
+		};
 		AB09959E21F9090F00867890 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +299,7 @@
 		AB522AC121D03612002421B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				29117A34232D82030038E140 /* sample */,
 				AB522AC321D03612002421B8 /* Assets.xcassets */,
 				AB522AC221D03612002421B8 /* LaunchScreen.storyboard */,
 				ABAF5C0F22189BE40079C5C7 /* Localizable.strings */,
@@ -570,10 +586,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2936F8D5232D3ADC00D934E6 /* Localizable.strings in Resources */,
+				29117A37232D82030038E140 /* subtitle.json in Resources */,
 				2936F8D6232D3ADC00D934E6 /* SpeakingViewController.xib in Resources */,
 				2936F8D7232D3ADC00D934E6 /* WritingViewController.xib in Resources */,
 				2936F8D8232D3ADC00D934E6 /* Assets.xcassets in Resources */,
 				2936F8D9232D3ADC00D934E6 /* WatchingViewController.xib in Resources */,
+				29117A39232D82030038E140 /* sample.mp4 in Resources */,
 				2936F8DA232D3ADC00D934E6 /* LaunchScreen.storyboard in Resources */,
 				2936F8DB232D3ADC00D934E6 /* OverviewViewController.xib in Resources */,
 				2936F8DC232D3ADC00D934E6 /* WebBrowserViewController.xib in Resources */,
@@ -586,10 +604,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABAF5C312218CB580079C5C7 /* Localizable.strings in Resources */,
+				29117A38232D82030038E140 /* subtitle.json in Resources */,
 				ABFE601D2210AE1A001267C8 /* SpeakingViewController.xib in Resources */,
 				ABD68208222AA90100AD5645 /* WritingViewController.xib in Resources */,
 				AB522AC821D03613002421B8 /* Assets.xcassets in Resources */,
 				ABFE601B2210AE1A001267C8 /* WatchingViewController.xib in Resources */,
+				29117A3A232D82030038E140 /* sample.mp4 in Resources */,
 				AB522AC721D03613002421B8 /* LaunchScreen.storyboard in Resources */,
 				AB0995A221F9094000867890 /* OverviewViewController.xib in Resources */,
 				ABF2F3282220AA180023698D /* WebBrowserViewController.xib in Resources */,
@@ -773,7 +793,7 @@
 				2936F8B1232D3ADC00D934E6 /* SourceInfo.MimeType.swift in Sources */,
 				2936F8B2232D3ADC00D934E6 /* AppDelegate.swift in Sources */,
 				2936F8B3232D3ADC00D934E6 /* DarkCrossButton.swift in Sources */,
-				2936F8B4232D3ADC00D934E6 /* LLTextView.swift.swift in Sources */,
+				2936F8B4232D3ADC00D934E6 /* (null) in Sources */,
 				2936F8B5232D3ADC00D934E6 /* SourceConfigViewController.swift in Sources */,
 				2936F8B6232D3ADC00D934E6 /* Coordinator.swift in Sources */,
 				2936F8B7232D3ADC00D934E6 /* Style+Appearance.swift in Sources */,
